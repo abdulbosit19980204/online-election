@@ -41,11 +41,14 @@ export default function AdminDashboard() {
   useEffect(() => { fetchData(); }, []);
 
   const handleStatusChange = async (id: string, status: string) => {
+    console.log(`Attempting to update election ${id} status to ${status}`);
     try {
-      await adminApi.updateElection(id, { status });
+      const res = await adminApi.updateElection(id, { status });
+      console.log("Update response:", res.data);
       toast.success(`Election marked as ${status}`);
       fetchData();
-    } catch {
+    } catch (err: any) {
+      console.error("Failed to update status:", err.response?.data || err.message);
       toast.error("Failed to update status");
     }
   };

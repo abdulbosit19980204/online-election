@@ -6,9 +6,14 @@ from .serializers import ElectionListSerializer, ElectionDetailSerializer, Elect
 
 
 class ElectionListView(generics.ListAPIView):
-    queryset = Election.objects.all()
     serializer_class = ElectionListSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Admins can see everything, voters see only active or ended
+        if self.request.user.role == 'admin':
+            return Election.objects.all()
+        return Election.objects.exclude(status='draft')
 
 
 class ElectionDetailView(generics.RetrieveAPIView):

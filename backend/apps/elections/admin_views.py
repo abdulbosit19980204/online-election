@@ -18,6 +18,14 @@ class AdminElectionUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ElectionDetailSerializer
     permission_classes = [IsAdminUser]
 
+    def patch(self, request, *args, **kwargs):
+        print(f"DEBUG: Admin updating election {kwargs.get('pk')} with data: {request.data}")
+        return super().patch(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        print(f"DEBUG: Admin updating election {kwargs.get('pk')} with data: {request.data}")
+        return super().put(request, *args, **kwargs)
+
 
 class AdminAddCandidateView(generics.CreateAPIView):
     serializer_class = CandidateSerializer
@@ -38,6 +46,7 @@ class AdminPublishResultsView(APIView):
     permission_classes = [IsAdminUser]
 
     def post(self, request, pk):
+        print(f"DEBUG: Publishing results for election {pk}")
         election = get_object_or_404(Election, pk=pk)
         election.results_public = True
         election.status = 'ended'
