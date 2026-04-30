@@ -93,12 +93,9 @@ export default function LandingPage() {
               Next-Gen Democracy
             </motion.div>
 
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] mb-6"
-            >{t("title").split(" ")[0]} <span className="text-gradient block sm:inline">{t("title").split(" ").slice(1).join(" ")}</span></h1>
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] mb-6">
+              {t("title")}
+            </h1>
 
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
