@@ -30,7 +30,18 @@
     "no_account": "Don't have an account?",
     "register_here": "Register here",
     "register_title": "Create Account",
+    "register_subtitle": "Register to vote securely and anonymously.",
     "full_name": "Full Name",
+    "fullname": "Full Name (as in Passport)",
+    "national_id": "National ID / SSN",
+    "id_encrypted": "Your ID is encrypted and never stored in plain text.",
+    "weak": "Weak",
+    "fair": "Fair",
+    "good": "Good",
+    "strong": "Strong",
+    "create_account": "Create Account",
+    "have_account": "Already have an account?",
+    "sign_in_here": "Sign in here",
     "register_btn": "Register"
   },
   "Dashboard": {

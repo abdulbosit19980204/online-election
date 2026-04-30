@@ -29,9 +29,11 @@ class CandidateResultSerializer(serializers.ModelSerializer):
 
 
 class ElectionListSerializer(serializers.ModelSerializer):
+    candidates = CandidateSerializer(many=True, read_only=True)
+
     class Meta:
         model = Election
-        fields = ('id', 'title', 'description', 'start_time', 'end_time', 'status', 'results_public')
+        fields = ('id', 'title', 'description', 'start_time', 'end_time', 'status', 'results_public', 'created_at', 'candidates')
 
 
 class ElectionDetailSerializer(serializers.ModelSerializer):

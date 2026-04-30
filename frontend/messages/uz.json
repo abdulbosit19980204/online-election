@@ -30,7 +30,18 @@
     "no_account": "Akkauntingiz yo'qmi?",
     "register_here": "Ro'yxatdan o'ting",
     "register_title": "Ro'yxatdan o'tish",
+    "register_subtitle": "Xavfsiz va anonim ovoz berish uchun tizimdan ro'yxatdan o'ting.",
     "full_name": "To'liq ism",
+    "fullname": "To'liq ism (Pasport bo'yicha)",
+    "national_id": "JSHSHIR (PINFL) yoki Pasport seriyasi",
+    "id_encrypted": "Sizning JSHSHIR raqamingiz shifrlanadi va ochiq saqlanmaydi.",
+    "weak": "Kuchsiz",
+    "fair": "O'rtacha",
+    "good": "Yaxshi",
+    "strong": "Kuchli",
+    "create_account": "Akkaunt yaratish",
+    "have_account": "Akkauntingiz bormi?",
+    "sign_in_here": "Shu yerdan kiring",
     "register_btn": "Ro'yxatdan o'tish"
   },
   "Dashboard": {

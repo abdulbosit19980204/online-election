@@ -21,10 +21,11 @@ export default function ElectionCard({ election, href, hasVoted }: ElectionCardP
   };
 
   const cfg = statusConfig[election.status] || statusConfig.draft;
-  const isEnded = isPast(new Date(election.end_time));
+  const endTime = election.end_time ? new Date(election.end_time) : new Date();
+  const isEnded = isPast(endTime);
   const timeLabel = isEnded
-    ? `Ended ${formatDistanceToNow(new Date(election.end_time), { addSuffix: true })}`
-    : `Ends ${formatDistanceToNow(new Date(election.end_time), { addSuffix: true })}`;
+    ? `Ended ${formatDistanceToNow(endTime, { addSuffix: true })}`
+    : `Ends ${formatDistanceToNow(endTime, { addSuffix: true })}`;
 
   const card = (
     <div className="card card-interactive p-6 flex flex-col gap-4 group">
@@ -46,7 +47,7 @@ export default function ElectionCard({ election, href, hasVoted }: ElectionCardP
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5">
           <Users size={12} />
-          {election.candidates.length} candidates
+          {election.candidates?.length || 0} candidates
         </span>
         <span className="flex items-center gap-1.5">
           <Clock size={12} />
