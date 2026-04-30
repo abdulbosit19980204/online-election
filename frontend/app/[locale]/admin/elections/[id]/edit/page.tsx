@@ -7,6 +7,7 @@ import { ArrowLeft, Trash2, Loader2, UserPlus, Save } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { adminApi, electionApi } from "@/lib/api";
 import { useTranslations } from "next-intl";
+import RichTextEditor from "@/components/ui/RichTextEditor";
 
 interface CandidateInput {
   id?: string;
@@ -165,11 +166,10 @@ export default function EditElectionPage() {
             </div>
             <div>
               <label className={labelClass}>{tAdmin("description")}</label>
-              <textarea
-                className="input-field bg-muted/20 min-h-[100px] resize-none"
-                placeholder="Brief description..."
+              <RichTextEditor
                 value={form.description}
-                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                onChange={(content) => setForm({ ...form, description: content })}
+                placeholder="Election description..."
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -237,13 +237,14 @@ export default function EditElectionPage() {
                       onChange={(e) => updateCandidateField(i, "party", e.target.value)}
                     />
                   </div>
-                  <textarea
-                    className="input-field bg-card resize-none"
-                    placeholder={tAdmin("bio")}
-                    rows={2}
-                    value={c.bio}
-                    onChange={(e) => updateCandidateField(i, "bio", e.target.value)}
-                  />
+                  <div>
+                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2 block">{tAdmin("bio")}</label>
+                    <RichTextEditor
+                      value={c.bio}
+                      onChange={(content) => updateCandidateField(i, "bio", content)}
+                      placeholder="Candidate's background and program..."
+                    />
+                  </div>
                   <input
                     className="input-field bg-card"
                     placeholder={tAdmin("photo_url")}

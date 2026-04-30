@@ -109,9 +109,10 @@ export default function CandidateCard({ candidate, selected, onSelect, disabled,
                 <FileText size={18} />
                 <span>Biografiya va Dastur</span>
              </div>
-             <div className="p-6 bg-white/5 rounded-2xl border border-white/5 text-muted-foreground leading-relaxed text-lg italic">
-                {candidate.bio || "Ushbu nomzod haqida ma'lumot kiritilmagan."}
-             </div>
+             <div 
+                className="p-6 bg-white/5 rounded-2xl border border-white/5 text-muted-foreground leading-relaxed text-lg prose prose-invert max-w-none"
+                dangerouslySetInnerHTML={{ __html: candidate.bio || "Ushbu nomzod haqida ma'lumot kiritilmagan." }}
+             />
           </div>
 
           <button 

@@ -19,4 +19,12 @@ urlpatterns = [
     path("api/v1/votes/", include("apps.votes.urls")),
     path("api/v1/admin/", include("apps.elections.admin_urls")),
     path("api/v1/analytics/", include("apps.analytics.urls")),
+    path("ckeditor5/", include('django_ckeditor_5.urls')),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

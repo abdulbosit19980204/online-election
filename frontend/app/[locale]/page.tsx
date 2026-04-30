@@ -248,7 +248,10 @@ export default function LandingPage() {
                     
                     <div>
                       <h3 className="text-2xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{election.title}</h3>
-                      <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed mb-4">{election.description || "Ushbu saylov jarayoni xavfsiz va shaffof tarzda amalga oshirilmoqda."}</p>
+                      <div 
+                        className="text-muted-foreground text-sm line-clamp-2 leading-relaxed mb-4 prose prose-invert max-w-none"
+                        dangerouslySetInnerHTML={{ __html: election.description || "Ushbu saylov jarayoni xavfsiz va shaffof tarzda amalga oshirilmoqda." }}
+                      />
                       
                       {/* Stats Inline */}
                       <div className="flex items-center gap-4 py-3 border-y border-white/5 mb-4">

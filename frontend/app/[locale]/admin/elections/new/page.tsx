@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { ArrowLeft, Plus, Trash2, CheckCircle, Loader2, UserPlus } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { adminApi } from "@/lib/api";
+import RichTextEditor from "@/components/ui/RichTextEditor";
 
 interface CandidateInput {
   name: string;
@@ -119,11 +120,10 @@ export default function NewElectionPage() {
               </div>
               <div>
                 <label className={labelClass}>Description</label>
-                <textarea
-                  className="input-field min-h-[100px] resize-none"
-                  placeholder="Brief description of this election..."
+                <RichTextEditor
                   value={form.description}
-                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  onChange={(content) => setForm({ ...form, description: content })}
+                  placeholder="Detailed description of this election..."
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -177,13 +177,14 @@ export default function NewElectionPage() {
                     value={c.party}
                     onChange={(e) => updateCandidate(i, "party", e.target.value)}
                   />
-                  <textarea
-                    className="input-field text-sm resize-none"
-                    placeholder="Short bio..."
-                    rows={2}
-                    value={c.bio}
-                    onChange={(e) => updateCandidate(i, "bio", e.target.value)}
-                  />
+                  <div>
+                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2 block">Candidate Bio & Program</label>
+                    <RichTextEditor
+                      value={c.bio}
+                      onChange={(content) => updateCandidate(i, "bio", content)}
+                      placeholder="Candidate's background and election program..."
+                    />
+                  </div>
                   <input
                     className="input-field text-sm"
                     placeholder="Photo URL (optional)"
@@ -203,7 +204,12 @@ export default function NewElectionPage() {
             <div className="space-y-5">
               <div className="p-4 rounded-xl bg-[#1e1e28] border border-[#26262f] space-y-2">
                 <h3 className="font-semibold text-slate-100">{form.title}</h3>
-                {form.description && <p className="text-sm text-slate-500">{form.description}</p>}
+                {form.description && (
+                  <div 
+                    className="text-sm text-slate-500 prose prose-invert max-w-none"
+                    dangerouslySetInnerHTML={{ __html: form.description }}
+                  />
+                )}
                 <div className="flex gap-4 text-xs text-slate-600 pt-1">
                   <span>Starts: {form.start_time}</span>
                   <span>Ends: {form.end_time}</span>

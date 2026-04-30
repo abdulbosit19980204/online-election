@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "ui-avatars.com" },
     ],
   },
+  transpilePackages: ["recharts", "react-quill"],
 };
 
 export default withNextIntl(nextConfig);

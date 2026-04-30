@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
     "channels",
+    "django_ckeditor_5",
     # Local apps
     "apps.accounts",
     "apps.elections",
@@ -215,5 +216,25 @@ LOGGING = {
     "loggers": {
         "django": {"handlers": ["console"], "level": "WARNING", "propagate": False},
         "apps": {"handlers": ["console"], "level": "INFO", "propagate": False},
+    },
+}
+
+# ─── Media Files ──────────────────────────────────────────
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+# ─── CKEditor 5 Configuration ──────────────────────────────
+CKEDITOR_5_CONFIGS = {
+    "default": {
+        "toolbar": [
+            "heading", "|", "bold", "italic", "link", "bulletedList", "numberedList", "blockQuote",
+        ],
+    },
+    "extends": {
+        "toolbar": [
+            "heading", "|", "bold", "italic", "link", "underline", "strikethrough", "|",
+            "bulletedList", "numberedList", "todoList", "|", "outdent", "indent", "|", "blockQuote", "insertTable", "|",
+            "fontSize", "fontFamily", "fontColor", "fontBackgroundColor", "removeFormat",
+        ],
     },
 }

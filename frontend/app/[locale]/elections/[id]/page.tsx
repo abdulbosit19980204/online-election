@@ -113,9 +113,10 @@ export default function ElectionDetailPage() {
                <div className="flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-xs">
                   <HelpCircle size={16} /> Saylov haqida ma'lumot
                </div>
-               <p className="text-muted-foreground text-lg leading-relaxed">
-                  {election.description || "Ushbu saylov jarayoni xavfsiz va shaffof tarzda amalga oshirilmoqda. Har bir ovoz shifrlangan holda saqlanadi."}
-               </p>
+               <div 
+                 className="text-muted-foreground text-lg leading-relaxed prose prose-invert max-w-none"
+                 dangerouslySetInnerHTML={{ __html: election.description || "Ushbu saylov jarayoni xavfsiz va shaffof tarzda amalga oshirilmoqda." }}
+               />
             </div>
           </motion.div>
 
