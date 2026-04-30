@@ -34,6 +34,7 @@ export interface Election {
   created_at: string;
   candidates: Candidate[];
   total_votes?: number;
+  voters_count?: number;
 }
 
 export interface VoteStatus {
