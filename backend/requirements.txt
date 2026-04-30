@@ -11,7 +11,7 @@ cryptography==42.0.7
 pyotp==2.9.0
 django-ratelimit==4.1.0
 python-decouple==3.8
-Pillow==10.3.0
+Pillow>=11.0.0
 pytest-django==4.8.0
 pytest==8.2.0
 factory-boy==3.3.0
