@@ -144,7 +144,7 @@ export default function ElectionDetailPage() {
             {!isActive && (
               <div className="flex items-center gap-3 p-4 rounded-xl bg-warning/10 border border-warning/20 mb-6">
                 <ShieldAlert size={16} className="text-warning shrink-0" />
-                <p className="text-sm text-warning-foreground">This election is no longer accepting votes.</p>
+                <p className="text-sm text-warning-foreground">{t("not_accepting")}</p>
               </div>
             )}
 
@@ -183,9 +183,9 @@ export default function ElectionDetailPage() {
       <Modal isOpen={confirmOpen} onClose={() => setConfirmOpen(false)} title={t("confirm_title")}>
         <div className="space-y-5">
           <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
-            <p className="text-xs text-muted-foreground mb-1">You are voting for</p>
+            <p className="text-xs text-muted-foreground mb-1">{t("voting_for")}</p>
             <p className="font-bold text-foreground text-lg">{selectedName}</p>
-            <p className="text-xs text-muted-foreground mt-1">in <span className="text-foreground font-medium">{election?.title}</span></p>
+            <p className="text-xs text-muted-foreground mt-1">{t("in_election")} <span className="text-foreground font-medium">{election?.title}</span></p>
           </div>
 
           <div className="flex items-start gap-2 text-xs text-warning-foreground bg-warning/10 border border-warning/20 rounded-lg p-3">
