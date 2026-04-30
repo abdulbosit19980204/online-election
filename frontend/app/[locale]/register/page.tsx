@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "@/navigation";
 import { Link } from "@/navigation";
 import toast from "react-hot-toast";
@@ -14,7 +14,18 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { setAuth } = useAuthStore();
+  const { setAuth, isAuthenticated } = useAuthStore();
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (hydrated && isAuthenticated) {
+      router.push("/dashboard");
+    }
+  }, [hydrated, isAuthenticated, router]);
 
   const getStrength = (pass: string) => {
     let score = 0;

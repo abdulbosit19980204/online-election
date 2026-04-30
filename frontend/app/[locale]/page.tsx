@@ -3,9 +3,17 @@ import { Link } from "@/navigation";
 import { ShieldCheck, Zap, BarChart3, Globe, Lock, Users, ArrowRight, CheckCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import { useTranslations } from "next-intl";
+import { useAuthStore } from "@/store/authStore";
+import { useState, useEffect } from "react";
 
 export default function LandingPage() {
   const t = useTranslations("Landing");
+  const { isAuthenticated } = useAuthStore();
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   const features = [
     {
@@ -83,10 +91,17 @@ export default function LandingPage() {
             </p>
 
             <div className="flex items-center justify-center lg:justify-start gap-4 flex-wrap animate-slide-up" style={{ animationDelay: "200ms" }}>
-              <Link href="/register" className="btn-primary px-8 py-3 text-sm">
-                {t("cta")}
-                <ArrowRight size={16} />
-              </Link>
+              {hydrated && isAuthenticated ? (
+                <Link href="/dashboard" className="btn-primary px-8 py-3 text-sm">
+                  Go to Dashboard
+                  <ArrowRight size={16} />
+                </Link>
+              ) : (
+                <Link href="/register" className="btn-primary px-8 py-3 text-sm">
+                  {t("cta")}
+                  <ArrowRight size={16} />
+                </Link>
+              )}
               <Link href="/elections" className="btn-secondary px-8 py-3 text-sm">
                 {t("view_elections")}
               </Link>
@@ -164,13 +179,22 @@ export default function LandingPage() {
                 Get started in minutes. Create an election, add candidates, and share the link.
               </p>
               <div className="flex items-center justify-center gap-4 flex-wrap">
-                <Link href="/register" className="btn-primary px-8 py-3">
-                  Create Account
-                  <ArrowRight size={16} />
-                </Link>
-                <Link href="/login" className="btn-secondary px-8 py-3 bg-background/50 backdrop-blur-md">
-                  Sign In
-                </Link>
+                {hydrated && isAuthenticated ? (
+                  <Link href="/dashboard" className="btn-primary px-8 py-3">
+                    Go to Dashboard
+                    <ArrowRight size={16} />
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/register" className="btn-primary px-8 py-3">
+                      Create Account
+                      <ArrowRight size={16} />
+                    </Link>
+                    <Link href="/login" className="btn-secondary px-8 py-3 bg-background/50 backdrop-blur-md">
+                      Sign In
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

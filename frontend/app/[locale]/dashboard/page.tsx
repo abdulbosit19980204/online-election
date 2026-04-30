@@ -20,13 +20,20 @@ export default function DashboardPage() {
   const [votedMap, setVotedMap] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
 
+  const [hydrated, setHydrated] = useState(false);
+
   useEffect(() => {
+    setHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
     if (!isAuthenticated) {
       router.push("/login");
       return;
     }
     fetchData();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, hydrated]);
 
   const fetchData = async () => {
     try {
