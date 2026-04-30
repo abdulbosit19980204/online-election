@@ -6,7 +6,11 @@ const withNextIntl = createNextIntlPlugin("./i18n.ts");
 const nextConfig: NextConfig = {
   output: "standalone",
   images: {
-    domains: ["api.dicebear.com", "avatars.githubusercontent.com", "ui-avatars.com"],
+    remotePatterns: [
+      { protocol: "https", hostname: "api.dicebear.com" },
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
+      { protocol: "https", hostname: "ui-avatars.com" },
+    ],
   },
 };
 
