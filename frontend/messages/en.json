@@ -1,0 +1,58 @@
+{
+  "Common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "Navbar": {
+    "login": "Sign In",
+    "dashboard": "Dashboard",
+    "admin": "Admin Panel",
+    "logout": "Sign Out",
+    "light_mode": "Light",
+    "dark_mode": "Dark",
+    "system": "System"
+  },
+  "Landing": {
+    "title": "Democracy Deserves Better Infrastructure",
+    "subtitle": "A production-grade online voting platform with military-grade encryption.",
+    "cta": "Start Voting",
+    "view_elections": "View Elections"
+  },
+  "Auth": {
+    "login_title": "Sign In",
+    "email": "Email Address",
+    "password": "Password",
+    "login_btn": "Sign In",
+    "no_account": "Don't have an account?",
+    "register_here": "Register here",
+    "register_title": "Create Account",
+    "full_name": "Full Name",
+    "register_btn": "Register"
+  },
+  "Dashboard": {
+    "welcome": "Welcome back",
+    "active_elections": "Active Elections",
+    "voted": "Voted So Far",
+    "ended_elections": "Ended Elections",
+    "live_now": "Live Elections",
+    "past": "Past Elections",
+    "no_elections": "No elections available yet"
+  },
+  "Voting": {
+    "live": "Live",
+    "ended": "Ended",
+    "results_avail": "Results Available",
+    "vote_success": "Vote Cast Successfully",
+    "receipt": "Receipt Hash (keep this for verification)",
+    "view_results": "View Results",
+    "select_candidate": "Select a Candidate",
+    "cast_vote": "Cast My Vote",
+    "confirm_title": "Confirm Your Vote",
+    "confirm_warning": "This action is irreversible. Your vote is anonymous and encrypted.",
+    "cancel": "Cancel"
+  }
+}

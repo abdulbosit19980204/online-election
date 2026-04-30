@@ -1,0 +1,58 @@
+{
+  "Common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik yuz berdi",
+    "success": "Muvaffaqiyatli",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "back": "Orqaga"
+  },
+  "Navbar": {
+    "login": "Kirish",
+    "dashboard": "Boshqaruv",
+    "admin": "Admin Panel",
+    "logout": "Chiqish",
+    "light_mode": "Kunduzgi",
+    "dark_mode": "Tungi",
+    "system": "Tizim"
+  },
+  "Landing": {
+    "title": "Demokratiya Eng Yaxshi Infratuzilmaga Loyiq",
+    "subtitle": "Harbiy darajadagi shifrlash va tezkor hisobotga ega professional onlayn saylov platformasi.",
+    "cta": "Ovoz berishni boshlash",
+    "view_elections": "Saylovlarni ko'rish"
+  },
+  "Auth": {
+    "login_title": "Tizimga kirish",
+    "email": "Elektron pochta",
+    "password": "Parol",
+    "login_btn": "Kirish",
+    "no_account": "Akkauntingiz yo'qmi?",
+    "register_here": "Ro'yxatdan o'ting",
+    "register_title": "Ro'yxatdan o'tish",
+    "full_name": "To'liq ism",
+    "register_btn": "Ro'yxatdan o'tish"
+  },
+  "Dashboard": {
+    "welcome": "Xush kelibsiz",
+    "active_elections": "Faol saylovlar",
+    "voted": "Ovoz berildi",
+    "ended_elections": "Tugagan saylovlar",
+    "live_now": "Hozir bo'lib o'tmoqda",
+    "past": "O'tib ketgan saylovlar",
+    "no_elections": "Hozircha saylovlar yo'q"
+  },
+  "Voting": {
+    "live": "Faol",
+    "ended": "Tugagan",
+    "results_avail": "Natijalar tayyor",
+    "vote_success": "Ovoz muvaffaqiyatli qabul qilindi",
+    "receipt": "Kvitansiya xeshi (tekshirish uchun saqlang)",
+    "view_results": "Natijalarni ko'rish",
+    "select_candidate": "Nomzodni tanlang",
+    "cast_vote": "Ovoz berish",
+    "confirm_title": "Ovozni tasdiqlang",
+    "confirm_warning": "Bu amalni ortga qaytarib bo'lmaydi. Ovoz berish maxfiy va shifrlangan.",
+    "cancel": "Bekor qilish"
+  }
+}
