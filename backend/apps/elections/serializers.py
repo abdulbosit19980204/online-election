@@ -30,18 +30,26 @@ class CandidateResultSerializer(serializers.ModelSerializer):
 
 class ElectionListSerializer(serializers.ModelSerializer):
     candidates = CandidateSerializer(many=True, read_only=True)
+    voters_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Election
-        fields = ('id', 'title', 'description', 'start_time', 'end_time', 'status', 'results_public', 'created_at', 'candidates')
+        fields = ('id', 'title', 'description', 'start_time', 'end_time', 'status', 'results_public', 'created_at', 'candidates', 'voters_count')
+
+    def get_voters_count(self, obj):
+        return Vote.objects.filter(election=obj).count()
 
 
 class ElectionDetailSerializer(serializers.ModelSerializer):
     candidates = CandidateSerializer(many=True, read_only=True)
+    voters_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Election
-        fields = ('id', 'title', 'description', 'start_time', 'end_time', 'status', 'results_public', 'candidates')
+        fields = ('id', 'title', 'description', 'start_time', 'end_time', 'status', 'results_public', 'candidates', 'voters_count')
+
+    def get_voters_count(self, obj):
+        return Vote.objects.filter(election=obj).count()
 
 
 class ElectionResultSerializer(serializers.ModelSerializer):
