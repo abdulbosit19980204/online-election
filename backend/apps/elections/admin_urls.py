@@ -3,6 +3,7 @@ from .admin_views import (
     AdminElectionListCreateView,
     AdminElectionUpdateDeleteView,
     AdminAddCandidateView,
+    AdminCandidateUpdateDeleteView,
     AdminPublishResultsView,
     AdminStatsView
 )
@@ -11,6 +12,7 @@ urlpatterns = [
     path('elections/', AdminElectionListCreateView.as_view(), name='admin_election_list'),
     path('elections/<uuid:pk>/', AdminElectionUpdateDeleteView.as_view(), name='admin_election_detail'),
     path('elections/<uuid:pk>/candidates/', AdminAddCandidateView.as_view(), name='admin_add_candidate'),
+    path('candidates/<uuid:pk>/', AdminCandidateUpdateDeleteView.as_view(), name='admin_candidate_detail'),
     path('elections/<uuid:pk>/publish/', AdminPublishResultsView.as_view(), name='admin_publish_results'),
     path('stats/', AdminStatsView.as_view(), name='admin_stats'),
 ]

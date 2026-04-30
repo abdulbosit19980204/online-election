@@ -196,6 +196,14 @@ export default function AdminDashboard() {
                         </Link>
                       )}
 
+                      <Link
+                        href={`/admin/elections/${e.id}/edit`}
+                        className="w-8 h-8 rounded-lg border border-border hover:bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                        title="Edit Election"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                      </Link>
+
                       <button
                         onClick={() => handleDelete(e.id, e.title)}
                         className="w-8 h-8 rounded-lg border border-border hover:bg-danger/10 hover:border-danger/30 flex items-center justify-center text-muted-foreground hover:text-danger transition-colors"

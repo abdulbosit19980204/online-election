@@ -28,6 +28,12 @@ class AdminAddCandidateView(generics.CreateAPIView):
         serializer.save(election=election)
 
 
+class AdminCandidateUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Candidate.objects.all()
+    serializer_class = CandidateSerializer
+    permission_classes = [IsAdminUser]
+
+
 class AdminPublishResultsView(APIView):
     permission_classes = [IsAdminUser]
 

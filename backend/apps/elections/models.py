@@ -1,8 +1,6 @@
 import uuid
 from django.db import models
 
-class Election(models.fields.Field):
-    pass # Defined below properly
 
 class Election(models.Model):
     STATUS_CHOICES = (
