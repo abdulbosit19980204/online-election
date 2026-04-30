@@ -7,11 +7,12 @@ from .serializers import ElectionListSerializer, ElectionDetailSerializer, Elect
 
 class ElectionListView(generics.ListAPIView):
     serializer_class = ElectionListSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-        # Admins can see everything, voters see only active or ended
-        if self.request.user.role == 'admin':
+        # Admins can see everything, voters/guests see only active or ended
+        user = self.request.user
+        if user.is_authenticated and getattr(user, 'role', None) == 'admin':
             return Election.objects.all()
         return Election.objects.exclude(status='draft')
 
@@ -19,7 +20,7 @@ class ElectionListView(generics.ListAPIView):
 class ElectionDetailView(generics.RetrieveAPIView):
     queryset = Election.objects.all()
     serializer_class = ElectionDetailSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
 
 class ElectionResultView(generics.RetrieveAPIView):

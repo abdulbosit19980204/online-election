@@ -92,7 +92,7 @@ DATABASES = {
 # }
 
 # ─── Cache (Redis) ─────────────────────────────────────────
-REDIS_URL = config("REDIS_URL", default="redis://redis:6379/0")
+REDIS_URL = config("REDIS_URL", default="redis://127.0.0.1:6379/0")
 
 CACHES = {
     "default": {
@@ -106,12 +106,19 @@ CACHES = {
 }
 
 # ─── Channels (WebSocket) ──────────────────────────────────
+# Fallback to InMemory for local dev if Redis is not configured
 CHANNEL_LAYERS = {
     "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    }
+}
+
+# In production, we'll use Redis (uncomment or set via ENV)
+if config("USE_REDIS", default=False, cast=bool):
+    CHANNEL_LAYERS["default"] = {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {"hosts": [REDIS_URL]},
     }
-}
 
 # ─── Custom Auth User ──────────────────────────────────────
 AUTH_USER_MODEL = "accounts.User"
