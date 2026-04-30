@@ -63,48 +63,61 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-hero-gradient pointer-events-none opacity-50 dark:opacity-100" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-8 animate-fade-in">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            Production-Ready · Open Source · Secure by Design
-          </div>
+        <div className="max-w-6xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-12">
+          {/* Left Hero Content */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-8 animate-fade-in">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Production-Ready · Open Source · Secure by Design
+            </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 animate-slide-up">
-            {t("title").split(" ")[0]}{" "}
-            <span className="text-gradient">
-              {t("title").split(" ").slice(1).join(" ")}
-            </span>
-          </h1>
-
-          <p className="text-muted-foreground text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 animate-slide-up" style={{ animationDelay: "100ms" }}>
-            {t("subtitle")}
-          </p>
-
-          <div className="flex items-center justify-center gap-4 flex-wrap animate-slide-up" style={{ animationDelay: "200ms" }}>
-            <Link href="/register" className="btn-primary px-8 py-3 text-sm">
-              {t("cta")}
-              <ArrowRight size={16} />
-            </Link>
-            <Link href="/elections" className="btn-secondary px-8 py-3 text-sm">
-              {t("view_elections")}
-            </Link>
-          </div>
-
-          {/* Trust signals */}
-          <div className="mt-12 flex items-center justify-center gap-6 flex-wrap animate-fade-in" style={{ animationDelay: "400ms" }}>
-            {["JWT Secured", "GDPR Ready", "Open Audit Logs", "Zero Knowledge"].map((badge) => (
-              <span key={badge} className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
-                <CheckCircle size={12} className="text-success" />
-                {badge}
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6 animate-slide-up">
+              {t("title").split(" ")[0]}{" "}
+              <span className="text-gradient">
+                {t("title").split(" ").slice(1).join(" ")}
               </span>
-            ))}
+            </h1>
+
+            <p className="text-muted-foreground text-lg sm:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-10 animate-slide-up" style={{ animationDelay: "100ms" }}>
+              {t("subtitle")}
+            </p>
+
+            <div className="flex items-center justify-center lg:justify-start gap-4 flex-wrap animate-slide-up" style={{ animationDelay: "200ms" }}>
+              <Link href="/register" className="btn-primary px-8 py-3 text-sm">
+                {t("cta")}
+                <ArrowRight size={16} />
+              </Link>
+              <Link href="/elections" className="btn-secondary px-8 py-3 text-sm">
+                {t("view_elections")}
+              </Link>
+            </div>
+
+            {/* Trust signals */}
+            <div className="mt-12 flex items-center justify-center lg:justify-start gap-6 flex-wrap animate-fade-in" style={{ animationDelay: "400ms" }}>
+              {["JWT Secured", "GDPR Ready", "Open Audit Logs", "Zero Knowledge"].map((badge) => (
+                <span key={badge} className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+                  <CheckCircle size={12} className="text-success" />
+                  {badge}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Hero Image */}
+          <div className="flex-1 hidden lg:block animate-fade-in relative" style={{ animationDelay: "300ms" }}>
+            <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full scale-150 -z-10" />
+            <img 
+              src="/hero_illustration.png" 
+              alt="Voting Security Illustration" 
+              className="w-full max-w-lg mx-auto drop-shadow-2xl animate-float"
+            />
           </div>
         </div>
       </section>
 
       {/* Stats bar */}
-      <section className="border-y border-border bg-card/50">
-        <div className="max-w-4xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
+      <section className="border-y border-border bg-card/50 relative z-20">
+        <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-2 sm:grid-cols-4 gap-8">
           {stats.map((s) => (
             <div key={s.label} className="text-center">
               <p className="text-2xl font-extrabold text-gradient-blue">{s.value}</p>
@@ -143,7 +156,7 @@ export default function LandingPage() {
       {/* CTA */}
       <section className="py-24 px-6 bg-background">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="card p-12 relative overflow-hidden">
+          <div className="card p-12 relative overflow-hidden border border-primary/20 shadow-2xl shadow-primary/10">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10" />
             <div className="relative z-10">
               <h2 className="text-3xl font-bold text-foreground mb-4">Ready to modernize your elections?</h2>
@@ -155,7 +168,7 @@ export default function LandingPage() {
                   Create Account
                   <ArrowRight size={16} />
                 </Link>
-                <Link href="/login" className="btn-secondary px-8 py-3">
+                <Link href="/login" className="btn-secondary px-8 py-3 bg-background/50 backdrop-blur-md">
                   Sign In
                 </Link>
               </div>

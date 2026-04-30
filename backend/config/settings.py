@@ -69,18 +69,27 @@ WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
 # ─── Database ──────────────────────────────────────────────
+# Local fallback: Use SQLite for now. Deployments will use PostgreSQL.
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB", default="election_db"),
-        "USER": config("POSTGRES_USER", default="election_user"),
-        "PASSWORD": config("POSTGRES_PASSWORD", default="election_pass"),
-        "HOST": config("POSTGRES_HOST", default="db"),
-        "PORT": config("POSTGRES_PORT", default="5432"),
-        "CONN_MAX_AGE": 60,
-        "OPTIONS": {"connect_timeout": 10},
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+# Uncomment for PostgreSQL in production
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": config("POSTGRES_DB", default="election_db"),
+#         "USER": config("POSTGRES_USER", default="election_user"),
+#         "PASSWORD": config("POSTGRES_PASSWORD", default="election_pass"),
+#         "HOST": config("POSTGRES_HOST", default="db"),
+#         "PORT": config("POSTGRES_PORT", default="5432"),
+#         "CONN_MAX_AGE": 60,
+#         "OPTIONS": {"connect_timeout": 10},
+#     }
+# }
 
 # ─── Cache (Redis) ─────────────────────────────────────────
 REDIS_URL = config("REDIS_URL", default="redis://redis:6379/0")
