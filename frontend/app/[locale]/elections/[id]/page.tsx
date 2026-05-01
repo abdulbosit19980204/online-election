@@ -9,6 +9,7 @@ import CandidateCard from "@/components/voting/CandidateCard";
 import ElectionTimer from "@/components/voting/ElectionTimer";
 import Modal from "@/components/ui/Modal";
 import { useAuthStore } from "@/store/authStore";
+import RichTextRenderer from "@/components/ui/RichTextRenderer";
 import { electionApi, voteApi } from "@/lib/api";
 import type { Election, VoteStatus } from "@/types";
 import { useTranslations } from "next-intl";
@@ -113,9 +114,9 @@ export default function ElectionDetailPage() {
                <div className="flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-xs">
                   <HelpCircle size={16} /> Saylov haqida ma'lumot
                </div>
-               <div 
-                 className="text-muted-foreground text-lg leading-relaxed prose prose-invert max-w-none"
-                 dangerouslySetInnerHTML={{ __html: election.description || "Ushbu saylov jarayoni xavfsiz va shaffof tarzda amalga oshirilmoqda." }}
+               <RichTextRenderer 
+                 content={election.description || "Ushbu saylov jarayoni xavfsiz va shaffof tarzda amalga oshirilmoqda."}
+                 className="text-lg"
                />
             </div>
           </motion.div>

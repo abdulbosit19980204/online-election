@@ -35,7 +35,9 @@ export default function ElectionCard({ election, href, hasVoted }: ElectionCardP
             {election.title}
           </h3>
           {election.description && (
-            <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2">{election.description}</p>
+            <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2">
+              {election.description.replace(/<[^>]*>/g, '')}
+            </p>
           )}
         </div>
         <span className={`badge ${cfg.class} shrink-0`}>

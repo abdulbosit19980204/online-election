@@ -8,6 +8,14 @@ export const api = axios.create({
   withCredentials: false,
 });
 
+export const getMediaUrl = (path: string | null) => {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  // Prepend backend URL (removing /api/v1 from the end if present)
+  const base = API_URL.replace("/api/v1", "");
+  return `${base}${path.startsWith("/") ? "" : "/"}${path}`;
+};
+
 // Attach token from localStorage
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {

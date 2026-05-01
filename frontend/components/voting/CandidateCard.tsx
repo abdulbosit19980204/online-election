@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { User, Info, FileText, CheckCircle2 } from "lucide-react";
 import type { Candidate } from "@/types";
 import Modal from "@/components/ui/Modal";
+import RichTextRenderer from "@/components/ui/RichTextRenderer";
+import { getMediaUrl } from "@/lib/api";
 
 interface CandidateCardProps {
   candidate: Candidate;
@@ -34,7 +36,7 @@ export default function CandidateCard({ candidate, selected, onSelect, disabled,
             ${selected ? "bg-primary text-white scale-110 rotate-3" : "bg-white/5 text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"}
           `}>
             {candidate.photo_url ? (
-              <img src={candidate.photo_url} alt={candidate.name} className="w-full h-full object-cover rounded-2xl" />
+              <img src={getMediaUrl(candidate.photo_url)} alt={candidate.name} className="w-full h-full object-cover rounded-2xl" />
             ) : (
               <User size={32} />
             )}
@@ -109,9 +111,9 @@ export default function CandidateCard({ candidate, selected, onSelect, disabled,
                 <FileText size={18} />
                 <span>Biografiya va Dastur</span>
              </div>
-             <div 
-                className="p-6 bg-white/5 rounded-2xl border border-white/5 text-muted-foreground leading-relaxed text-lg prose prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: candidate.bio || "Ushbu nomzod haqida ma'lumot kiritilmagan." }}
+             <RichTextRenderer 
+                content={candidate.bio || "Ushbu nomzod haqida ma'lumot kiritilmagan."}
+                className="text-lg"
              />
           </div>
 
