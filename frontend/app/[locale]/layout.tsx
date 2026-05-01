@@ -15,6 +15,11 @@ export const metadata: Metadata = {
     description: "Secure, transparent online elections with real-time results",
     type: "website",
   },
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default async function RootLayout({
