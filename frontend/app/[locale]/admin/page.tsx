@@ -120,7 +120,13 @@ export default function AdminDashboard() {
             <h2 className="text-lg font-bold text-foreground">{tAdmin("manage_elections")}</h2>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
+            <table className="w-full text-left table-fixed">
+              <colgroup>
+                <col className="w-1/2" />
+                <col className="w-24" />
+                <col className="w-24" />
+                <col className="w-32" />
+              </colgroup>
               <thead className="bg-muted/30 text-[11px] uppercase tracking-wider text-muted-foreground font-bold">
                 <tr>
                   <th className="px-6 py-4">{tAdmin("title")}</th>
@@ -134,7 +140,9 @@ export default function AdminDashboard() {
                   <tr key={e.id} className="hover:bg-muted/20 transition-colors">
                     <td className="px-6 py-5">
                       <div className="font-semibold text-foreground">{e.title}</div>
-                      <div className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{e.description}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5 line-clamp-1 max-w-[300px]">
+                        {e.description ? e.description.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"') : ""}
+                      </div>
                     </td>
                     <td className="px-6 py-5">
                       <span className={`badge ${e.status === 'active' ? 'badge-active' : e.status === 'ended' ? 'badge-ended' : 'badge-draft'}`}>
