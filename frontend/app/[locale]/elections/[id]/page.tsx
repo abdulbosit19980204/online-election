@@ -80,7 +80,7 @@ export default function ElectionDetailPage() {
     );
   }
 
-  const selectedName = election.candidates.find((c) => c.id === selectedCandidate)?.name;
+  const selectedName = (election.candidates || []).find((c) => c.id === selectedCandidate)?.name;
   const isActive = election.status === "active";
   const hasVoted = voteStatus?.has_voted || !!receipt;
 
@@ -172,7 +172,7 @@ export default function ElectionDetailPage() {
             </div>
 
             <div className="space-y-4 mb-10">
-              {election.candidates.map((c) => (
+              {(election.candidates || []).map((c) => (
                 <CandidateCard
                   key={c.id}
                   candidate={c}
