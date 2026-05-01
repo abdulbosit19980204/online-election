@@ -59,14 +59,15 @@ export default function ResultsPage() {
     );
   }
 
-  const winner = [...election.candidates].sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0))[0];
+  const candidates = Array.isArray(election.candidates) ? election.candidates : [];
+  const winner = [...candidates].sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0))[0];
   const totalVotes = election.total_votes || 0;
-  const chartData = election.candidates.map((c) => ({
-    name: c.name.split(" ")[0],
+  const chartData = candidates.map((c) => ({
+    name: (c.name || "").split(" ")[0],
     votes: c.vote_count || 0,
     percentage: c.percentage || 0,
   }));
-  const pieData = election.candidates.map((c, i) => ({
+  const pieData = candidates.map((c, i) => ({
     name: c.name,
     value: c.vote_count || 0,
     color: CHART_COLORS[i % CHART_COLORS.length],
@@ -163,7 +164,7 @@ export default function ResultsPage() {
         {/* Candidate breakdown */}
         <h3 className="font-semibold text-foreground mb-4 text-sm">Candidate Breakdown</h3>
         <div className="space-y-3">
-          {[...election.candidates]
+          {[...candidates]
             .sort((a, b) => (b.vote_count || 0) - (a.vote_count || 0))
             .map((c) => (
               <CandidateCard

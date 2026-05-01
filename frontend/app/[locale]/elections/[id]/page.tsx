@@ -172,7 +172,7 @@ export default function ElectionDetailPage() {
             </div>
 
             <div className="space-y-4 mb-10">
-              {(election.candidates || []).map((c) => (
+              {Array.isArray(election.candidates) && election.candidates.map((c) => (
                 <CandidateCard
                   key={c.id}
                   candidate={c}

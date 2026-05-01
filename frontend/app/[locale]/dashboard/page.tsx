@@ -38,12 +38,12 @@ export default function DashboardPage() {
   const fetchData = async () => {
     try {
       const res = await electionApi.list();
-      const allElections: Election[] = res.data;
+      const allElections = Array.isArray(res.data) ? res.data : [];
       setElections(allElections);
 
       const activeIds = allElections
-        .filter((e) => e.status === "active")
-        .map((e) => e.id);
+        .filter((e: any) => e.status === "active")
+        .map((e: any) => e.id);
 
       const statusPromises = activeIds.map((id) =>
         voteApi.status(id).then((r) => ({ id, hasVoted: r.data.has_voted })).catch(() => ({ id, hasVoted: false }))
@@ -59,8 +59,8 @@ export default function DashboardPage() {
     }
   };
 
-  const active = elections.filter((e) => e.status === "active");
-  const ended = elections.filter((e) => e.status === "ended");
+  const active = Array.isArray(elections) ? elections.filter((e) => e.status === "active") : [];
+  const ended = Array.isArray(elections) ? elections.filter((e) => e.status === "ended") : [];
   const votedCount = Object.values(votedMap).filter(Boolean).length;
 
   return (
