@@ -47,7 +47,8 @@ export default function AdminAnalyticsPage() {
 
     // WebSocket for live updates
     const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000";
-    const ws = new WebSocket(`${WS_URL}/ws/elections/${id}`);
+    const baseWs = WS_URL.endsWith("/ws") ? WS_URL : `${WS_URL}/ws`;
+    const ws = new WebSocket(`${baseWs}/elections/${id}`);
     wsRef.current = ws;
 
     ws.onmessage = () => {

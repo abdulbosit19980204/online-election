@@ -56,5 +56,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_table = "users"
         ordering = ["-date_joined"]
 
+    def save(self, *args, **kwargs):
+        if self.wallet_address == "":
+            self.wallet_address = None
+        # Clean wallet_address to lowercase to match Web3 standards
+        if self.wallet_address:
+            self.wallet_address = self.wallet_address.lower()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.email
