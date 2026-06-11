@@ -7,6 +7,7 @@ export interface User {
   role: "voter" | "admin";
   is_verified: boolean;
   created_at: string;
+  wallet_address?: string;
 }
 
 export interface Candidate {

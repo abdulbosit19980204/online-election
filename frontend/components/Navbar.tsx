@@ -1,6 +1,6 @@
 "use client";
 import { useAuthStore } from "@/store/authStore";
-import { ShieldCheck, LogOut, LayoutDashboard, Vote, Moon, Sun, Globe } from "lucide-react";
+import { ShieldCheck, LogOut, LayoutDashboard, Vote, Moon, Sun, Globe, Presentation } from "lucide-react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/navigation";
 import { useTheme } from "next-themes";
@@ -43,6 +43,15 @@ export default function Navbar() {
       </Link>
 
       <div className="flex items-center gap-2 sm:gap-3">
+        {/* Presentation Link */}
+        <Link
+          href="/presentation"
+          className="text-xs font-semibold px-2.5 py-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+        >
+          <Presentation size={14} />
+          <span className="hidden md:inline">{t("presentation")}</span>
+        </Link>
+
         {/* Language Switcher */}
         <div className="relative group">
           <button className="flex items-center gap-1 p-2 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors">

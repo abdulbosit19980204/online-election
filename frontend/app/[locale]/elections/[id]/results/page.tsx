@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Link } from "@/navigation";
-import { ArrowLeft, Trophy, Users, BarChart3, Loader2 } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, PieChart, Pie } from "recharts";
+import { ArrowLeft, Trophy, Users, BarChart3, Loader2, Activity } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, PieChart, Pie, Legend } from "recharts";
 import Navbar from "@/components/Navbar";
 import CandidateCard from "@/components/voting/CandidateCard";
 import { electionApi } from "@/lib/api";
@@ -18,7 +18,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-card border border-border rounded-xl px-4 py-3 shadow-xl">
         <p className="text-xs text-muted-foreground mb-1">{label}</p>
-        <p className="font-bold text-foreground">{payload[0].value} votes</p>
+        <p className="font-bold text-foreground">{payload[0].value} ovoz</p>
       </div>
     );
   }
@@ -33,13 +33,39 @@ export default function ResultsPage() {
   const [election, setElection] = useState<Election | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const wsRef = useRef<WebSocket | null>(null);
+
+  const fetchResults = async () => {
+    try {
+      const res = await electionApi.results(id);
+      setElection(res.data);
+    } catch (e: any) {
+      setError(e?.response?.data?.detail || "Results not available");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    electionApi
-      .results(id)
-      .then((r) => setElection(r.data))
-      .catch((e) => setError(e?.response?.data?.detail || "Results not available"))
-      .finally(() => setLoading(false));
+    fetchResults();
+
+    // Setup live WebSockets connection
+    const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8000";
+    const ws = new WebSocket(`${WS_URL}/ws/elections/${id}`);
+    wsRef.current = ws;
+
+    ws.onmessage = () => {
+      // Auto-refresh when websocket broadcasts a vote update
+      fetchResults();
+    };
+
+    // Backup polling every 10s
+    const poll = setInterval(fetchResults, 10000);
+
+    return () => {
+      ws.close();
+      clearInterval(poll);
+    };
   }, [id]);
 
   if (loading) {
@@ -84,11 +110,20 @@ export default function ResultsPage() {
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
-          <span className="badge badge-ended mb-3 inline-flex">Final Results</span>
-          <h1 className="text-2xl font-bold text-foreground mb-2">{election.title}</h1>
+          {election.status === "active" ? (
+            <span className="badge badge-active mb-3 inline-flex items-center gap-1.5 bg-success/10 border border-success/20 text-success text-xs font-bold py-1 px-3.5 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-success animate-ping" />
+              Jonli Natijalar (WebSockets)
+            </span>
+          ) : (
+            <span className="badge badge-ended mb-3 inline-flex bg-white/5 border border-white/5 text-muted-foreground text-xs font-bold py-1 px-3.5 rounded-full">
+              Yakuniy Natijalar
+            </span>
+          )}
+          <h1 className="text-3xl font-black text-foreground mt-2 mb-2 tracking-tight">{election.title}</h1>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1.5"><Users size={13} />{totalVotes} total votes</span>
-            <span className="flex items-center gap-1.5"><BarChart3 size={13} />{election.candidates.length} candidates</span>
+            <span className="flex items-center gap-1.5 font-medium"><Users size={14} className="text-primary" /> {totalVotes} jami ovozlar</span>
+            <span className="flex items-center gap-1.5 font-medium"><BarChart3 size={14} className="text-accent" /> {election.candidates.length} nomzodlar</span>
           </div>
         </motion.div>
 

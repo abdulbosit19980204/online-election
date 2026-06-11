@@ -45,6 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     otp_secret = models.CharField(max_length=32, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
+    wallet_address = models.CharField(max_length=255, null=True, blank=True, unique=True)
 
     objects = UserManager()
 

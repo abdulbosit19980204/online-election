@@ -14,7 +14,8 @@
     "logout": "Sign Out",
     "light_mode": "Light",
     "dark_mode": "Dark",
-    "system": "System"
+    "system": "System",
+    "presentation": "Presentation"
   },
   "Landing": {
     "title": "Democracy Deserves Better Infrastructure",

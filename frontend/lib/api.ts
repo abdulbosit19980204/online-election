@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { useAuthStore } from "@/store/authStore";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api/v1";
 
 export const api = axios.create({
@@ -46,9 +48,16 @@ api.interceptors.response.use(
           original.headers.Authorization = `Bearer ${access_token}`;
           return api(original);
         } catch {
-          localStorage.removeItem("access_token");
-          localStorage.removeItem("refresh_token");
-          window.location.href = "/login";
+          if (typeof window !== "undefined") {
+            useAuthStore.getState().logout();
+            window.location.href = "/";
+          }
+        }
+      } else {
+        // If there's no refresh token but request got 401, trigger clean logout
+        if (typeof window !== "undefined") {
+          useAuthStore.getState().logout();
+          window.location.href = "/";
         }
       }
     }

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "@/navigation";
 import { Link } from "@/navigation";
 import toast from "react-hot-toast";
-import { ShieldCheck, Eye, EyeOff, ArrowRight, Mail, Lock } from "lucide-react";
+import { ShieldCheck, Eye, EyeOff, ArrowRight, Mail, Lock, Wallet } from "lucide-react";
 import { authApi } from "@/lib/api";
 import { useAuthStore } from "@/store/authStore";
 import { useTranslations } from "next-intl";
@@ -47,6 +47,59 @@ export default function LoginPage() {
     }
   };
 
+  const handleWeb3Login = async () => {
+    if (typeof window !== "undefined" && (window as any).ethereum) {
+      try {
+        setLoading(true);
+        toast.loading("Connecting Web3 Wallet...", { id: "web3-loading" });
+        const accounts = await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+        const address = accounts[0];
+        
+        const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${address}\nTimestamp: ${Date.now()}`;
+        await (window as any).ethereum.request({
+          method: "personal_sign",
+          params: [message, address],
+        });
+
+        const web3User = {
+          id: "web3-" + address,
+          full_name: `Web3 Voter (${address.substring(0, 6)}...${address.substring(address.length - 4)})`,
+          email: `${address.toLowerCase()}@wallet.eth`,
+          role: "voter",
+          wallet_address: address
+        };
+        
+        setAuth(web3User as any, "web3-access-token", "web3-refresh-token");
+        toast.dismiss("web3-loading");
+        toast.success(`Web3 wallet connected successfully!`);
+        router.push("/dashboard");
+      } catch (err: any) {
+        toast.dismiss("web3-loading");
+        toast.error(err?.message || "MetaMask connection failed");
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      setLoading(true);
+      const toastId = toast.loading("Simulating Web3 Wallet Connection (Demo Mode)...");
+      setTimeout(() => {
+        const mockAddress = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
+        const web3User = {
+          id: "web3-" + mockAddress,
+          full_name: `Web3 Voter (0x71C7...976F)`,
+          email: `voter@wallet.eth`,
+          role: "voter",
+          wallet_address: mockAddress
+        };
+        setAuth(web3User as any, "web3-access-token", "web3-refresh-token");
+        toast.dismiss(toastId);
+        toast.success(`Simulated Web3 Wallet connected!`);
+        router.push("/dashboard");
+        setLoading(false);
+      }, 1500);
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-background text-foreground transition-colors duration-300">
       
@@ -70,9 +123,8 @@ export default function LoginPage() {
           <div className="card p-8 shadow-2xl border-primary/10">
             {/* Demo credentials hint */}
             <div className="mb-5 p-3 rounded-xl bg-primary/5 border border-primary/15 text-xs text-muted-foreground">
-              <p className="font-medium text-primary mb-1">Demo Admin</p>
-              <p>Email: <span className="font-mono text-foreground">admin@election.local</span></p>
-              <p>Password: <span className="font-mono text-foreground">Admin@123456</span></p>
+              <p className="font-medium text-primary mb-1">Demo Credentials</p>
+              <p>Email: <span className="font-mono text-foreground">admin@election.local</span> / Password: <span className="font-mono text-foreground">Admin@123456</span></p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
@@ -128,6 +180,22 @@ export default function LoginPage() {
                 )}
               </button>
             </form>
+
+            <div className="flex items-center my-6">
+              <div className="h-px bg-border flex-grow" />
+              <span className="text-[10px] text-muted-foreground px-3 font-semibold uppercase tracking-wider">yoki</span>
+              <div className="h-px bg-border flex-grow" />
+            </div>
+
+            <button
+              onClick={handleWeb3Login}
+              type="button"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-primary/20 hover:border-primary/50 bg-primary/5 hover:bg-primary/10 text-foreground transition-all duration-300 font-bold text-xs"
+            >
+              <Wallet size={16} className="text-primary" />
+              Web3 Hamyon orqali kirish (MetaMask / TON)
+            </button>
 
             <p className="text-center text-sm text-muted-foreground mt-6">
               {t("no_account")}{" "}

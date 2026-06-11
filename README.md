@@ -99,4 +99,4 @@ Translation files are located in `frontend/messages/`.
 This project is proprietary. All rights reserved.
 
 ---
-**Developed by Robiya/Abdulbosit 2026**
+**Developed by Karimjonova Robiyaxon 2026**

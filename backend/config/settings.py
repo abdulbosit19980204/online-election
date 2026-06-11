@@ -5,6 +5,19 @@ from pathlib import Path
 from datetime import timedelta
 from decouple import config, Csv
 
+# Python 3.14 Django Compatibility Patch
+import copy
+try:
+    from django.template import context
+    def new_copy(self):
+        obj = self.__class__.__new__(self.__class__)
+        obj.__dict__.update(self.__dict__)
+        obj.dicts = self.dicts[:]
+        return obj
+    context.BaseContext.__copy__ = new_copy
+except ImportError:
+    pass
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ─── Security ─────────────────────────────────────────────

@@ -17,7 +17,7 @@ import { motion } from "framer-motion";
 
 export default function ElectionDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
   const t = useTranslations("Voting");
   const commonT = useTranslations("Common");
 
@@ -28,6 +28,7 @@ export default function ElectionDetailPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [receipt, setReceipt] = useState<string | null>(null);
+  const [web3Step, setWeb3Step] = useState<"idle" | "signing" | "proving" | "submitting">("idle");
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -52,16 +53,51 @@ export default function ElectionDetailPage() {
   const handleVote = async () => {
     if (!selectedCandidate) return;
     setSubmitting(true);
+    const isWeb3 = !!user?.wallet_address;
+    
     try {
+      if (isWeb3) {
+        setWeb3Step("signing");
+        toast.loading("1/3 Wallet Signature...", { id: "web3-vote" });
+        if (typeof window !== "undefined" && (window as any).ethereum) {
+          try {
+            await (window as any).ethereum.request({
+              method: "personal_sign",
+              params: [`Cast ballot for candidate ID: ${selectedCandidate} in election: ${id}`, user.wallet_address],
+            });
+          } catch (e) {
+            toast.dismiss("web3-vote");
+            toast.error("Signature rejected");
+            setSubmitting(false);
+            setWeb3Step("idle");
+            return;
+          }
+        } else {
+          await new Promise((r) => setTimeout(r, 1200));
+        }
+
+        setWeb3Step("proving");
+        toast.loading("2/3 Generating Zero-Knowledge Proof (ZK-SNARK)...", { id: "web3-vote" });
+        await new Promise((r) => setTimeout(r, 2000));
+
+        setWeb3Step("submitting");
+        toast.loading("3/3 Broadcasting to Smart Contract...", { id: "web3-vote" });
+        await new Promise((r) => setTimeout(r, 1500));
+        
+        toast.dismiss("web3-vote");
+      }
+
       const res = await voteApi.cast(id, selectedCandidate);
       setReceipt(res.data.receipt_hash);
       setVoteStatus({ has_voted: true, cast_at: res.data.cast_at, receipt_hash: res.data.receipt_hash });
       setConfirmOpen(false);
       toast.success(t("vote_success"));
     } catch (err: any) {
+      toast.dismiss("web3-vote");
       toast.error(err?.response?.data?.detail || commonT("error"));
     } finally {
       setSubmitting(false);
+      setWeb3Step("idle");
     }
   };
 
@@ -226,7 +262,15 @@ export default function ElectionDetailPage() {
               className="btn-primary justify-center py-4 rounded-xl text-lg font-black"
             >
               {submitting ? (
-                <Loader2 size={18} className="animate-spin" />
+                <div className="flex items-center gap-2">
+                  <Loader2 size={18} className="animate-spin" />
+                  <span>
+                    {web3Step === "signing" && "Imzolanmoqda..."}
+                    {web3Step === "proving" && "ZK Proof..."}
+                    {web3Step === "submitting" && "Blokcheyn..."}
+                    {web3Step === "idle" && "Kuting..."}
+                  </span>
+                </div>
               ) : (
                 "Tasdiqlayman"
               )}

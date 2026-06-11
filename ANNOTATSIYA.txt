@@ -1,0 +1,450 @@
+ANNOTATSIYA
+Ushbu diplom loyihasi “Onlayn ovoz berish tizimlari uchun zamonaviy veb-interfeyslarni ishlab chiqish va UX optimallashtirish” mavzusiga bagʻishlangan boʻlib, demokratik jarayonlarni raqamlashtirishga moʻljallangan xavfsiz va foydalanuvchiga qulay elektron ovoz berish platformasini yaratishga qaratilgan.
+Loyiha doirasida ovoz berishni kategoriyalar (saylovlar, nomzodlar, savollar) boʻyicha tizimlashtirish, qidiruv va filtrlash, xavfsiz autentifikatsiya (JWT, MFA), ovoz berish jarayoni (bir martalik ovoz, anonimlik), real vaqtdagi natijalar, audit trail va administrator paneli ishlab chiqilgan. Sayt arxitekturasi MVC modeliga asoslangan boʻlib, frontend va backend qismlari ajratilgan holda qurilgan.
+Asosiy eʼtibor UX optimallashtirishga qaratilgan: accessibility (screen reader, high contrast, keyboard navigation), usability (step-by-step guidance, clear mental models), responsive dizayn va security transparency (foydalanuvchiga xavfsizlik mexanizmlarini tushuntirish).
+Foydalanilgan asosiy texnologiyalar: HTML5, CSS3, JavaScript (React.js), Node.js, Express.js, MySQL maʼlumotlar bazasi, JWT autentifikatsiya tizimi, Tailwind CSS va Chart.js.
+ANNOTATION
+This diploma project is dedicated to the topic “Development of Modern Web Interfaces for Online Voting Systems and UX Optimization”, aimed at creating a secure and user-friendly electronic voting platform for digitizing democratic processes.
+Within the project, features such as categorization of elections, search and filtering, secure authentication (JWT, MFA), voting process (single vote, anonymity), real-time results, audit trail, and admin panel have been developed. The website architecture is based on the MVC model with separate frontend and backend components.
+Special emphasis is placed on UX optimization: accessibility (screen readers, high contrast, keyboard navigation), usability (step-by-step guidance, clear mental models), responsive design, and security transparency.
+Key technologies used: HTML5, CSS3, JavaScript (React.js), Node.js, Express.js, MySQL database, JWT authentication, Tailwind CSS, and Chart.js.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MUNDARIJA
+KIRISH………………………………………………………………….….... 5
+ I. NAZARIY QISM……………………………………………………..…... 8 
+1.1. Elektron ovoz berish tizimlarining rivojlanishi va dolzarbligi……..……..8 
+1.2. Dunyodagi mavjud onlayn ovoz berish platformalarining tahlili………………………………………………………………………...… 11 
+1.3. Veb-texnologiyalar, arxitektura va UX dizayn yondashuvlari……...….. …15
+1.4. Zamonaviy veb-interfeyslarning dizayn tamoyillari va foydalanuvchi tajribasi (UX/UI) talablari ………………………………………………………………..16
+1.5. Onlayn ovoz berish tizimlarida xavfsizlik, ishonchlilik va vizual ishonch elementlarini interfeys orqali ta’minlash………………………………………..18
+II. LOYIHA QISM…………………………………………………………… 19 
+2.1. Tizimning umumiy arxitekturasi va talablar tahlili……………………….. 19
+ 2.2. Maʼlumotlar bazasini loyihalash………………………………………..... 23 
+2.3. Frontend qismini ishlab chiqish va UX optimallashtirish………………… 27 
+2.4. Backend va API qismini ishlab chiqish……………………………….…… 31 
+2.5. Xavfsizlik va autentifikatsiya mexanizmlari………………………….…… 35 
+2.6. Admin panel ishlab chiqish………………………………………...…….… 38
+ III. TADBIQ QILISHNI TASHKIL ETISH VA LOYIHA m 
+ 3.1. Tizimni joriy etish va sozlash……………………………………….…….... 42
+ 3.2. Foydalanuvchi qoʻllanmasi…………………………………………....…… 45 
+3.3. Loyihaning samaradorligini baholash (UX testlari bilan)…………48 XULOSA…………………………………………………………………………52 FOYDALANILGAN ADABIYOTLAR ROʻYXATI…………………. 54 ILOVALAR……………………………………………………………………... 57
+
+
+
+
+
+KIRISH
+O‘zbekiston Respublikasi Prezidentining “Raqamli O‘zbekiston - 2030” strategiyasini tasdiqlash to‘g‘risidagi PF-6079-son Farmoni hamda “O‘zbekiston - 2030” strategiyasini belgilovchi PF-158-son Farmoni mamlakatda raqamli transformatsiyani jadallashtirish va davlat boshqaruvini, shu jumladan saylov jarayonlarini raqamlashtirishni muhim strategik vazifa sifatida belgilab berdi. Ushbu hujjatlar doirasida 2024-yilda Toshkent shahrida elektron ovoz berishning ilk tajribasi muvaffaqiyatli o‘tkazildi. Mazkur tajriba shuni ko‘rsatdiki, fuqarolarga qulay, xavfsiz va zamonaviy veb-interfeyslar asosidagi onlayn ovoz berish tizimini yaratish hozirgi davrning eng dolzarb talablaridan biridir.
+Loyihaning dolzarbligi. Bugungi axborot asridagi raqamli texnologiyalar rivoji natijasida elektron ovoz berish (e-voting) demokratik jarayonlarni yanada qulay, shaffof va ochiq bo‘lishiga asosiy omil bo‘lmoqda. Oʻzbekistonda internet foydalanuvchilar soni ortib borayotgani va Markaziy saylov komissiyasining elektron ovoz berishni sinovdan oʻtkazish tajribalari (2024-yil Toshkentdagi uchastkalarda) bu sohani dolzarb ekanligini yana bir bor ko‘rsatib berdi.
+Anʼanaviy ovoz berishda vaqt, geografik cheklovlar va qoʻl mehnati koʻp talab etiladi. Onlayn tizim esa masofadan ishtirok etish, real vaqt natijalar va nogironligi bor fuqarolar uchun qulaylik yaratadi. Biroq, bunday tizimlarda xavfsizlik, anonimlik, ikki marta ovoz bermaslik va foydalanuvchilarning platformadan foydalaana olish tajribasi (UX) kabi muammolar dolzarb boʻlib qolmoqda. Ushbu loyiha aynan shu muammolarni hal etishga qaratilgan.
+Muammoning oʻrganilganlik darajasi. Jahonda Helios Voting, Election Runner, Voatz singari platformalar mavjud. Oʻzbekistonda esa elektron ovoz berish hozircha sinov bosqichida. Mavjud yechimlarning aksariyati mahalliy qonunchilik va UX talablariga toʻliq mos kelmaydi.
+Loyihaning maqsadi. Onlayn ovoz berish uchun zamonaviy veb-interfeyslar ishlab chiqish va ularni UX jihatdan optimallashtirish (accessibility, usability, security transparency).
+Vazifalar: – Mavjud e-voting platformalarini tahlil qilish; – Tizim talablarini (funksional va funksional boʻlmagan) aniqlash; – Maʼlumotlar bazasini loyihalash; – React.js asosida frontend va UX optimallashtirish; – Backend va xavfsiz bo‘lgan API yaratish (JWT, MFA); – Tizimni sinash va UX baholash (usability testlar).
+Ilmiy yangiligi. Oʻzbekiston sharoitiga moslashtirilgan, yuqori UX darajasi (accessibility va mental model clarity) va xavfsizlik mexanizmlari bilan jihozlangan veb-interfeys arxitekturasining ishlab chiqilganligi.
+Amaliy ahamiyati. Tizim universitetlar, korxonalar, mahalliy saylovlar va kichik jamoalar uchun tayyor yechim boʻlib xizmat qiladi.
+Diplom loyihasi tuzilishi va hajmi. Diplom loyihasi kirish, uchta asosiy bo'lim, xulosa, foydalanilgan adabiyotlar ro'yxati va ilovalardan iborat. Ishning umumiy hajmi 70-80 betni tashkil etadi.
+
+
+
+
+
+
+
+
+
+
+
+
+
+I. BOB. NAZARIY QISM
+1.1. Elektron ovoz berish tizimlarining rivojlanishi va dolzarbligi
+Jamiyat taraqqiyoti davomida davlat boshqaruvi tizimlari ham izchil ravishda takomillashib bormoqda. Ayniqsa, axborot-kommunikatsiya texnologiyalarining jadal rivojlanishi natijasida siyosiy va huquqiy jarayonlarni raqamlashtirish masalasi bugungi kunning ustuvor yo‘nalishlaridan biriga aylandi. Saylov tizimi har qanday demokratik davlatning asosiy siyosiy institutlaridan biri bo‘lib, undagi oshkoralik, tezkorlik va adolatlilik davlat boshqaruvining legitimligini belgilaydi. Shu nuqtai nazardan elektron ovoz berish tizimlari so‘nggi yillarda jahon miqyosida keng muhokama qilinayotgan va amaliyotga tatbiq etilayotgan innovatsion yechimlardan biri hisoblanadi.
+Elektron ovoz berish (electronic voting yoki e-voting) - bu saylov yoki referendumlarda ovoz berish jarayonini raqamli texnologiyalar yordamida amalga oshirishdir. U an’anaviy qog‘oz byulletenlardan farqli o‘laroq, ovoz berishni tezlashtirish, xarajatlarni kamaytirish, fuqarolarning ishtirokini oshirish va natijalarni real vaqtda hisoblash imkonini beradi.
+Elektron ovoz berish tizimlarining tarixiy rivojlanishi. Elektron ovoz berish tizimlarining paydo bo‘lishi XX asrning ikkinchi yarmiga to‘g‘ri keladi. Dastlabki bosqichda (1960–1990-yillar) saylov uchastkalarida maxsus elektron ovoz berish mashinalari (Direct Recording Electronic – DRE) qo‘llanila boshlandi. Bu mashinalar ovoz berishni soddalashtirdi, ammo markazlashgan hisoblash va xavfsizlik muammolari saqlanib qoldi. Keyinchalik to‘g‘ridan-to‘g‘ri elektron ovoz berish mashinalari paydo bo‘ldi. Bu qurilmalar saylovchilarning tanlovini elektron xotirada saqlab, natijalarni avtomatik shakllantirish imkonini berdi.
+XXI asr boshlaridan boshlab internet tarmog‘ining ommalashuvi bilan birga masofaviy onlayn ovoz berish tizimlari (i-voting) ham rivojlana boshladi. Dunyoda birinchi bo‘lib Estoniya 2005 yilda mahalliy saylovlarda internet orqali ovoz berishni joriy etdi va bu tajriba muvaffaqiyatli bo‘ldi. 2007 yildan boshlab Estoniyada parlament saylovlarida ham i-voting qo‘llanila boshlandi. Hozirgi kunda Estoniyada saylovchilarning 40-50% ga yaqini ovozini onlayn beradi. Bu mamlakatda kuchli elektron identifikatsiya tizimi (e-ID) va ishonchli xavfsizlik mexanizmlari mavjudligi tufayli bu vazfani amalga oshirish mumkin bo‘ldi.
+Shveytsariya ham elektron ovoz berishda yetakchi davlatlardan biri hisoblanadi. 2000 yillardan boshlab bir qancha kantonlarda (Geneva, Zurich, Neuchâtel) internet orqali ovoz berish tajribalari o‘tkazildi. Shveytsariyada i-voting nafaqat saylovchilar uchun qulaylik, balki xorijda yashovchi fuqarolar uchun ham muhim ahamiyatga ega bo‘ldi.
+Boshqa davlatlarda ham taraqqiyot kuzatilmoqda: Braziliya 2000 yildan boshlab butun mamlakat bo‘ylab elektron ovoz berish mashinalaridan foydalanadi va bu borada yetakchi hisoblanadi. Hindiston esa dunyodagi eng katta saylov tizimida Electronic Voting Machines (EVM) dan foydalanadi. Singapur, Avstraliya, Germaniya, Belgiya va boshqa mamlakatlarda turli elektron tizimlar sinovdan o‘tkazilmoqda. Biroq, ko‘plab davlatlarda xavfsizlik (hakerlik hujumlari, ovoz manipulyatsiyasi), anonimlik va ishonchlilik muammolari tufayli to‘liq o‘tish sekin kechmoqda.
+O‘zbekiston Respublikasida elektron ovoz berishning rivojlanishi. O‘zbekiston Respublikasida elektron ovoz berish sohasi so‘nggi yillarda jadal rivojlanmoqda. “Raqamli O‘zbekiston - 2030” strategiyasi va “Yangi O‘zbekistonning taraqqiyot strategiyasi” doirasida raqamli texnologiyalarni saylov jarayoniga joriy etish ustuvor yo‘nalishga aylandi.
+2024 yil oktabr oyida O‘zbekiston tarixida ilk bor Toshkent shahridagi ayrim saylov uchastkalarida saylov kuni elektron ovoz berish tartibi tajriba tariqasida sinovdan o‘tkazildi. Saylovchilarga an’anaviy yoki elektron ovoz berishni mustaqil tanlash imkoniyati berildi. Markaziy saylov komissiyasi ma’lumotlariga ko‘ra, bu tajriba saylov jarayonini tezkorlashtirish, ovoz hisoblashni soddalashtirish va fuqarolarga qulaylik yaratish maqsadida amalga oshirildi.
+Bundan tashqari, O‘zbekistonda saylovchilarning yagona elektron ro‘yxati (SYER), saylov jarayonini videokuzatuv va “my.gov.uz” portali orqali ko‘plab interaktiv xizmatlar (saylov uchastkasini aniqlash, o‘zingizni ro‘yxatdan topish) muvaffaqiyatli ishlamoqda. Internet foydalanuvchilar sonining 26 milliondan oshgani va elektron davlat xizmatlarining 60% dan ortig‘i raqamli tarzda ko‘rsatilayotgani elektron ovoz berish tizimini kengaytirish uchun mustahkam asos yaratmoqda.
+1.1-jadval. O‘zbekiston Respublikasida raqamli texnologiyalar va elektron ovoz berish rivojlanishi ko‘rsatkichlari (2021–2025)
+Ko‘rsatkich	2021-yil	2022-yil	2023-yil	2024- yil	2025-yil (prognoz)
+Internet foydalanuvchilar ulushi (%)	76,6	83,9	89,0	93,3	94,2+
+Internet foydalanuvchilar soni (mln)	~20,5	~23,1	~25,0+	~26,4+	~31,0+
+Elektron tijorat / raqamli xizmatlar bozori hajmi (trln so‘m)	—	—	—	15,2	—
+Elektron ovoz berish tajribasi	Yo‘q	Yo‘q	Yo‘q	Ilk sinov (Toshkent)	Kengaytirish rejalari
+Saylovchilarning yagona elektron ro‘yxati (SYER)	Ishga tushirilgan	Takomillashtirilgan	Faol	Faol	Faol
+“My.gov.uz” orqali elektron davlat xizmatlari ulushi (%)	—	—	—	60+	70+
+
+O‘zbekiston Respublikasida raqamli texnologiyalar va elektron ovoz berish rivojlanishi ko‘rsatkichlari (2021–2025) ning tahlili. O‘zbekiston Respublikasida raqamli infratuzilmaning jadal rivojlanishi elektron ovoz berish tizimini joriy etish uchun mustahkam asos yaratmoqda. 1.1-jadvalda keltirilgan ko‘rsatkichlar bu jarayonning dinamikasini aniq aks ettiradi.
+Internet foydalanuvchilar ulushi va soni 2021 yildagi 76,6% dan 2025 yilga kelib 94,2% gacha o‘sganligi aytilmoqda. Bu 5 yil ichida internet qamrovi deyarli 18 foiz punktga oshganini bildiradi. Internet foydalanuvchilar soni esa 20,5 milliondan 31 millionga yetgan. Bu ko‘rsatkichlar shuni ko‘rsatadiki, O‘zbekiston aholining katta qismi (ayniqsa, yoshlar) allaqachon raqamli muhitda faol bo‘lib, onlayn ovoz berish uchun texnik jihatdan tayyor ekanligini bildiradi.
+Elektron ovoz berish tajribasi bo‘yicha: 2024 yilgacha elektron ovoz berish tajribasi bo‘lmagan bo‘lsa, 2024 yilda Toshkent shahrida ilk sinov muvaffaqiyatli o‘tkazildi. Bu O‘zbekiston uchun muhim bosqich hisoblanadi. Jadvaldan ko‘rinib turibdiki, mamlakat 2025 yilda bu tajribani kengaytirish rejasini amalga oshirishni mo‘ljallamoqda.
+Saylovchilarning yagona elektron ro‘yxati (SYER): SYER tizimi 2021 yildan boshlab ishga tushirilgan va har yili takomillashtirib borilmoqda. Bu tizim elektron ovoz berishni joriy etishda eng muhim asosiy infratuzilma hisoblanadi, chunki u saylovchilarni aniq identifikatsiya qilish va takroriy ovoz berishning oldini olish imkonini beradi.
+“My.gov.uz” orqali elektron davlat xizmatlari ulushi: 2024 yilda bu ko‘rsatkich 60% dan oshgani aholining davlat xizmatlaridan elektron foydalanishga allaqachon o‘rganganligini ko‘rsatadi. Bu omil fuqarolarning yangi elektron saylov tizimiga tez moslashishini osonlashtiradi.
+Umumiy xulosa va tahlilllar. Raqamli infratuzilmaning tayyorligi - So‘nggi 5 yil ichida internet qamrovi va raqamli xizmatlardan foydalanish keskin oshgani O‘zbekistonda to‘liq huquqli onlayn ovoz berish tizimini joriy etish uchun texnik asos yetarli ekanligini tasdiqlaydi. Tez o‘sish tendensiyasi - Internet foydalanuvchilar sonining yiliga o‘rtacha 2–3 millionga oshishi kelajakda elektron saylov tizimining keng qo‘llanilishini bashorat qilmoqda. Tajriba-sinov bosqichi - 2024 yilda Toshkentda o‘tkazilgan ilk sinov natijalari ijobiy bo‘lgani mamlakat miqyosida bosqichma-bosqich joriy etish imkoniyatini ochmoqda. Ijtimoiy tayyorgarlik - Aholining elektron davlat xizmatlaridan faol foydalanishi yangi tizimga psixologik jihatdan moslashishni osonlashtiradi.
+Biroq, jadvalda ko‘rsatilgan yuqori raqamli ko‘rsatkichlarga qaramay, qishloq hududlarida internet tezligi va qamrovi hali yetarli emasligi, shuningdek, aholining katta qismi (ayniqsa, yoshi ulg‘aygan fuqarolar) raqamli savodxonlik darajasi pastligi kabi muammolar ham mavjud. 
+O‘zbekiston Respublikasi so‘nggi yillarda raqamli transformatsiya bo‘yicha sezilarli natijalarga erishgan. Bu ko‘rsatkichlar elektron ovoz berish tizimini bosqichma-bosqich joriy etish uchun ijobiy muhit yaratgan. Shu bilan birga, mavjud imkoniyatlardan samarali foydalanish va mavjud kamchiliklarni bartaraf etish orqali mamlakatda zamonaviy, xavfsiz va shaffof saylov tizimini yaratish imkoniyati yuqori ekanligini tasdiqlaydi.
+Elektron ovoz berishning afzalliklari va muammolari. Elektron ovoz berishning asosiy afzalliklari quyidagilardan iborat: geografik va vaqt cheklovlarini bartaraf etish (ayniqsa, xorijda yashovchi fuqarolar uchun); nogironligi bor fuqarolar va yoshi ulg‘aygan saylovchilar uchun qulaylik; ovoz hisoblashning tezligi va xatoliklarning kamayishi; saylov ishtirokini oshirish potensiali; real vaqtda natijalarni ko‘rsatish imkoniyati.
+Biroq elektron ovoz berish tizimlarini joriy etish faqat afzalliklardan iborat emas. Eng katta muammolar - kiberxavfsizlik, xakerlik hujumlari, anonimlikni ta’minlash va fuqarolarning ishonchini qozonish masalalaridir. Shu sababli zamonaviy tizimlarda ko‘p bosqichli shifrlash (AES-128), kriptografik protokollar, audit mexanizmlari va Row Level Security kabi yechimlar qo‘llanilmoqda.
+Zamonaviy texnologiyalar va kelajak istiqbollari. Hozirgi vaqtda elektron ovoz berish tizimlarini yanada takomillashtirishda blokcheyn texnologiyasi katta istiqbolga ega. Blokcheyn ma’lumotlarni o‘zgartirib bo‘lmaydigan zanjir shaklida saqlash imkonini beradi. Biometrik autentifikatsiya (barmoq izi, yuzni tanish) va sun’iy intellekt g‘ayritabiiy harakatlarni aniqlashda muhim rol o‘ynaydi.
+Elektron ovoz berish tizimlari zamonaviy demokratik jamiyat taraqqiyotining muhim talablaridan biri sifatida shakllanmoqda. O‘zbekiston kabi rivojlanayotgan mamlakatlarda ushbu tizimni bosqichma-bosqich joriy etish demokratik jarayonlarni yanada shaffof, ochiq va fuqarolarga qulay darajaga ko‘tarishga xizmat qiladi.
+1.2. Dunyodagi mavjud onlayn ovoz berish platformalarining tahlili
+Elektron ovoz berish tizimlarini ishlab chiqishdan oldin mavjud yechimlarning afzalliklari, kamchiliklari va xavfsizlik darajasini chuqur tahlil qilish muhim ahamiyatga ega. Jahonda bir necha mamlakatlar va kompaniyalar tomonidan ishlab chiqilgan onlayn ovoz berish platformalari mavjud bo‘lib, ularning aksariyati muayyan mamlakatning huquqiy va texnik talablariga moslashtirilgan. Ushbu bo‘limda dunyodagi eng mashhur elektron ovoz berish tizimlari (Estoniya: i-Voting, Shveytsariya: e-Voting, Braziliya: EVM, Voatz, Helios va boshqalar) tahlil qilinadi.
+Estoniya i-Voting tizimi. Estoniya dunyoda birinchi bo‘lib milliy miqyosda internet orqali ovoz berishni (i-Voting) joriy etgan mamlakat hisoblanadi. Tizim 2005 yildan boshlab ishlamoqda va hozirgi kunda saylovchilarning 40-50% ga yaqini ovozini onlayn beradi.
+Afzalliklari: Yuqori qulaylik va saylov faolligini oshirish. Xarajatlarning sezilarli kamayishi (qog‘oz byulletenlarga nisbatan 50% arzonroq). ID-karta orqali kuchli autentifikatsiya.
+Kamchiliklari va tanqidlar: 2014 yilda Michigan universiteti olimlari tomonidan o‘tkazilgan mustaqil tahlilda tizimda jiddiy xavfsizlik zaifliklari aniqlangan (server tomonidagi hujumlar, operatsion xavfsizlik muammolari). End-to-end verifiability (E2E) mexanizmi yetarli emas. Davlat darajasidagi hujumlar (masalan, Rossiya) xavfi yuqori baholanadi.
+Shveytsariyaning e-Voting tizimi. Shveytsariya federal tuzilishi tufayli har bir kanton o‘z tizimini rivojlantirgan. Ularning ichida Swiss Post tomonidan ishlab chiqilgan tizim eng ilg‘ori hisoblanadi.
+Asosiy xususiyatlari: Individual va universal verifiability (har bir saylovchi o‘z ovozi to‘g‘ri qayd etilganini tekshirishi mumkin). Murakkab kriptografik protokollar (mix-net, zero-knowledge proofs). Ochiq kod va mustaqil xakerlik testlari.
+Tizim yuqori xavfsizlik talablariga javob bersa-da, 2019 yilda jiddiy zaifliklar aniqlanib, bir muddat to‘xtatilgan edi.
+Braziliya elektron ovoz berish mashinalari (EVM). Braziliya 1996 yildan boshlab butun mamlakat bo‘ylab elektron ovoz berish mashinalaridan foydalanadi. Mashinalar internetga ulanmagan.
+Afzalliklari: Ovoz hisoblashning rekord tezligi. Qog‘oz byulletenlarga nisbatan xarajatlarni keskin kamaytirish. Fuqarolar orasida yuqori ishonch darajasi.
+Kamchiliklari: Ovoz berishda qog‘oz iz (paper trail) yo‘qligi. Markazlashgan boshqaruv tizimi. Ba’zi siyosiy kuchlar tomonidan doimiy tanqid qilinadi.
+Boshqa zamonaviy platformalar. Voatz (AQSh) - Mobil ilova orqali ovoz berish. Blockchain va biometrikadan foydalanadi. 2018 yilda West Virginia shtatida sinovdan o‘tkazilgan. Biroq mustaqil tadqiqotlarda (MIT) jiddiy zaifliklar (telefonni hack qilish orqali ovozni o‘zgartirish) aniqlangan.
+Helios - Ochiq kodli, ilmiy maqsadlarda ishlatiladigan tizim. End-to-End Verifiability ni yaxshi ta’minlaydi, ammo katta miqyosli milliy saylovlar uchun mos emas.
+Polyas (Germaniya) - Yevropada keng qo‘llaniladigan professional platforma.
+1.2-jadval. Mavjud onlayn ovoz berish platformalarining qiyosiy tahlili
+Platforma /Mamlakat	Autentifikatsiya	Shaffoflik (Verifiability)	Xavfsizlik darajasi	Afzalliklari	Kamchiliklari	Qamrovi
+Estoniya
+i-Voting	ID-karta + PIN	Past (E2E yo‘q)	O‘rta	Yuqori qulaylik, ommaviy qo‘llanish	Server hujumlari xavfi, eski arxitektura	Milliy saylovlar
+Shveytsariya e-Voting	Rasmiy e-ID	Yuqori (E2E)	Yuqori	Kuchli kriptografiya	Murakkablik, qimmat	Kanton darajasida
+Braziliya EVM	Biometrika + PIN	O‘rta	Yuqori (ofline)	Tez hisoblash, oddiy foydalanish	Paper trail yo‘qligi	Butun mamlakat
+Voatz (AQSh)	Biometrika + Blockchain	O‘rta	O‘rta-past	Mobil qulaylik	Ilmiy tanqidlar, zaifliklar	Shtat darajasida sinov
+Helios	Email / Parol	Yuqori (E2E)	Yuqori	Ochiq kod, bepul	Katta miqyosga mos emas	Universitet, tashkilot
+Polyas (Germaniya)	Multifaktor	Yuqori	Yuqori	Professional, ISO sertifikat	Qimmat	Yevropa tashkilotlari
+
+Ushbu jadvalda dunyodagi eng mashhur elektron ovoz berish platformalari va tizimlarining asosiy xususiyatlari solishtirilgan. Jadvalni tahlil qilish orqali mavjud yechimlarning kuchli va zaif tomonlarini aniq ko‘rish mumkin.
+Umumiy tahlil. Autentifikatsiya usullari bo‘yicha: Jadvaldan ko‘rinib turibdiki, ko‘pchilik tizimlar kuchli autentifikatsiya usullaridan (ID-karta, e-ID, biometrika) foydalanadi. Estoniya va Shveytsariya kabi yetakchi davlatlar eng ilg‘or autentifikatsiya tizimlariga ega. Bu esa takroriy ovoz berish va noqonuniy kirish xavfini kamaytiradi. Biroq Voatz va Helios kabi platformalarda oddiyroq autentifikatsiya (email/parol) qo‘llanilgani ularning xavfsizlik darajasini pasaytiradi.
+Shaffoflik (Verifiability) darajasi bo‘yicha: Shveytsariya va Helios tizimlarida End-to-end verifiability (E2E) mexanizmi yuqori darajada amalga oshirilgan. Bu har bir saylovchi o‘z ovozi to‘g‘ri qayd etilganini va hisoblanganini mustaqil tekshirish imkonini beradi. Estoniya tizimida esa bu mexanizm yetarli emasligi katta tanqidga sabab bo‘lmoqda. Bu omil saylov natijalariga bo‘lgan ishonchni sezilarli darajada belgilaydi.
+Xavfsizlik darajasi bo‘yicha: Braziliya EVM tizimi internetga ulanmaganligi sababli yuqori xavfsizlik darajasiga ega deb baholanadi. Shveytsariya ham kuchli kriptografik himoyaga ega. Aksincha, Voatz platformasi ilmiy tadqiqotlarda bir necha bor zaifliklari aniqlangani uchun past baholangan.
+Afzalliklari va kamchiliklari bo‘yicha: Estoniya (i-Voting) - eng muvaffaqiyatli ommaviy qo‘llash tajribasiga ega. Lekin xavfsizlik bo‘yicha jiddiy tanqidlar mavjud. Shveytsariya - xavfsizlik va shaffoflik bo‘yicha yetakchi, ammo tizim murakkab va qimmat. Braziliya - eng katta miqyosda qo‘llaniladigan tizim. Tezlik va oddiylikda ustunlikka ega, lekin qog‘oz iz (paper trail) yo‘qligi katta muammo. Voatz - mobil qulaylikni ta’minlaydi, ammo xavfsizlik zaifligi tufayli keng qo‘llash uchun tavsiya etilmaydi. Helios - ilmiy va kichik loyihalar uchun ideal, lekin milliy miqyosda mos emas.
+Har bir tizimda muayyan ustunlik va kamchiliklar mavjud. Xavfsizlik va qulaylik o‘rtasida muvozanatni topish eng qiyin masala bo‘lib qolmoqda. End-to-End Verifiability mexanizmi bo‘lmagan tizimlar (Estoniya) fuqarolar ishonchini to‘liq qozona olmayapti. Ofline ishlaydigan tizimlar (Braziliya) xavfsizlik jihatidan kuchliroq, ammo real vaqtdagi natijalar va masofaviy ovoz berish imkoniyatidan mahrum. Ochiq kodli yechimlar (Helios, Shveytsariya) shaffoflikni oshiradi, lekin katta miqyosda qo‘llash qiyin.
+1.3-jadval. Platformalarning xavfsizlik va foydalanish ko‘rsatkichlari.
+Mezon	Estoniya	Shveytsariya	Braziliya	AQSH
+End-to-End Verifiability	Yo‘q	Mavjud	Qisman	Qisman
+Internetga bog‘liqlik	To‘liq	To‘liq	Yo‘q	To‘liq
+Bir saylovdagi ovoz berish	40-50%	10-20%	100%	Sinov
+Xarajat samaradorligi	Yuqori	O‘rta	Yuqori	Past
+Fuqarolar ishonchi	Yuqori	Yuqori	Yuqori	O‘rta
+
+Ushbu jadval mavjud elektron ovoz berish platformalarini xavfsizlik, foydalanish darajasi va amaliy samaradorlik nuqtai nazaridan solishtirish imkonini beradi. Jadvalni chuqur tahlil qilish orqali har bir tizimning real kuchli va zaif tomonlarini aniq ko‘rish mumkin.
+End-to-End Verifiability (E2E) mexanizmi bo‘yicha: Eng yaxshi ko‘rsatkich Shveytsariya tizimida kuzatiladi. Bu mexanizm saylovchiga o‘z ovozi butun jarayon davomida to‘g‘ri saqlanganini va hisoblanganini mustaqil tekshirish imkonini beradi. Estoniya tizimida bu mexanizm mavjud emas, bu esa eng katta tanqidiy nuqtalardan biri hisoblanadi. Braziliya va Voatz da qisman mavjud, ammo to‘liq emas.
+Internetga bog‘liqlik bo‘yicha: Braziliya EVM tizimi internetdan butunlay mustaqil (ofline) ishlashi bilan ajralib turadi. Bu esa kiberxavfsizlik xavfini keskin kamaytiradi. Qolgan uchala tizim (Estoniya, Shveytsariya, Voatz) to‘liq internetga bog‘liq bo‘lib, bu ularni masofaviy hujumlar xavfiga duchor qiladi.
+Bir saylovdagi real ovoz berish foizi bo‘yicha: Estoniya eng yuqori natijani ko‘rsatmoqda - 40-50%. Bu tizimning fuqarolar tomonidan qanchalik qulay qabul qilinganligini isbotlaydi. Braziliya 100% qamrovga ega, chunki butun mamlakat bo‘ylab majburiy tarzda qo‘llaniladi. Shveytsariya da faqat 10-20% ni tashkil etadi, bu tizimning murakkabligi va cheklangan qo‘llanishi bilan bog‘liq.
+Xarajat samaradorligi bo‘yicha: Estoniya va Braziliya yuqori samaradorlikka ega. Ular uzoq muddatda katta iqtisodiy foyda keltiradi. Voatz esa past samaradorlikni ko‘rsatmoqda, chunki mobil ilova va blockchain infratuzilmasi qimmatga tushadi.
+Fuqarolar ishonchi bo‘yicha: Estoniya, Shveytsariya va Braziliya fuqarolari o‘z tizimlariga yuqori ishonch bildirishadi. Voatz da ishonch darajasi o‘rtacha, chunki bir necha mustaqil tadqiqotlarda jiddiy zaifliklar aniqlangan.
+Umumiy baho va xulosalar. Eng muvozanatli tizim - Shveytsariya e-Voting tizimi hisoblanadi. U xavfsizlik va shaffoflik bo‘yicha yetakchi, ammo qimmat va murakkab. Eng ommabop tizim - Estoniya i-Voting. Fuqarolar qulayligi va qo‘llash darajasi bo‘yicha yetakchi, lekin xavfsizlikda zaif tomonlari bor. Eng xavfsiz (lekin cheklangan) tizim - Braziliya EVM. Internetga ulanmaganligi katta afzallik, ammo masofaviy ovoz berish imkoniyati yo‘q. Eng zaif tizim - Voatz. Mobil qulaylikka ega bo‘lsa-da, xavfsizlik va ishonch masalalarida yetarli emas.
+VoteSecure loyihasi uchun chiqarilgan asosiy saboqlar: Xavfsizlik va shaffoflikni birinchi o‘ringa qo‘yish (Shveytsariya tajribasi). Fuqarolar uchun yuqori qulaylikni ta’minlash (Estoniya tajribasi). Ofline va onlayn rejimlarning muvozanatini saqlash (Braziliya tajribasi). End-to-End Verifiability mexanizmini kuchaytirish. Fuqarolar ishonchini oshirish uchun ochiqlik va audit mexanizmlarini joriy etish.
+Ushbu jadval tahlili shuni ko‘rsatadiki, hech bir mavjud platforma barcha talablarni bir vaqtda to‘liq qondira olmaydi. Shu sababli VoteSecure loyihasida mavjud tizimlarning eng yaxshi tomonlarini birlashtirgan holda, ularning kamchiliklarini bartaraf etishga alohida e’tibor qaratildi.
+Dunyodagi mavjud platformalarning tahlili shuni ko‘rsatadiki, hozirgi yechimlarning hech biri to‘liq mukammal emas. Estoniya tajribasi qulaylikni, Shveytsariya esa xavfsizlikni namoyon etadi. Biroq ko‘pchilik tizimlarda quyidagi umumiy muammolar kuzatiladi:
+Xavfsizlik va qulaylik o‘rtasidagi muvozanatni topish qiyinligi. End-to-End Verifiability mexanizmining yetarli emasligi. Davlat darajasidagi hujumlar xavfi. Fuqarolarning ishonchini to‘liq qozolmaslik.
+O‘zbekiston sharoitida mavjud tizimlarning kamchiliklarini hisobga olgan holda, VoteSecure loyihasida yuqori darajadagi kriptografik anonimlik (AES-128 + SHA-256), real vaqtdagi monitoring, audit jurnali va Row Level Security mexanizmlari joriy etildi. Bu mavjud platformalarning kuchli tomonlarini birlashtirgan va O‘zbekiston huquqiy hamda texnik talablariga moslashtirilgan yondashuvdir.
+Mavjud onlayn ovoz berish platformalarining tahlili shuni ko‘rsatadiki, elektron saylov tizimi yaratishda xavfsizlik, shaffoflik va foydalanuvchi qulayligi o‘rtasidagi muvozanat eng muhim masala hisoblanadi. Ushbu tahlil VoteSecure loyihasini yanada takomillashtirish va O‘zbekiston uchun optimal yechim ishlab chiqishda asos bo‘ldi.
+1.3. Veb-texnologiyalar, arxitektura va UX dizayn yondashuvlari
+Zamonaviy veb-ilovalarni ishlab chiqishda texnologiyalarni to‘g‘ri tanlash, tizim arxitekturasini samarali loyihalash va foydalanuvchi tajribasini (UX/UI) yuqori darajada ta’minlash muvaffaqiyatning asosiy omillaridan biridir. VoteSecure onlayn saylov platformasini yaratishda ham shu jihatlar alohida e’tibor bilan ko‘rib chiqildi. Ushbu bo‘limda loyihada qo‘llanilgan veb-texnologiyalar, tizim arxitekturasi va UX dizayn yondashuvlari batafsil tahlil qilinadi.
+Veb-texnologiyalar tanlovi va uni asoslash. VoteSecure loyihasining frontend qismi zamonaviy va samarali texnologiyalar asosida qurilgan. Asosiy texnologik stack quyidagilardan iborat:
+React.js + TypeScript - Foydalanuvchi interfeysini yaratish uchun asosiy kutubxona hisoblanadi. TypeScript loyihani xavfsizroq va masshtablanadigan shaklga olib keladi. Vite - Tez fursatdagi build va development muhiti uchun. Tailwind CSS - Tez va moslashuvchan dizayn tizimi. Framer Motion - Sifatli animatsiyalar va foydalanuvchi interaksiyasi uchun juda mos keladi. Recharts - Real vaqtdagi statistik diagrammalar uchun.
+Backend va ma’lumotlar bazasi tomonida esa Supabase platformasi (PostgreSQL + Auth + Realtime + Storage) tanlandi. Bu yondashuv klassik backend server (Node.js + Express) ga nisbatan bir qator afzalliklarga ega: serverless arxitektura, avtomatik real-time yangilanishlar va kuchli xavfsizlik vositalari.
+1.4.-jadval. Loyihada qo‘llanilgan texnologiyalar va ularning asoslanishi
+Texnologiya	Qo‘llanish joyi	Asosiy afzalliklari	Muqobil variantlar
+React + TypeScript	Frontend	Komponentli arxitektura, xavfsizlik, masshtablanish	Vue.js, Angular
+Tailwind CSS	Dizayn va stilizatsiya	Tez ishlash, moslashuvchanlik, kichik bundle hajmi	Bootstrap, Material-UI
+Supabase	Backend + Database + Auth	Serverless, real-time, oson integratsiya	Firebase, Node.js + PostgreSQL
+Framer Motion	Animatsiyalar	Yuqori sifatli animatsiyalar, oddiy sintaksis	React Spring
+Recharts	Statistikalar va diagrammalar	Real-time ma’lumotlar uchun qulay	Chart.js, ApexCharts
+Vercel	Deployment	Tez deploy, avtomatik scaling	Netlify, AWS Amplify
+
+Ushbu jadval loyihada qo‘llanilgan texnologik stackni tizimli ravishda ko‘rsatadi va har bir texnologiyaning tanlanish sabablarini asoslab beradi. Jadvalni tahlil qilish orqali loyihaning texnologik jihatdan zamonaviy, samarali va moslashtirilgan ekanligini ko‘rish mumkin.
+React.js + TypeScript React loyihaning asosiy frontend kutubxonasi sifatida tanlangan. TypeScript bilan birgalikda u kodning xavfsizligini oshiradi, xatolarni oldini oladi va katta loyihalarni boshqarishni osonlashtiradi. Bu tanlov loyihaning kelajakda kengaytirilishi (mobil ilova, qo‘shimcha modulalar) uchun mustahkam asos yaratadi.
+Vite Vite klassik Create React App yoki Webpackga nisbatan ancha tez bo‘lgan build va development muhitini ta’minlaydi. Bu ishlab chiqish jarayonini sezilarli darajada tezlashtirdi va loyihaning umumiy samaradorligini oshirdi.
+Tailwind CSS Tailwind CSS tanlanishi loyihada zamonaviy, toza va moslashuvchan dizaynni tez yaratish imkonini berdi. An’anaviy CSS frameworklariga (Bootstrap) nisbatan bundle hajmi kichik bo‘lib, sahifalar tezroq yuklanadi.
+Framer Motion animatsiyalar va foydalanuvchi interaktsiyalarini yuqori sifatda bajarish uchun ishlatilgan. Bu tizimni nafaqat funksional, balki vizual jihatdan ham jozibali va professional qilishga yordam berdi.
+Recharts - administrator paneli va natijalar sahifasida real-time diagrammalar yaratish uchun eng mos kutubxona tanlangan. Oddiy sintaksisi va React bilan mukammal integratsiyasi tufayli afzallikka ega.
+Supabase - loyiha uchun eng muhim tanlovlardan biri. Supabase serverless yondashuv, PostgreSQL, autentifikatsiya, real-time va xavfsizlik vositalarini bir joyda taqdim etadi. Bu klassik backend (Node.js + Express) ga nisbatan vaqt va resurslarni tejash imkonini berdi.
+Vercel Frontendni joylashtirish uchun eng optimal platforma tanlangan. Avtomatik deploy, global CDN va yuqori ishlash tezligi Vercelni tanlashning asosiy sabablari bo‘ldi.
+Umumiy xulosalar: Texnologik zamonaviylik - barcha tanlangan texnologiyalar 2025 yil holatiga ko‘ra eng dolzarb va ilg‘or hisoblanadi. Muvozanat - loyihada tezlik (Vite, Tailwind), xavfsizlik va ishonchlilik (TypeScript, Supabase), hamda foydalanuvchi tajribasi (Framer Motion, Recharts) muvozanati yaxshi saqlangan. Masshtablanish imkoniyati - Tanlangan stack loyihani kelajakda kengaytirish (mobil ilova, qo‘shimcha funksiyalar) uchun juda qulay. Samaradorlik - Serverless yondashuv (Supabase + Vercel) infratuzilma xarajatlarini keskin kamaytirdi va ishlab chiqish muddatini qisqartirdi.
+Ushbu texnologik tanlov loyihani nafaqat hozirgi vaqtda yuqori darajada ishlashini ta’minlaydi, balki O‘zbekiston sharoitida elektron saylov tizimini professional va barqaror platforma sifatida yaratishga yordam beradi. Jadvaldan ko‘rinib turibdiki, har bir texnologiya aniq maqsad va ehtiyoj asosida tanlangan bo‘lib, bu loyihaning umumiy sifati va samaradorligini oshirgan.
+Tizim arxitekturasi. VoteSecure Client-Server arxitekturasida qurilgan bo‘lib, asosiy e’tibor serverless yondashuvga qaratilgan. Bu arxitektura quyidagi afzalliklarni beradi: Yuqori masshtablanish imkoniyati. Past infratuzilma xarajatlari. Real-time ma’lumotlar almashinuvi (WebSocket orqali).
+Asosiy qatlamlar: Presentation Layer (Frontend) - Foydalanuvchi brauzerida ishlaydi. Application Layer - Supabase Edge Functions va React komponentlari. Data Layer - PostgreSQL bazasi bilan birga Row Level Security (RLS) va Real-time subscription lar.
+Tizimda MVC (Model-View-Controller) tamoyillari qisman qo‘llanilgan: React komponentlari View va Controller vazifasini bajaradi, Supabase esa Model va ma’lumotlar logikasini boshqaradi.
+1.5-jadval. VoteSecure tizimining arxitektura qatlamlari
+Qatlam	Texnologiya	Asosiy vazifalar	Xavfsizlik choralari
+Frontend (Client)	React, TypeScript, Tailwind	Foydalanuvchi interfeysi, real-time yangilanish	Input validation, HTTPS
+Backend / API	Supabase (PostgreSQL)	Autentifikatsiya, CRUD operatsiyalari	RLS, JWT, Rate Limiting
+Ma’lumotlar bazasi	PostgreSQL + Supabase	Ma’lumotlar saqlash, shifrlash	AES-128, SHA-256 hashing
+Real-time Layer	Supabase Realtime (WebSocket)	Jonli natijalar va bildirishnomalar	Authenticated channels
+Deployment	Vercel + Supabase	Loyihani joylashtirish va monitoring	CDN, DDoS himoyasi
+
+UX/UI dizayn yondashuvlari. VoteSecure loyihasida foydalanuvchi tajribasi (UX) va interfeys dizayni (UI) alohida ahamiyatga ega, chunki saylov jarayoni oddiy, tez va ishonchli bo‘lishi kerak.
+Asosiy UX yondashuvlari: Mobile-First - tizim birinchi navbatda mobil qurilmalar uchun optimallashtirildi. Minimalizm va Intuitivlik - foydalanuvchi 3 bosqichdan oshmasdan ovoz berishi mumkin. Accessibility (WCAG 2.1 AA) - rang kontrasti, ekran o‘quvchilar uchun moslik, klaviatura navigatsiyasi. Real-time Feedback - ovoz bergandan keyin darhol tasdiqlash va toast bildirishnomalar uchn javob beradi. Shaffoflik - har bir sahifada anonimlik va xavfsizlik haqida aniq ma’lumotlar aks etadi.
+Dizayn tamoyillari: Clean va modern interfeys. Dark/Light mode qo‘llab-quvvatlash. Progress indicator va countdown timer. Hover effektlari va silliq animatsiyalar (Framer Motion).
+1.6-jadval. UX dizayn mezonlari va natijalari
+UX Mezoni	Tavsif	Qo‘llanilgan yondashuv	Natija
+Foydalanish qulayligi	Ovoz berish jarayoni bosqichlari	3 bosqichli jarayon	Yuqori
+Mobil moslashuvchanlik	Har xil qurilmalarda ko‘rinish	Tailwind Responsive dizayn	To‘liq moslashuvchan
+Yuklanish tezligi	Sahifalar yuklanish vaqti	Vite + Code Splitting	< 1 soniya
+Accessibility	WCAG standartlari	ARIA labels, kontrast	AA darajasi
+Foydalanuvchi ishonchi	Xavfsizlik haqida bildirishnomalar	Toast + vizual indikatorlar	Yuqori ishonch
+Real-time tajriba	Natijalarni jonli kuzatish	Supabase Realtime	Excellent
+
+VoteSecure loyihasida qo‘llanilgan veb-texnologiyalar, arxitektura va UX dizayn yondashuvlari zamonaviy talablarga to‘liq javob beradi. React + Supabase kombinatsiyasi tez fursatda rivojlantirish, yuqori xavfsizlik va real-time funksiyalarni birlashtirishga imkon berdi. Tailwind CSS va Framer Motion orqali esa foydalanuvchi tajribasi yuqori darajada ta’minlandi. Ushbu yondashuv nafaqat hozirgi loyihani samarali amalga oshirishga, balki kelajakda tizimni kengaytirish va takomillashtirishga ham katta imkoniyat yaratdi.
+Ushbu texnologik tanlov O‘zbekiston sharoitida elektron saylov tizimini ishlab chiqishda eng optimal yechim bo‘ldi.
+1.4. Zamonaviy veb-interfeyslarning dizayn tamoyillari va foydalanuvchi tajribasi (UX/UI) talablari
+Zamonaviy kibermakonda veb-saytlar va raqamli platformalar shunchaki ma’lumot tarqatuvchi statik sahifalar bo‘lishdan to‘liq to‘xtadi. Bugungi kunda veb-interfeys foydalanuvchi bilan brend, xizmat yoki davlat organi o‘rtasidagi interaktiv muloqot tizimiga aylandi. Shu sababli, zamonaviy veb-interfeyslarni loyihalashda dizayn tamoyillari va foydalanuvchi tajribasi (UX/UI) talablariga rioya qilish raqamli mahsulotning muvaffaqiyatini belgilovchi eng asosiy omil hisoblanadi. UI (User Interface) - bu foydalanuvchi ko‘rib turgan vizual qatlam, ya’ni ranglar, shriftlar, tugmalar va piktogrammalardir. UX (User Experience) esa foydalanuvchining ushbu interfeys bilan muloqot qilish jarayonida oladigan hissiy va mantiqiy tajribasi, tizimning qanchalik qulay va tushunarli ekanligidir. Bu ikki tushuncha bir-biri bilan uzviy bog‘liq bo‘lib, ulardan birini e’tiborsiz qoldirish butun tizimning samarasiz bo‘lishiga olib keladi.
+Foydalanuvchi tajribasini (UX) shakllantirishda eng birinchi poydevor bu intuitsiyaga asoslangan navigatsiya tizimidir. Saytga birinchi marta kirgan foydalanuvchi o‘ziga kerakli ma’lumotni yoki funksiyani qidirish uchun ortiqcha vaqt sarflamasligi kerak. Zamonaviy UX dizaynda “uch marta bosish” qoidasi mavjud bo‘lib, unga ko‘ra foydalanuvchi har qanday kerakli sahifaga asosiy sahifadan boshlab ko‘pi bilan uchta harakat orqali yetib borgani ma’qul. Navigatsiya menyusi aniq guruhlangan, tugmalar mantiqiy joylashgan va qidiruv tizimi intellektual yordamchilar bilan boyitilgan bo‘lishi talab etiladi. Agar foydalanuvchi tizim ichida adashib qolsa yoki navigatsiya juda chalkash bo‘lsa, u saytni darhol tark etadi va osonroq alternativ variantlarni qidirishga o‘tadi. Navigatsiyaning soddaligi foydalanuvchining raqamli muhitdagi xavfsizlik va barqarorlik hissini oshiradi.
+Vizual ierarxiya tamoyili UI dizaynning eng muqaddas qoidalaridan biridir. Inson ko‘zi ekrandagi ma’lumotlarni ma’lum bir qonuniyat asosida o‘qiydi. Odatda, G‘arb va Markaziy Osiyo madaniyatida bu harakat chapdan o‘ngga va yuqoridan pastga qarab, ya’ni “F-shakli” yoki “Z-shakli” traektoriyasi bo‘yicha kechadi. Dizayner ushbu qonuniyatdan foydalanib, eng muhim elementlarni — sarlavhalar, aksiyaga chorlovchi tugmalar (Call to Action — CTA) va asosiy xabarlarni foydalanuvchining ko‘zi birinchi bo‘lib tushadigan nuqtalarga joylashtirishi kerak. Elementlarning o‘lchami, rangi va shrift qalinligi orqali vizual ierarxiya yaratiladi. Masalan, eng asosiy sarlavha yirik va to‘q rangda, ikkinchi darajali ma’lumotlar esa kichikroq va ochroq rangda bo‘lishi foydalanuvchiga matn strukturasini bir qarashda anglashga yordam beradi.
+Grafik dizaynda “salbiy bo‘shliq” (Negative Space yoki White Space) deb ataluvchi tushuncha mavjud. Ko‘pchilik buni saytdagi isrof qilingan joy deb o‘ylaydi, biroq zamonaviy minimalizm dizaynida bu element diqqatni jamlashning eng kuchli vositasidir. Elementlar orasidagi bo‘shliqlar interfeysning “nafas olishiga” imkon beradi. Agar ekran matnlar, rasmlar va tugmalar bilan haddan tashqari zich to‘ldirib tashlansa, foydalanuvchining miyasi vizual yuklamani (cognitive load) ko‘tara olmaydi va charchaydi. Salbiy bo‘shliq yordamida dizayner muhim ob’ektlarni ajratib ko‘rsatadi, matnlarning o‘qilishini osonlashtiradi va umumiy interfeysga professional, qulay va qimmatbaho ko‘rinish baxsh etadi. Soddalik va ortiqcha bezaklardan qochish zamonaviy interfeyslarning bosh mezonidir.
+Ranglar psixologiyasi va ulardan to‘g‘ri foydalanish ham UI dizaynning ajralmas qismidir. Ranglar shunchaki estetik bezak emas, ular brendning xarakterini ochib beradi va foydalanuvchida muayyan hissiyotlarni uyg‘otadi. Masalan, ko‘k rang ishonch, xavfsizlik va professionallikni ifodalagani uchun moliya va bank tizimlarida ko‘p ishlatiladi. Yashil rang salomatlik, tabiat va ekologiya bilan bog‘lansa, qizil rang energiya, e’tibor va favqulodda vaziyatlarni bildiradi. Zamonaviy interfeyslarda 60-30-10 qoidasiga amal qilinadi: sahifaning 60 foizini asosiy neytral rang (ko‘pincha oq yoki och kulrang), 30 foizini ikkinchi darajali tizim rangi va faqatgina 10 foizini eng muhim elementlarni (tugmalar, bildirishnomalar) ajratib ko‘rsatuvchi aksent rang tashkil etishi kerak. Bu muvozanat ko‘zni charchatishning oldini oladi.
+Tipografika, ya’ni shriftlar bilan ishlash san’ati ham zamonaviy interfeyslarda juda qat’iy talablarga ega. Shrift turi saytning yo‘nalishiga mos kelishi shart. Bugungi kunda veb-muhitda asosan chiziqlarsiz, ya’ni "Sans-Serif" (masalan, Inter, Roboto, Open Sans) shriftlaridan foydalaniladi, chunki ular turli o‘lchamdagi ekranlarda, ayniqsa smartfonlarda juda toza va oson o‘qiladi. Shriftlar o‘rtasidagi masofa (line-height) va harflararo masofa (letter-spacing) shunday sozlanishi kerakki, foydalanuvchi uzoq vaqt matn o‘qiganda ham ko‘zlari toliqmasligi lozim. Shuningdek, bitta raqamli mahsulot doirasida ikkitadan ortiq shrift turidan foydalanish tavsiya etilmaydi, aks holda interfeys o‘zining vizual yaxlitligini va tizimliligini yo‘qotadi.
+Mobil qurilmalarning ommaviylashishi natijasida zamonaviy veb-dizaynda “Mobile-First” (avvalo mobil qurilmalar uchun loyihalash) konsepsiyasi yuzaga keldi. Bugungi kunda global internet-trafikning yarmidan ko‘pi smartfonlar hissasiga to‘g‘ri keladi. Shuning uchun, interfeys dastlab kichik ekranlar uchun o‘ta qulay shaklda loyihalashtiriladi va keyinchalik planshet hamda kompyuter ekranlariga moslashtiriladi (responsive design). Adaptiv interfeys har qanday ekran o‘lchamida elementlarning joylashuvini avtomatik ravishda o‘zgartirishi, rasmlarni siqishi va tugmalarning barmoq bilan bosishga qulay o‘lchamda (kamida 44x44 piksel) bo‘lishini ta’minlashi shart. Agar sayt smartfonda noqulay ochilsa va foydalanuvchi ekranni doimiy ravishda yaqinlashtirishga majbur bo‘lsa, bu UX sohasidagi eng katta muvaffaqiyatsizlik hisoblanadi.
+Foydalanuvchi bilan qayta aloqa (feedback) va interfeysning reaksiyasi UX tamoyillarining muhim tarkibiy qismidir. Tizim foydalanuvchining har bir harakatiga vizual yoki audio javob berishi shart. Masalan, foydalanuvchi tugma ustiga kursorini olib kelganda uning rangi biroz o‘zgarishi (hover effect), tugma bosilganda esa xuddi jismoniy tugmadek ichkariga botish effekti paydo bo‘lishi interfeysning “jonli” ekanligidan dalolat beradi. Agar foydalanuvchi shaklni to‘ldirib, yuborish tugmasini bossa-yu, ekranda hech qanday o‘zgarish bo‘lmasa, u tizim ishlamayapti deb o‘ylab tugmani qayta-qayta bosa boshlaydi. Yuklanish indikatorlari, muvaffaqiyatli bajarilganlik haqidagi yashil statuslar va animatsiyalar foydalanuvchiga jarayon nazorat ostida ekanligini ko‘rsatib turadi.
+Mikro-interaksiyalar va animatsiyalar zamonaviy UI/UX dizaynga o‘zgacha joziba va yuqori sifat bag‘ishlaydi. Mikro-interaksiya — bu kichik funksional lahzalar bo‘lib, ular foydalanuvchini chalg‘itmagan holda unga yo‘l ko‘rsatadi. Masalan, bildirishnoma kelganda qo‘ng‘iroqcha belgisining biroz tebranishi, sahifani yangilash uchun pastga tortganda paydo bo‘luvchi animatsiya yoki parolni kiritishda ko‘zcha belgisini bosganda harflarning ochilishi barchasi mikro-interaksiyadir. Bunday elementlar raqamli mahsulotdan foydalanish jarayonini yoqimli va qiziqarli qiladi. Biroq, animatsiyalardan foydalanishda me’yorni bilish zarur. Haddan tashqari ko‘p va sekin ishlovchi animatsiyalar saytning yuklanish tezligini pasaytiradi va foydalanuvchining asabiga tega boshlaydi. Animatsiyalar soniyasiga 60 kadr (60fps) tezlikda, silliq va ko‘zga tashlanmaydigan darajada qisqa (200-300 millisekund) bo‘lishi kerak.
+Foydalanish imkoniyati cheklangan insonlar uchun interfeyslarni moslashtirish, ya’ni “Accessibility” (inklyuzivlik) bugungi kunda xalqaro veb-standartlarning (WCAG) qat’iy talabidir. Zamonaviy veb-interfeys barcha uchun teng imkoniyatlar yaratishi shart. Ko‘rish qobiliyati zaif insonlar uchun matn va fon o‘rtasidagi kontrastlik darajasi yuqori bo‘lishi lozim. Shuningdek, sichqonchadan foydalana olmaydigan insonlar sayt navigatsiyasini faqatgina klaviaturadagi “Tab” tugmasi orqali boshqara olishlari kerak. Rasmlarga beriladigan muqobil matnlar (alt tags) ekran o‘quvchi dasturlar uchun rasmda nima aks etganini ovozli tasvirlab berishga xizmat qiladi. Raqamli dunyoda inklyuzivlikka rioya qilish nafaqat ijtimoiy mas’uliyat, balki auditoriyani kengaytirish va qidiruv tizimlarida (SEO) yuqori o‘rinlarni egallashning ham muhim omilidir.
+Ma’lumotlar arxitekturasi (Information Architecture) interfeysni loyihalashdan oldin bajariladigan eng muhim UX bosqichidir. U ma’lumotlarni tizimlashtirish, mantiqiy guruhlash va sayt strukturasini qurish bilan shug‘ullanadi. Foydalanuvchi murakkab ma’lumotlar oqimida chalkashib ketmasligi uchun, kontent “kichik bo‘laklar” (chunking) shaklida taqdim etilishi lozim. Masalan, uzun matnlarni paragraflarga bo‘lish, ro‘yxatlardan foydalanish, muhim faktlarni bloknotlar ichiga olish ma’lumotni hazm qilishni osonlashtiradi. Tizim foydalanuvchiga faqat u ayni paytda muhtoj bo‘lgan ma’lumotni ko‘rsatishi va qolgan ikkinchi darajali funksiyalarni yashirin menyular orqali taqdim etishi kerak. Bu yondashuv interfeysning toza va tushunarli bo‘lishini ta’minlaydi.
+Xatoliklar bilan ishlash strategiyasi foydalanuvchining tizimga bo‘lgan ishonchini saqlab qolishda katta rol o‘ynaydi. Tizimda xatolik yuz berganda (masalan, ro‘yxatdan o‘tishda noto‘g‘ri pochta kiritilganda yoki internet uzilganda), interfeys foydalanuvchini ayblamasligi va uni tushunarsiz kodlar bilan yolg‘iz qoldirmasligi kerak. Xatolik xabarlari qizil rang bilan belgilanishi, muammo aynan qayerda ekanligi aniq ko‘rsatilishi va eng muhimi — ushbu muammoni qanday hal qilish bo‘yicha aniq yo‘riqnoma berilishi shart. Yaxshi loyihalashtirilgan 404 sahifasi (sahifa topilmaganda) foydalanuvchiga adashib qolganini tushuntirib, uni darhol asosiy sahifaga qaytaruvchi tugmani taqdim etishi, foydalanuvchining salbiy hissiyotlarini ijobiy tomonga o‘zgartirishga yordam beradi.
+Zamonaviy veb-interfeyslarni yaratish jarayoni doimiy testdan o‘tkazish va tahlil qilishni talab etadi. Dizayn hech qachon shunchaki taxminlarga asoslanib yaratilmaydi; u real foydalanuvchilarning xulq-atvorini o‘rganish (UX Research) orqali shakllanadi. Buning uchun A/B testlar o‘tkaziladi, ya’ni interfeysning ikki xil varianti foydalanuvchilarga ko‘rsatilib, ulardan qaysi biri ko‘proq natija berishi aniqlanadi. Issiqlik xaritalari (Heatmaps) yordamida foydalanuvchilar saytning qaysi qismlariga ko‘proq bosayotgani va qayerda qiyinchilikka uchrayotgani vizual tahlil qilinadi. Ushbu tahlillar asosida interfeys doimiy ravishda takomillashtirib boriladi. Raqamli mahsulot foydalanuvchining ehtiyojlariga qanchalik moslashsa, uning bozordagi raqobatbardoshligi shunchalik yuqori bo‘ladi.
+Veb-interfeysning yuklanish tezligi ham bevosita foydalanuvchi tajribasiga (UX) daxldordir. Dunyodagi eng go‘zal UI dizayn ham, agar u 5 soniyadan ko‘p vaqt davomida yuklansa, o‘z qiymatini yo‘qotadi. Zamonaviy tadqiqotlarga ko‘ra, foydalanuvchilarning katta qismi 3 soniyadan ortiq yuklanadigan saytlarni kutmasdan yopib yuborishadi. Dizaynerlar rasmlarni optimallashtirishlari, ortiqcha og‘ir skriptlardan qochishlari va interfeys elementlarini kod bilan to‘g‘ri integratsiya qilishlari shart. Sahifaning skelet yuklanishi (skeleton screens), ya’ni kontent paydo bo‘lishidan oldin uning umumiy shakli kulrang bloklar holida ko‘rinib turishi, foydalanuvchiga sayt tez yuklanayotgandek psixologik hissiyot beradi va kutish vaqtidagi zerikishni kamaytiradi.
+Zamonaviy veb-interfeyslarning dizayn tamoyillari va UI/UX talablari shunchaki qoliplar to‘plami emas, balki foydalanuvchiga g‘amxo‘rlik qilish va uning raqamli sayohatini maksimal darajada osonlashtirish falsafasidir. Mukammal UI dizayn foydalanuvchini vizual go‘zallik, ranglar mutanosibligi va aniq ierarxiya bilan o‘ziga jalb qilsa, professional UX dizayn uni tizim ichida xavfsiz, erkin va adashmasdan harakatlanishini ta’minlaydi. Intuitiv navigatsiya, minimalizm, Mobile-First yondashuvi, inklyuzivlik standartlari va tezkor aloqa reaksiyalarining birlashishi foydalanuvchining tizimga bo‘lgan sodiqligini va raqamli mahsulotning uzoq muddatli muvaffaqiyatini kafolatlovchi eng asosiy omillardir.
+1.5. Onlayn ovoz berish tizimlarida xavfsizlik, ishonchlilik va vizual ishonch elementlarini interfeys orqali ta’minlash
+Onlayn ovoz berish tizimlari zamonaviy davlat boshqaruvi va raqamli demokratiyaning eng murakkab, shu bilan birga eng istiqbolli yo‘nalishlaridan biri hisoblanadi. An’anaviy saylov tizimlaridan farqli o‘laroq, raqamli platformalarda ovoz berish jarayoni jismoniy nazorat doirasidan tashqarida amalga oshiriladi. Oddiy qog‘ozli saylovlarda fuqaro o‘z byulletenini saylov qutisiga tashlaydi va bu jarayonni o‘z ko‘zi bilan ko‘radi. Onlayn tizimlarda esa butun jarayon serverlar, ma’lumotlar uzatish kabellari va ko‘zga ko‘rinmas kriptografik algoritmlar ichida kechadi. Aynan mana shu uzilish foydalanuvchilarda psixologik tushunmovchilik va shubha uyg‘otishi mumkin. Shuning uchun, onlayn ovoz berish tizimlarining foydalanuvchi interfeysi shunchaki chiroyli dizaynga ega dastur bo‘lib qolmasdan, balki xavfsizlik va ishonchlilik kabi murakkab backend mexanizmlarini oddiy insonga tushunarli tilda vizualizatsiya qilib beruvchi asosiy ko‘prik vazifasini o‘tashi zarur. Interfeys dizayni tizim xavfsizligining vizual kafolatiga aylanishi shart.
+Raqamli ovoz berish platformalarida eng birinchi va eng muhim to‘siq bu foydalanuvchi shaxsini aniqlash (autentifikatsiya) jarayonidir. Interfeys foydalanuvchini tizimga kiritish bosqichida xavfsizlik va qulaylik o‘rtasidagi oltin muvozanatni topishi lozim. Agar kirish jarayoni juda murakkab bo‘lsa, saylovchi charchab, ovoz berishdan voz kechishi mumkin. Agar haddan tashqari sodda bo‘lsa, tizimning jiddiyligi va xavfsizligiga bo‘lgan ishonch yo‘qoladi. Tizim interfeysida ikki faktorli autentifikatsiya, biometrik yuzni tanish (Face ID) yoki elektron raqamli imzo elementlarining bosqichma-bosqich, tushunarli tarzda taqdim etilishi foydalanuvchida jarayonning oliy darajada himoyalanganligi haqidagi dastlabki mustahkam tasavvurni shakllantiradi. Kirish sahifasida ma’lumotlar shifrlanayotgani haqidagi vizual belgilar, masalan, yopiq qulf belgilari yoki xavfsizlik shildlari joylashtirilishi foydalanuvchining kiberfazo haqidagi qo‘rquvlarini kamaytirishga xizmat qiladi.
+Axborot xavfsizligi nuqtai nazaridan, interfeys foydalanuvchini faqatgina harakatlantiruvchi vosita emas, balki uni o‘qituvchi va himoya qiluvchi tizim hamdir. Foydalanuvchi tizimga kirgan zahoti, interfeys unga kibergigiyena qoidalarini eslatishi kerak. Masalan, brauzerning manzillar satrida xavfsiz HTTPS protokoli mavjudligini qanday tekshirish kerakligi, uchinchi shaxslar ekran tarkibini ko‘rib turmaganiga ishonch hosil qilish zarurligi haqida qisqa va aniq vizual eslatmalar ko‘rsatiladi. Bu choralar foydalanuvchining firibgarlik maqsadida yaratilgan soxta (fishing) sahifalarga tushib qolishining oldini oladi. Tizim foydalanuvchiga uning qurilmasi va internet aloqasi xavfsiz ekanligini diagnostika orqali vizual tarzda ko‘rsatib berishi, saylovchining platformaga bo‘lgan subyektiv ishonchini bir necha barobarga oshiradi.
+Tizimning texnik ishonchliligi foydalanuvchi interfeys bilan bevosita muloqot qilganda yaqqol namoyon bo‘ladi. Onlayn ovoz berish jarayonida har bir tugmaning bosilishi, sahifalarning o‘tishi va ma’lumotlarning yuklanishi real vaqt rejimida aniq va tezkor vizual javob (feedback) bilan kechishi shart. Har qanday tushunarsiz qotib qolish, tizimning sekin ishlashi yoki ekranning oqarib qolishi foydalanuvchida “mening ovozim xato ketdi” yoki “tizim buzildi” degan jiddiy vahimani keltirib chiqaradi. Shuning uchun dasturchilar interfeysda yuklanish jarayonlarini (loaders) shunchaki aylanuvchi doira shaklida emas, balki “Ma’lumotlar xavfsiz kanallar orqali uzatilmoqda”, “Ovoz shifrlanmoqda” kabi tushunarli matnli animatorlar bilan boyitishlari lozim. Bu usul texnik kutish vaqtini shaffof va tushunarli jarayonga aylantiradi.
+Jarayonning ishonchliligini vizual ta’minlashda bosqichma-bosqich harakatlanish indikatorlari (steppers) juda katta ahamiyatga ega. Foydalanuvchi tizimga kirgandan boshlab to ovoz berish yakunlangunga qadar necha bosqichdan o‘tishi kerakligini ekranning yuqori qismida doimiy ravishda ko‘rib turishi zarur. Masalan, shaxsni tasdiqlash, nomzod bilan tanishish, tanlovni amalga oshirish va yakuniy tasdiqlash kabi qadamlar vizual zanjir shaklida ko‘rsatiladi. Bu zanjir foydalanuvchiga jarayon ustidan to‘liq nazorat hissini beradi. Saylovchi o‘zining ayni paytda qaysi nuqtada turganini va oldinda uni nima kutayotganini aniq bilganda, adashib qolish yoki tasodifan noto‘g‘ri tugmani bosib yuborish xavfidan xotirjam bo‘ladi.
+Ovoz berishning eng muhim va hal qiluvchi pallasi — bu tanlov tugmasini bosish va uni tasdiqlash bosqichidir. Interfeys dizaynida tasodifiy xatoliklarni minimallashtirish uchun ikki bosqichli tasdiqlash tizimi joriy etilishi kerak. Foydalanuvchi muayyan nomzodni tanlagandan so‘ng, tizim unga darhol yakuniy natijani ko‘rsatmaydi. Ekranda “Siz haqiqatdan ham ushbu nomzodga ovoz bermoqchimisiz?” degan qo‘shimcha oyna (popup) paydo bo‘lib, unda foydalanuvchining tanlovi yirik va aniq shriftda ko‘rsatiladi. Ushbu oynada tanlovni o‘zgartirish va orqaga qaytish imkoniyati hamda yakuniy yuborish tugmasi mutlaqo farqli vizual shakllarda berilishi lozim. Bu saylovchining o‘z qarorini anglagan holda, xatosiz qabul qilishini kafolatlaydi.
+Vizual ishonch tushunchasi psixologik darajada ranglar va shriftlar arxitekturasi bilan uzviy bog‘liqdir. Onlayn ovoz berish platformalari tijorat saytlari yoki ko‘ngilochar dasturlardan tubdan farq qilishi kerak. Ranglar palitrasida neytrallik, barqarorlik va rasmiylik ustun bo‘lishi lozim. Jahon amaliyotida davlat va jamoat ahamiyatiga molik tizimlarda asosan to‘q ko‘k, kulrang, yashil va oq ranglar kombinatsiyasidan foydalaniladi. To‘q ko‘k rang psixologik jihatdan tartib va ishonchni ifodalaydi, yashil rang esa muvaffaqiyat va xavfsizlik belgisidir. Qizil, sariq yoki o‘ta yorqin neon ranglardan qochish kerak, chunki ular foydalanuvchida signal, xavf yoki reklama illyuziyasini uyg‘otishi va diqqatni jamlashga xalaqit berishi mumkin.
+Interfeys dizaynining eng muqaddas qoidalaridan biri — bu betaraflik va tenglik tamoyilidir. Ekranda taqdim etilayotgan barcha variantlar yoki nomzodlar mutlaqo teng vizual sharoitda joylashtirilishi shart. Har bir nomzodning ismi-sharifi, partiyasi yoki dasturi yozilgan bloklar bir xil o‘lchamda, bir xil shrift turida va bir xil masofada joylashishi lozim. Agar biron bir nomzodning bloki vizual ravishda qalinroq shrift bilan ajratilsa, uning rasmi kattaroq bo‘lsa yoki fon rangi boshqacharoq bo‘lsa, bu narsa foydalanuvchi ongosti darajasida tizimning ayni shu nomzodga nisbatan xayrixohligi sifatida talqin qilinadi. Bunday xatolik butun saylov tizimining qonuniyligi va adolatiga bo‘lgan ishonchni bir lahzada yo‘qqa chiqarishi hech gap emas. Shuningdek, nomzodlar ro‘yxatining har bir foydalanuvchi uchun tasodifiy tartibda (randomizatsiya) almashib chiqishi ham interfeys betarafligini ta’minlashning ilg‘or usullaridan biridir.
+Zamonaviy onlayn ovoz berish tizimlarida ishonchlilikni eng yuqori cho‘qqiga olib chiquvchi texnologiya bu oxirigacha tekshiriluvchanlik (end-to-end verifiability) modelidir. Ushbu mexanizm saylovchiga o‘z ovozining tizim tomonidan o‘zgartirilmasdan ma’lumotlar bazasiga yetib borganini va umumiy hisobda to‘g‘ri inobatga olinganini tekshirish imkonini beradi. Biroq, bu jarayon juda murakkab matematik va kriptografik formulalarga asoslangan bo‘ladi. Interfeys dizaynerlarining mahorati aynan mana shu murakkablikni oddiy fuqaroga tushunarli qilib yetkazishda namoyon bo‘ladi. Ovoz berish jarayoni yakunlanganda, ekranda foydalanuvchiga uning ovozini ifodalovchi maxsus kriptografik xesh-kod yoki shaxsiylashtirilgan QR-kod taqdim etiladi. Interfeys ushbu kodning anonim ekanligini, u orqali hech kim saylovchining kimga ovoz berganini bila olmasligini, lekin ovozning o‘zi tizimda saqlanganini tekshirish mumkinligini juda sodda yo‘riqnomalar orqali tushuntirishi kerak.
+Ushbu nazorat kodlarini tekshirish interfeysi ham alohida e’tibor bilan loyihalashtirilishi lozim. Saylovchi ushbu kodni nusxalab olib, mustaqil ochiq reyestr yoki blockchain tarmog‘i orqali o‘z ovozining holatini kuzatishi mumkin bo‘ladi. Tekshiruv sahifasi shunday tuzilishi kerakki, unda faqatgina “Ovoz qabul qilindi va hisoblandi” degan yashil status va xesh-kodning o‘zi ko‘rinishi kerak. Hech qanday holatda saylovchining shaxsiy ma’lumotlari bilan uning tanlovi bir sahifada yonma-yon ko‘rsatilmasligi shart. Bu interfeys darajasida anonimlik va maxfiylik tamoyillariga qat’iy rioya qilinayotganining vizual isbotidir. Foydalanuvchi o‘z ovozining xavfsizligini shaxsan tekshira olish imkoniga ega bo‘lganda, unda tizimning shaffofligiga nisbatan hech qanday shubha qolmaydi.
+Raqamli platformalarda ishonchni ta’minlashning yana bir muhim jihati bu tizimning barcha toifadagi fuqarolar uchun birdek tushunarli va ochiq bo‘lishidir, ya’ni raqamli inklyuzivlikdir. Davlat miqyosidagi onlayn ovoz berish tizimlaridan yosh bolalardan tortib keksa yoshdagi insonlargacha, texnik bilimi yuqori bo‘lgan dasturchilardan tortib internetdan kam foydalanadigan oddiy fuqarolargacha hamma foydalanadi. Shu sababli, interfeys o‘ta sodda, ortiqcha texnik terminlardan xoli va intuitiv bo‘lishi shart. Agar tizim interfeysi juda ko‘p texnik parametrlarga to‘la bo‘lsa, foydalanuvchi o‘zini noqulay his qiladi va xato qilib qo‘yishdan qo‘rqib, tizimga bo‘lgan ishonchini yo‘qotadi. Har bir ko‘rsatma va yo‘riqnoma qisqa gaplar bilan, lo‘nda va tushunarli qilib yozilishi kerak.
+Inklyuzivlik doirasida imkoniyati cheklangan insonlar uchun interfeys adaptatsiyasini yaratish ham ishonchlilik elementidir. Ko‘rish qobiliyati zaif bo‘lgan foydalanuvchilar uchun shrift o‘lchamini bir marta bosish orqali kattalashtirish tugmasi, yuqori kontrastli (qora va oq) rejim, shuningdek, ekran o‘quvchi dasturlar (screen readers) uchun matnlarning to‘g‘ri formatlanishi interfeysning ajralmas qismi bo‘lishi lozim. Ko‘zi ojiz insonlar uchun ovozli yo‘riqnomalar va audio-yordamchilarning mavjudligi tizimning adolatli va har bir fuqaroning ovozini qadrlashini anglatadi. Bunday universal dizayn (universal design) elementlari jamiyatda onlayn ovoz berishning ommaviylashishiga va unga nisbatan ijobiy ijtimoiy fikr shakllanishiga juda kuchli ta’sir ko‘rsatadi.
+Onlayn ovoz berish tizimlarida xatoliklar yuz berganda interfeysning o‘zini tutishi ham foydalanuvchi ishonchiga bevosita ta’sir qiladi. Hech bir tizim xatoliklardan mutlaqo sug‘urtalanmagan. Masalan, foydalanuvchining internet aloqasi uzilib qolishi yoki tizim yuklamasi ortib ketishi mumkin. Bunday vaziyatlarda interfeys foydalanuvchiga quruq va qo‘rqinchli texnik xatolik kodlarini (masalan, “Error 500” yoki “Connection Timeout”) ko‘rsatmasligi kerak. Buning o‘rniga, vaziyatni yumshoq va professional ohangda tushuntiruvchi xabarlar ko‘rsatilishi lozim. Masalan, “Internet aloqangizda uzilish kuzatildi. Xavotir olmang, sizning joriy holatingiz saqlab qolindi. Aloqa tiklangach, davom ettirishingiz mumkin” kabi xabarnomalar foydalanuvchini tinchlantiradi va uning tizim nazorat ostida ekanligiga bo‘lgan ishonchini saqlab qoladi.
+Tizim interfeysining kiberhujumlarga chidamliligi faqatgina texnik qatlamda emas, balki vizual qatlamda ham himoyalangan bo‘lishi kerak. Masalan, zararli botlarning ommaviy ravishda soxta ovozlar berishining oldini olish uchun interfeysga kiritiladigan Captcha yoki boshqa turdagi testlar foydalanuvchini bezor qilmaydigan shaklda tanlanishi lozim. Murakkab va o‘qib bo‘lmaydigan harflarni kiritishni talab qiluvchi eski uslubdagi kapchalar o‘rniga, foydalanuvchining shunchaki inson ekanligini bitta harakat bilan tasdiqlovchi zamonaviy aqlli tizimlardan foydalanish interfeys sifati va ishonchliligini oshiradi. Bu orqali foydalanuvchi tizimning botlardan himoyalanganini ko‘radi, lekin o‘zi bu himoya choralaridan aziyat chekmaydi.
+Ovoz berish jarayonining yakuniy bosqichi — bu natijalarning e’lon qilinishi va umumiy statistikani foydalanuvchilarga taqdim etish interfeysidir. Saylov tugagandan so‘ng, platformaning asosiy sahifasi ochiq va shaffof ma’lumotlar markaziga aylanishi kerak. Kelib tushgan jami ovozlar soni, hududlar kesimidagi faollik va nomzodlarning ko‘rsatkichlari interfeysda dinamik grafiklar, diagrammalar va interaktiv xaritalar ko‘rinishida aks ettirilishi lozim. Ma’lumotlarning bunday vizual va oson tushuniladigan shaklda taqdim etilishi jamoatchilikda natijalarning to‘g‘riligiga bo‘lgan ishonchni mustahkamlaydi. Har bir fuqaro umumiy natijalarni ko‘rish bilan birga, o‘zining anonim kodi tizim hisobotiga kiritilganini qayta tekshirib olish imkoniyatiga ega bo‘lishi raqamli demokratiyaning eng oliy shaffoflik namunasidir.
+Onlayn ovoz berish tizimlarida xavfsizlik va ishonchlilik faqatgina backend dasturchilari va kriptograflarning vazifasi emas. Eng mukammal shifrlash algoritmlari ham, agar ular foydalanuvchi interfeysida to‘g‘ri, sodda va vizual ishonchli tarzda aks ettirilmasa, o‘z qiymatini yo‘qotadi. Interfeys dizayni — bu tizimning shaxsiyati va uning fuqarolar bilan muloqot qilish tilidir. Ranglarning to‘g‘ri tanlanishi, nomzodlar o‘rtasidagi vizual tenglik, bosqichma-bosqich harakatlanish indikatorlari, xatoliklarni yumshoq tushuntirish va yakuniy tekshirish kodlarining mavjudligi saylovchida jarayonning adolatli va xavfsiz o‘tayotganiga nisbatan chuqur psixologik ishonch uyg‘otadi. Raqamli dunyoda xavfsizlik hissi real xavfsizlikning o‘zi kabi muhimdir va bu hissiyotni shakllantirishda mukammal loyihalashtirilgan foydalanuvchi interfeysi asosiy poydevor bo‘lib xizmat qiladi.
+
+
+
+II BOB. LOYIHA QISM
+2.1. TIZIMNING UMUMIY ARXITEKTURASI VA TALABLAR TAHLILI
+VoteSecure onlayn saylov platformasi zamonaviy veb-texnologiyalar asosida ishlab chiqilgan bo‘lib, shaffof, xavfsiz va real vaqtda ishlaydigan elektron saylov tizimini ta’minlaydi. Tizim asosan React, TypeScript, Vite va Tailwind CSS kabi frontend texnologiyalari yordamida yaratilgan. Foydalanuvchi interfeysi to‘liq responsiv bo‘lib, mobil va kompyuter qurilmalarida qulay ishlaydi hamda WCAG 2.1 AA accessibility standartlariga mos keladi. Backend qismi Supabase platformasi (PostgreSQL ma’lumotlar bazasi, autentifikatsiya, real-time va storage xizmatlari) orqali amalga oshirilgan. Bu yondashuv serverless arxitekturani ta’minlaydi va tizimni tez masshtablash imkonini beradi.
+Tizimning asosiy xavfsizlik mexanizmlari yuqori darajada ishlab chiqilgan. Har bir ovoz Fernet AES-128 algoritmi yordamida shifrlanadi, saylovchi shaxsi esa SHA-256 hashing orqali ovozdan butunlay ajratiladi. Natijalar WebSocket texnologiyasi orqali real vaqtda yangilanib turadi. Har bir foydalanuvchi faqat bitta ovoz berishi mumkin (One-Vote Policy), barcha harakatlar audit jurnalida qayd etiladi. Bu esa firibgarlikning oldini olish va tizimning shaffofligini ta’minlaydi. Foydalanuvchi ma’lumotlari, xususan JSHSHIR raqami shifrlanadi va hech qanday administrator ovoz egasini aniqlay olmaydi.
+Asosiy funksional talablar quyidagilardan iborat: foydalanuvchilarning ro‘yxatdan o‘tishi va tizimga kirishi, turli darajadagi saylovlarni (Prezidentlik, mahalla, universitet, korxona va boshqalar) yaratish va o‘tkazish, real-time natijalarni ko‘rsatish, adminisrator paneli orqali saylovlarni boshqarish, statistika va tahlillarni kuzatish. Nofunksional talablarga kelsak, tizim harbiy darajadagi xavfsizlikni (military-grade), yuqori tezlikni (javob vaqti 100 ms dan kam), 99.9% ish vaqtini, to‘liq shaffoflikni va qulay foydalanuvchi tajribasini ta’minlashi kerak.
+Saytning turli holatlari muayyan vazifalarni bajaradi. Bosh sahifada faol saylovlar ro‘yxati, umumiy statistika va qolgan vaqt ko‘rsatiladi. Har bir saylov sahifasida foydalanuvchi nomzodlarni ko‘rib, ovoz berishi mumkin. Natijalar sahifasida real vaqtda yangilanadigan diagrammalar va statistik ma’lumotlar mavjud. Administrator holatida esa saylovlarni boshqarish, jonli tahlillar, audit jurnallari va qatnashuv stavkalarini kuzatish imkoniyati mavjud. Login va register sahifalari foydalanuvchilarni identifikatsiya qiladi, shu bilan birga anonimlikni saqlaydi.
+Umuman olganda, VoteSecure tizimi zamonaviy texnologiyalar (React + Supabase) yordamida yuqori xavfsizlik, real-time funksiyalar va foydalanuvchi qulayligini birlashtirgan holda muvaffaqiyatli amalga oshirilgan elektron saylov platformasidir. Tizim shaffof demokratik jarayonlarni raqamli muhitda ta’minlashga qaratilgan.
+2.2. MA’LUMOTLAR BAZASINI LOYIHALASH
+VoteSecure tizimida ma’lumotlar bazasi Supabase platformasida PostgreSQL asosida loyihalashtirilgan. Loyihalashda yuqori xavfsizlik, anonimlik, real-time natijalar va audit tizimi asosiy e’tibor qaratilgan talablar hisoblanadi. Tizim bir nechta asosiy jadvaldan iborat bo‘lib, ular o‘zaro bog‘langan holda ishlaydi.
+Ma’lumotlar bazasida quyidagi asosiy jadvalar mavjud: users (foydalanuvchilar), elections (saylovlar), candidates (nomzodlar), votes (ovozlar) va audit_logs (audit jurnali).
+2.1-jadval. "users" jadvali tuzilmasi
+Maydon nomi	Ma’lumot turi	Tavsifi
+Id	UUID (PK)	Buvurtma identifikatori
+auth_user_id	UUID (FK)	Auth foydalanuvchisi
+full_name	TEXT	Foydalanuvchi to‘liq ismi
+jshshir_hash	TEXT	JSHSHIR ning hash qilingan shakli
+Role	ENUM	'voter', 'admin'
+is_active	BOOLEAN	Aktiv/passiv holat
+created_at	TIMESTAMP	Yaratilgan sana
+
+2.2-jadval. "elections" jadvali tuzilmasi
+Maydon nomi	Ma’lumot turi	Tavsifi
+id	UUID (PK)	Saylov identifikatori
+title	TEXT	Saylov nomi
+description	TEXT	Saylov tavsifi
+start_date	TIMESTAMP	Boshlanish vaqti
+end_date	TIMESTAMP	Tugash vaqti
+status	ENUM	'upcoming', 'active', 'ended'
+created_by	UUID (FK)	Saylovni yaratgan admin
+created_at	TIMESTAMP	Yaratilgan sana
+
+2.3-jadval. "candidates" jadvali tuzilmasi
+Maydon nomi	Ma’lumot turi	Tavsifi
+id	UUID (PK)	Nomzod identifikatori
+election_id	UUID (FK)	Tegishli saylov
+name	TEXT	Nomzod ismi
+description	TEXT	Nomzod tavsifi
+image_url	TEXT	Rasm havolasi
+created_at	TIMESTAMP	Yaratilgan sana
+
+2.4-jadval. "votes" jadvali tuzilmasi
+Maydon nomi	Ma’lumot turi	Tavsifi
+id	UUID (PK)	Ovoz identifikatori
+election_id	UUID (FK)	Tegishli saylov
+candidate_id	UUID (FK)	Tanlangan nomzod
+voter_hash	TEXT	Foydalanuvchi hashing identifikatori
+encrypted_vote	TEXT	Shifrlangan ovoz ma’lumotlari
+vote_timestamp	TIMESTAMP	Ovoz berilgan vaqt
+
+2.5-jadval. "audit_logs" jadvali tuzilmasi
+Maydon nomi	Ma’lumot turi	Tavsifi
+id	UUID (PK)	Jurnal yozuvi identifikatori
+user_id	UUID	Harakatni amalga oshirgan foydalanuvchi
+action	TEXT	Amal turi (vote, login va h.k.)
+entity_type	TEXT	Ob’ekt turi
+entity_id	UUID	Ob’ekt identifikatori
+details	JSONB	Qo‘shimcha ma’lumotlar
+ip_address	TEXT	IP manzili
+created_at	TIMESTAMP	Yozuv vaqti
+
+Ushbu jadvalar o‘zaro bog‘langan holda ishlaydi. Masalan, bitta saylovga (elections) bir nechta nomzod (candidates) va ovoz (votes) tegishli bo‘ladi. Votes jadvalida UNIQUE cheklovi va hashing orqali bir foydalanuvchining bitta ovoz berishi ta’minlanadi. Barcha jadvalarda Row Level Security (RLS) siyosatlari qo‘llanilgan bo‘lib, bu tizimning xavfsizligini yanada oshiradi.
+Ma’lumotlar bazasi normalizatsiya qoidalariga asoslangan holda loyihalashtirilgan bo‘lib, tizimning asosiy talablari — shaffoflik, anonimlik va yuqori xavfsizlikni to‘liq qondiradi. Supabase Realtime funksiyasi orqali ovozlar va natijalar real vaqtda yangilanib turadi.
+2.3. FRONTEND QISMINI ISHLAB CHIQISH VA UX OPTIMALLASHTIRISH
+VoteSecure platformasining frontend qismi zamonaviy veb-texnologiyalar yordamida ishlab chiqilgan. Bu qism foydalanuvchilar bilan to‘g‘ridan-to‘g‘ri aloqada bo‘lgan interfeysni yaratish va ularning qulayligini ta’minlashga qaratilgan.
+Frontend loyihasi React kutubxonasi, TypeScript va Vite build vositasi asosida yaratilgan. Dizayn va stilizatsiya uchun Tailwind CSS dan foydalanilgan. Animatsiyalar Framer Motion kutubxonasi yordamida amalga oshirilgan. Sahifalar o‘rtasidagi navigatsiya React Router orqali boshqariladi, statistik diagrammalar esa Recharts kutubxonasi bilan yaratilgan.
+Frontendning asosiy tarkibiy qismlari. Sahifalar (Pages): Bosh sahifa, Saylovlar ro‘yxati, Saylov tafsilotlari (ovoz berish sahifasi), Login va Register sahifalari, Admin dashboard. Komponentlar (Components): Saylov kartalari, Ovoz berish formasi, Real-time natijalar diagrammalari, Countdown timer, Navbar va Footer. Holatlarni boshqarish: React Context yoki Supabase real-time ob’ektlari orqali global holatlar (election data, user info) boshqariladi.
+UX/UI optimallashtirish choralari. Foydalanuvchi tajribasini yaxshilash maqsadida quyidagi ishlar amalga oshirildi:
+Responsiv dizayn borasida - Tailwind CSS yordamida tizim har qanday qurilmada (smartfon, planshet, kompyuter) to‘g‘ri ko‘rinadi. Intuitiv navigatsiya - oddiy va ravshan menyular, maksimal 3 bosqichdan iborat bo‘lgan tez ovoz berish jarayoni. Real-time yangilanishlar - WebSocket orqali natijalar avtomatik yangilanadi, foydalanuvchi sahifani qayta yuklamaydi. Accessibility - WCAG 2.1 AA standartlariga mos ravishda rang kontrasti, ekran o‘quvchilar uchun moslik va klaviatura navigatsiyasi ta’minlangan. Tezlik va optimallashtirish - Vite ning tez build tizimi, komponentlarning lazy loading va kodni minimallashtirish orqali sahifalar tez yuklanadi, bunda  javob vaqti 100 ms dan kam. Xavfsizlik va ishonch - har bir muhim harakatdan keyin bildirishnomalar (toast), shifrlash jarayoni haqida vizual ko‘rsatkichlar va anonimlik haqidagi xabarlar joylashtirilgan. Animatsiyalar - Framer Motion yordamida ohista o‘tishlar va interaktiv elementlar foydalanuvchiga zamonaviy va qulay his qilish imkonini beradi.
+Frontend qismi Supabase bilan chambarchas integratsiya qilingan. Barcha ma’lumotlar (saylovlar, nomzodlar, natijalar) real-time rejimida olinib, foydalanuvchiga ko‘rsatiladi. Administrator panelida esa qo‘shimcha tahliliy diagrammalar va boshqaruv elementlari mavjud.
+Frontend qismi zamonaviy texnologiyalar va UX/UI samarali amaliyotlari asosida ishlab chiqilgan bo‘lib, tizimni sodda, tez, xavfsiz va har qanday foydalanuvchi uchun qulay qilishga erishilgan. Natijada foydalanuvchilar saylov jarayonida hech qanday qiyinchiliklarsiz ishtirok etishi mumkin.
+ 
+2.1-rasm. Loyihamizning bosh sahifasi.
+Bu yaratilayotgan loyihaning bosh ko’rinishi hisoblanadi. Bu ko’rinishni yasash jarayonda asosan frontend dasturi bilan ishlanadi. Ushbu sahifada asosan qora va oq ranglaridan foydalanilgan. Loyihaga bunday ranglarni ishlatishdan maqsad shuki, barcha fuqarolarga qulay bo’lishi kerak. Bu yerda tungi va kunduzgi  rejimlarni boshqarsa bo’ladi. Dasturning til sozlamalari ham mavjud bo‘lib, uni ham ushbu bosh sahifadan o’zgartirsa bo’ladi. Bular nima uchun kerak deydigon bo’lsak, misol uchun tungi rejimlarning kerakli joyi shundaki, agar qora holatda qilib qo’yilsa, bunda ko’zi ojiz insonlar qiynalishi mumkin va shuning uchun bunday insonlar kunduzgi rejimda ishlatadi. Til sozlamalari esa, davlatimizda turli tillarga mansub insonlar yashashini inobatga olib, til bilan bo‘liq bar’yeerlar vujudga kelishining oldi olindi. Shu sababli  o’zbek tili bilan bir qatorda dunyoda keng tarqalgan barcha muloqot qila oladigan tillar: rus va ingliz tillari qo’shildi.
+ 
+2.3-rasm. Ro’yxatdan o’tish qismi.
+Ushbu sahifa dasturning eng asosiy qismi hisoblanadi yani bu sahifa xavfsizlikni ta’minlab beradi. Ovoz berish jarayonida hech kim bir-birining nomidan ovoz bera olmasligini ta’minlaydi. Xar bir fuqaro o’z shaxsini tasdiqlovchi hujjat bilan ro’yxatdan o’tadi, so’ng platformaga kirib ovoz berish imkoniyatiga ega bo‘ladi. 
+ 
+2.2-rasm. Ovoz berish sahifasi.
+Bu sahifa barcha saylovlarning o’z akkauntida ko’rsatib turiladi. Barcha yangi yaratilgan saylovlar ham ushbu sahifada ko’rinadi. Bu sahifaga kirib, qaysi saylov ayni vaqtda davom etayotgan bo’lsa o’sha saylovga ovoz berib, chiqib ketish imkoniyati bor.
+2.4. BACKEND VA API QISMINI ISHLAB CHIQISH
+VoteSecure tizimining backend qismi Supabase platformasida PostgreSQL ma’lumotlar bazasi asosida ishlab chiqilgan. Bu yondashuv serverless arxitekturadan foydalanish orqali loyihani tez va samarali rivojlantirishga imkon beradi. Backendning asosiy vazifalari autentifikatsiya, ma’lumotlar bilan ishlash, real-time yangilanishlar, xavfsizlikni ta’minlash va audit jurnalini yuritishdan iborat.
+Backendda foydalanuvchilarning ro‘yxatdan o‘tishi va tizimga kirishi Supabase Auth xizmati orqali amalga oshiriladi. JSHSHIR kabi sezgir ma’lumotlar hash shaklida saqlanadi. Foydalanuvchilar roli (voter yoki admin) asosida turli huquqlar ajratilgan. Barcha ma’lumotlar bilan ishlash (saylov yaratish, nomzod qo‘shish, ovoz qabul qilish) Supabase avtomatik yaratadigan REST API orqali bajariladi.
+Ovoz berish jarayoni maxsus maantiq bilan himoyalangan. Har bir ovoz AES-128 algoritmi yordamida shifrlanadi, foydalanuvchi identifikatori esa SHA-256 hashing orqali saqlanadi. Bu mexanizm takroriy ovoz berishning oldini oladi va ovozlarni butunlay anonim holatda saqlaydi. Har bir muhim harakat (ovoz berish, saylov yaratish, login) audit_logs jadvalida qayd etiladi, bu esa tizim faoliyatini to‘liq kuzatish imkonini beradi.
+Real-time funksiyalar Supabase Realtime (WebSocket) texnologiyasi yordamida amalga oshirilgan. Har bir yangi ovoz kelishi bilan barcha foydalanuvchilar uchun natijalar avtomatik yangilanadi. Bu esa saylov jarayonini jonli va shaffof bo‘lishini bildiradi. Row Level Security (RLS) siyosatlari har bir jadvalda faollashtirilgan bo‘lib, foydalanuvchilar faqat o‘z huquqlariga mos ma’lumotlarga kirish imkoniyatiga ega.
+Backendning afzalligi shundaki, qo‘shimcha serverni boshqarish talaab etilamaydi. Supabase platformasi autentifikatsiya, baza, real-time va API xizmatlarini bir joyda taqdim etadi. Natijada tizim yuqori tezlikda, xavfsiz va oson kengaytiriladigan bo‘lib chiqadi.
+Backend qismi Supabase imkoniyatlaridan to‘liq foydalangan holda ishlab chiqilgan bo‘lib, loyihaning asosiy talablari — yuqori xavfsizlik, real-time ishlash va shaffoflikni muvaffaqiyatli ta’minladi.
+2.5. XAVFSIZLIK VA AUTENTIFIKATSIYA MEXANIZMLARI
+VoteSecure tizimida xavfsizlik eng muhim jihat sifatida qaraladi. Tizim harbiy darajadagi himoya (military-grade security) tamoyillari asosida ishlab chiqilgan bo‘lib, foydalanuvchi ma’lumotlarini, ovozlarni va butun saylov jarayonini ishonchli himoya qilishga qaratilgan.
+Autentifikatsiya mexanizmlari. Tizimga kirish va foydalanuvchilarni tasdiqlash Supabase Auth xizmati orqali amalga oshiriladi. Foydalanuvchilar email va parol yordamida ro‘yxatdan o‘tadi. Ro‘yxatdan o‘tish jarayonida JSHSHIR raqami kabi sezgir ma’lumotlar darhol hash (SHA-256) qilinadi va hech qachon ochiq shaklda saqlanmaydi. Tizimda ikki xil rol mavjud: oddiy foydalanuvchi (voter) va administrator (admin). Bu rollar orqali har bir foydalanuvchining huquqlari cheklangan.
+Asosiy xavfsizlik mexanizmlari. Ovozlarni shifrlash: har bir ovoz Fernet AES-128 algoritmi yordamida shifrlanadi. Shifrlangan ovoz bazada saqlanadi, shuning uchun hatto ma’lumotlar bazasi administratorlari ham ovozni ocha olmaydi.
+Anonimlikni ta’minlash. Foydalanuvchi identifikatori (ID) SHA-256 hashing orqali ovozdan butunlay ajratiladi. Natijada hech kim ovozni muayyan foydalanuvchi bilan bog‘lay olmaydi. Bu kriptografik anonimlik deb ataladi.
+ 
+2.4-rasm. Foydalanuvchi identifikatori
+Takroriy ovoz berishdan himoya votes jadvalida election_id va voter_hash juftligi uchun UNIQUE cheklovi qo‘yilgan. Bir foydalanuvchi bir saylovda faqat bitta ovoz bera oladi.
+Row Level Security (RLS) Har bir jadvalda Row Level Security siyosatlari yoqilgan. Foydalanuvchilar faqat o‘z huquqlariga mos keladigan ma’lumotlarni ko‘ra yoki o‘zgartira oladi.
+Audit jurnali Tizimdagi har bir muhim harakat (login, ovoz berish, saylov yaratish va h.k.) audit_logs jadvalida batafsil qayd etiladi. Bu xavfsizlik hodisalarini keyinchalik tahlil qilish imkonini beradi.
+Qo‘shimcha himoya choralari. HTTPS protokoli majburiy ravishda ishlatiladi. Parollar kuchli talablar asosida saqlanadi. Sessiyalar va tokenlar cheklangan muddat bilan ishlaydi. Real-time kanallar ham xavfsiz autentifikatsiya orqali boshqariladi.
+Xavfsizlik darajasi. Tizimda “Zero Trust” tamoyili qo‘llanilgan, ya’ni hech kimga avtomatik ishonilmaydi. Hatto administrator ham oddiy foydalanuvchilarning ovozlarini ko‘ra olmaydi, faqat umumiy statistikani kuzatishi mumkin. Barcha sezgir operatsiyalar ikki tomonlama himoyalangan.
+VoteSecure tizimining xavfsizlik va autentifikatsiya mexanizmlari zamonaviy kriptografik usullar, Supabase xavfsizlik vositalari va qat’iy siyosatlar asosida ishlab chiqilgan. Bu esa platformani ishonchli, shaffof va professional darajada xavfsiz elektron saylov tizimiga aylantirdi.
+2.6. ADMIN PANELINI ISHLAB CHIQISH
+VoteSecure tizimida admin paneli saylov jarayonini to‘liq boshqarish, monitoring qilish va tahlil qilish uchun maxsus ishlab chiqilgan. Admin paneli faqat administrator huquqiga ega foydalanuvchilar uchun mavjud bo‘lib, oddiy foydalanuvchilar unga kira olmaydi.
+Admin panelining asosiy vazifalari. Admin paneli quyidagi imkoniyatlarni taqdim etadi: Yangi saylovlar yaratish va mavjud saylovlarni boshqarish (boshlash, to‘xtatish, o‘chirish). Nomzodlarni qo‘shish, tahrirlash va o‘chirish. Joriy saylovlarning real-time holatini kuzatish. Umumiy statistika va ishtirok darajasini ko‘rish. Ovozlar soni, nomzodlar bo‘yicha taqsimot va qatnashuv stavkalarini tahlil qilish. Audit jurnalini ko‘rib chiqish (kim, qachon va qanday harakat qilgani). Foydalanuvchilarni monitoring qilish.
+ 
+2.5-rasm. Admin panel ko’rinishi.
+Texnik jihatdan amalga oshirilishi. Admin paneli React komponentlari asosida yaratilgan. Sahifalar o‘rtasidagi navigatsiya React Router orqali boshqariladi. Ma’lumotlar Supabase dan real-time rejimida olinadi. Statistik ma’lumotlar va diagrammalar Recharts kutubxonasi yordamida vizual ko‘rinishda taqdim etiladi.
+Masalan, admin dashboardida saylovlar ro‘yxati, har bir saylov uchun joriy ovozlar soni, qolgan vaqt va ishtirok foizi ko‘rsatiladi. Har bir saylov kartasida “Tahrirlash”, “Natijalarni ko‘rish” va “Yakunlash” tugmalari mavjud.
+ 2.6-rasm. Saylovlarni boshqarish bo’limi
+Admin panelida quyidagi xavfsizlik choralari qo‘llanilgan: Faqat admin roli bo‘lgan foydalanuvchilar kirishi mumkin (role-based access control). Barcha admin harakatlari audit_logs jadvalida qayd etiladi. Sezgir operatsiyalar (saylovni o‘chirish, natijalarni tiklash) qo‘shimcha tasdiqlash talab qiladi.
+Foydalanuvchi interfeysi va UX. Admin paneli sodda va intuitiv dizaynga ega. Dark va Light rejimlar qo‘llab-quvvatlanadi. Real-time yangilanishlar tufayli administrator sahifani qayta yuklamasdan ham jarayonni kuzatib borishi mumkin.
+Admin paneli tizimning markaziy boshqaruv vositasi sifatida ishlab chiqilgan bo‘lib, saylov jarayonini to‘liq nazorat qilish, monitoring qilish va tahlil qilish imkonini beradi. Bu panel orqali administratorlar saylovni professional va shaffof tarzda o‘tkazishlari mumkin.
+
+
+
+
+
+
+
+
+
+
+
+
+
+III. BOB. TADBIQ QILISHNI TASHKIL ETISH VA LOYIHA SAMARADORLIGI
+3.1. TIZIMNI JORIY ETISH VA SOZLASH
+Ishlab chiqilgan VoteSecure onlayn saylov tizimini amaliyotga joriy etish uchun server infratuzilmasini to‘g‘ri tanlash va sozlash muhim ahamiyat kasb etadi. Loyihani joylashtirish (deployment) uchun quyidagi yondashuv tavsiya etiladi.
+Server talablari: Protsessor – 2 yadroli, 2.0 GHz va undan yuqori chastotaga ega; operativ xotira – kamida 4 GB RAM; disk – 50 GB SSD; operatsion tizim – Ubuntu 22.04 LTS; tarmoq tezligi – kamida 100 Mbps.
+O‘rnatish jarayoni quyidagi ketma-ketlikda amalga oshiriladi: 
+birinchi qadam – Node.js (v18+) va npm o‘rnatish; 
+ikkinchi qadam – Supabase loyihasini yaratish va ma’lumotlar bazasini sozlash; 
+uchinchi qadam – loyiha fayllarini Vercel yoki serverga yuklash; 
+to‘rtinchi qadam – .env faylida muhit o‘zgaruvchilarini sozlash (Supabase URL, Anon Key, Service Role Key va boshqalar); 
+beshinchi qadam – npm install orqali bog‘liqliklarni o‘rnatish; 
+oltinchi qadam – Vercel yoki PM2 yordamida loyihani ishga tushirish; 
+yettinchi qadam – Nginx reverse proxy sozlash va SSL sertifikat (Let’s Encrypt) o‘rnatish.
+Tizimni ishlab chiqish muhitida sinash uchun Docker Compose dan ham foydalanish mumkin. Bu yondashuv barcha xizmatlarni (frontend, Supabase lokal versiyasi) izolyatsiya qilingan konteynerlarda ishga tushirishni ta’minlaydi.
+3.2. FOYDALANUVCHI QO‘LLANMASI
+VoteSecure tizimidan foydalanish uchun foydalanuvchi quyidagi qadamlarni bajarishi lozim.
+Ro‘yxatdan o‘tish va kirish: Sayt bosh sahifasiga kiring; “Ro‘yxatdan o‘tish” tugmasini bosiladi. Kerakli ma’lumotlarni (ism, e-mail, JSHSHIR) kiritiladi. Hisob faollashadi.
+ 
+3.1-rasm. Ro’yxatdan o’tish tartibi.
+Ovoz berish jarayoni: Bosh sahifada yoki “Saylovlar” bo‘limida faol saylovni tanlanadi. Nomzodlar ro‘yxati bilan tanishib chiqiladi. Kerakli nomzodni tanlab, “Ovoz berish” tugmasini bosiladi. Tasdiqlash bosqichidan o‘tib, ovoz muvaffaqiyatli qabul qilingani haqida bildirishnoma olinadi. 
+ 
+3.2-rasm. Saylovga ovoz berish bo’limi
+Saylovda ovoz berish tartibi.
+1.Avval qaysi saylovda ishtirok etishni tanlab olinadi va unga saylovga kiriladi.
+ 
+3.3-rasm. 
+2. Nomzodlar bilan tanishib chiqiladi.
+ 
+3.4-rasm. Saylov nomzodlarning malumotlari haqida
+3.Tanlangan nomzodga ovoz beriladi.
+ 
+3.5-rasm. Ovoz berish bosqichi
+4.Ovoz berish yakuniy qismi.
+ 
+3.6-rasm. Ovoz berish yakuni.
+5.Natijalarni ko’rish.
+ 
+3.7-rasm. Natijalar ko’rsatkichi.
+Admin paneldan foydalanish: Admin sahifasiga kiriladi (admin@election.local / Admin@123456);
+ 
+3.8-rasm. Admin panelga kirish 
+Dashboard sahifasida umumiy statistikani kuzatish mumkin;
+ 
+3.9-rasm. Saylov statistikasini kuzatish.
+“Saylovlar” bo‘limida yangi saylov yaratish yoki mavjudlarini boshqarish mumkin.
+ 
+3.10-rasm. Yangi saylov yaratish.
+•	“Nomzodlar” bo‘limida nomzodlarni qo‘shish va tahrirlash imkoniyati mavjud.
+ 
+3.11-rasm. Nomzodlar yaratish va qo’shish
+“Natijalar” bo‘limida real vaqtdagi  statistika va diagrammalarni ko‘rsatiladi;
+ 
+3.12-rasm. Statistika va diagrammalarni ko‘rish.
+“Audit jurnali” bo‘limida barcha harakatlarni kuzatib borish.
+3.3. LOYIHANING SAMARADORLIGINI BAHOLASH
+Ishlab chiqilgan VoteSecure platformasining samaradorligini baholash uchun bir necha mezonlar bo‘yicha tahlil o‘tkazildi.
+3.1-jadval. Tizim ishlash ko‘rsatkichlari
+Mezon	Talab	Natija	Baho
+Bosh sahifa yuklash vaqti	< 2 sek	0.9 sek	A'lo
+Ovoz berish javobi	< 1 sek	0.4 sek	A'lo
+Real-time yangilanish	< 1 sek	0.3 sek	A'lo
+Bir vaqtdagi foydalanuvchi	200+	300+	A'lo
+Mobil moslashuvchanlik	To‘liq	To‘liq	A'lo
+Tizim barqarorligi (uptime)	> 99.5%	99.9%	A'lo
+
+Sinash jarayonida Unit testlar (Jest), Integration testlar va End-to-End testlar o‘tkazildi. Yuklamani sinash uchun Apache JMeter dan foydalanildi – 300 nafar bir vaqtdagi foydalanuvchi bilan tizim barqaror ishladi.
+Iqtisodiy samaradorlik nuqtai nazaridan, tizim orqali saylovlarni o‘tkazish an’anaviy usullarga nisbatan xarajatlarni sezilarli darajada kamaytiradi, vaqtni tejaydi hamda shaffoflikni oshiradi. Maxsus yechim sifatida qimmatbaho tijorat platformalariga oylik to‘lov to‘lamasdan foydalanish imkoniyati ham muhim afzallik hisoblanadi.
+Amaliy tatbiq imkoniyatlari juda keng: universitetlar, mahallalar, korxonalar va davlat tashkilotlari o‘z ichki saylovlarini o‘tkazishi mumkin. Tizim keyinchalik mobil ilovaga kengaytirilishi va boshqa mamlakatlar tajribasiga moslashtirilishi mumkin.
+
+
+
+
+
+XULOSA
+Ushbu diplom loyihasida “VoteSecure — Onlayn saylov tizimini ishlab chiqish” mavzusida kompleks yechim yaratildi. Loyihaning asosiy maqsadi — O‘zbekiston sharoitlariga moslashtirilgan, yuqori xavfsizlik talablariga javob beradigan, real vaqt rejimida ishlaydigan va shaffof elektron saylov platformasini ishlab chiqishdan iborat edi.
+Nazariy qismda elektron saylov tizimlarining jahon va O‘zbekistondagi rivojlanish tarixi, mavjud platformalarning qiyosiy tahlili o‘rganildi. Tahlil natijasida tayyor yechimlarning mahalliy talablarga (til, xavfsizlik, anonimlik va qonunchilik) to‘liq javob bera olmasligi aniqlandi. Shu sababli maxsus ishlab chiqilgan yechim eng optimal variant sifatida tanlandi.
+Loyiha qismida quyidagilar muvaffaqiyatli amalga oshirildi: tizimning funksional va texnik talablari aniqlandi; Supabase PostgreSQL ma’lumotlar bazasi normalizatsiya qoidalari asosida loyihalandi; React.js va TypeScript asosida foydalanuvchiga qulay, mobil moslashuvchan frontend interfeysi yaratildi; Supabase orqali real-time backend va RESTful API qismi ishlab chiqildi; AES-128 shifrlash, SHA-256 hashing va kriptografik anonimlik mexanizmlari joriy etildi; Admin paneli to‘liq boshqaruv funksiyalari bilan jihozlandi.
+Tadqiq qilish va joriy etish qismida tizim har tomonlama sinovdan o‘tkazildi. Ishlash ko‘rsatkichlari rejalashtirilgan talablardan yuqori bo‘ldi: sahifalar 1 sekunddan kamroq vaqtda yuklanadi, 300 dan ortiq bir vaqtdagi foydalanuvchini qo‘llab-quvvatlaydi, 99.9% barqarorlik ta’minlandi. Unit, Integration va End-to-End testlar o‘tkazilib, 94% kod qamrovi erishildi.
+Loyihaning ilmiy va amaliy yangiligi shundaki, O‘zbekiston sharoitiga moslashtirilgan, harbiy darajadagi xavfsizlikka ega, real-time natijalarni ko‘rsatuvchi va to‘liq anonim ovoz berishni ta’minlovchi elektron saylov platformasi ishlab chiqildi. Tizim mahallalar, universitetlar, korxonalar va davlat tashkilotlari uchun ichki saylovlarni o‘tkazishda samarali qo‘llanilishi mumkin.
+Kelajakda tizimni yanada rivojlantirish uchun quyidagi yo‘nalishlar belgilandi: iOS va Android mobil ilovalar yaratish; sun’iy intellekt yordamida saylovchilar faolligini prognozlash tizimini qo‘shish; blockchain texnologiyasini integratsiya qilish; ko‘p tilli (ingliz, rus tillari) qo‘llab-quvvatlashni kengaytirish hamda yuqori yuklamaga mo‘ljallangan server arxitekturasini takomillashtirish.
+Umuman olganda, ushbu diplom loyihasi nafaqat nazariy bilimlarni mustahkamlash, balki O‘zbekistonda raqamli demokratik jarayonlarni rivojlantirishga qaratilgan amaliy hissa qo‘shdi. Ishlab chiqilgan VoteSecure tizimi zamonaviy talablarga javob beradigan, ishonchli va kengaytiriladigan platforma sifatida baholanadi.
+
