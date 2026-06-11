@@ -586,6 +586,46 @@ export default function PresentationPage() {
       ),
     },
     {
+      category: "WEB3 INTEGRATSIYASI",
+      title: "Loyiha Qismi: Blokcheyn Tranzaksiyalarini Simulyatsiya Qilish (Demo vs Production)",
+      subtitle: "Nima uchun tranzaksiya xeshi real Ethereum tarmog'ida darhol topilmaydi?",
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 text-sm">
+          <div className="space-y-4 bg-white/5 p-5 rounded-xl border border-white/5">
+            <h4 className="font-bold text-primary flex items-center gap-2 text-base">
+              <Settings size={18} /> Simulyatsiya Rejimi (Demo Mode)
+            </h4>
+            <p className="text-muted-foreground leading-relaxed text-xs md:text-sm">
+              Loyiha sinov jarayonida bo'lganligi sababli, har bir saylovchidan haqiqiy <strong>gaz to'lovlarini (gas fees)</strong> talab qilmaslik uchun visual va tuzilmaviy tekshiruv havolalari yaratiladi:
+            </p>
+            <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1.5 pl-2">
+              <li><strong>MetaMask `personal_sign`</strong> orqali kriptografik imzo to'liq tekshiriladi.</li>
+              <li>Imzo tasdiqlangach, visual Etherscan havolasini shakllantirish uchun realistik xesh generatsiya qilinadi.</li>
+              <li>Bu diplom himoyasida blokcheyn oqimini vizual isbotlab beradi.</li>
+            </ul>
+          </div>
+          <div className="space-y-4 bg-white/5 p-5 rounded-xl border border-white/5 flex flex-col justify-between">
+            <div>
+              <h4 className="font-bold text-success flex items-center gap-2 text-base">
+                <CheckCircle2 size={18} /> Haqiqiy Ishlab Chiqarish Rejimi (Production)
+              </h4>
+              <p className="text-muted-foreground leading-relaxed text-xs md:text-sm mt-2">
+                Tizimni real tarmoqqa (mainnet) o'tkazish uchun:
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1.5 pl-2 mt-2">
+                <li>Smart-kontrakt real Sepolia/Ethereum tarmog'iga deploy qilinadi.</li>
+                <li>Frontendda Web3 provayder orqali smart-kontrakt funksiyasi (masalan, <code>castVote()</code>) to'g'ridan-to'g'ri chaqiriladi.</li>
+                <li>Tranzaksiya tarmoqqa yozilgandan so'ng qaytgan real <code>tx_hash</code> saqlanadi.</li>
+              </ul>
+            </div>
+            <div className="p-3 bg-card rounded-lg border border-border text-xs font-mono text-muted-foreground mt-3">
+              Sinov kaliti: 0x928e1921...5a8ca424 (Visual Proof Only)
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
       category: "XALQARO TAJRIBA",
       title: "Web3 Ovoz Berishda Xalqaro Tajriba va Bugungi Ehtiyoj",
       subtitle: "Swiss Post, Voatz, Helios kabi xalqaro tizimlar tahlili",
@@ -1128,6 +1168,46 @@ export default function PresentationPage() {
                 <li><strong>No Key Recovery:</strong> Losing wallet seed phrase makes casting ballot impossible.</li>
                 <li><strong>Legal Frameworks:</strong> Blockchain ballots struggle with regulatory recognition.</li>
               </ul>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      category: "WEB3 INTEGRATION",
+      title: "Project Part: Blockchain Transaction Simulation (Demo vs Production)",
+      subtitle: "Why isn't the transaction hash found on Ethereum Sepolia immediately?",
+      content: (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 text-sm">
+          <div className="space-y-4 bg-white/5 p-5 rounded-xl border border-white/5">
+            <h4 className="font-bold text-primary flex items-center gap-2 text-base">
+              <Settings size={18} /> Simulation Mode (Demo Mode)
+            </h4>
+            <p className="text-muted-foreground leading-relaxed text-xs md:text-sm">
+              Since the platform is in demo/research mode, we simulate transactions to prevent charging voters actual <strong>gas fees</strong> while keeping verification links fully functional:
+            </p>
+            <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1.5 pl-2">
+              <li><strong>MetaMask `personal_sign`</strong> verifies user signatures cryptographically.</li>
+              <li>Once signed, the backend yields a realistic transaction hash to show the Etherscan linking flow.</li>
+              <li>This provides the thesis defense committee with a visual demonstration of how Etherscan works.</li>
+            </ul>
+          </div>
+          <div className="space-y-4 bg-white/5 p-5 rounded-xl border border-white/5 flex flex-col justify-between">
+            <div>
+              <h4 className="font-bold text-success flex items-center gap-2 text-base">
+                <CheckCircle2 size={18} /> Production Mode
+              </h4>
+              <p className="text-muted-foreground leading-relaxed text-xs md:text-sm mt-2">
+                To run on the live network (mainnet):
+              </p>
+              <ul className="list-disc list-inside text-muted-foreground text-xs space-y-1.5 pl-2 mt-2">
+                <li>Deploy smart contracts to the live Sepolia/Ethereum testnet or mainnet.</li>
+                <li>Call smart contract methods (e.g., <code>castVote()</code>) directly through a web3 provider.</li>
+                <li>Capture the real <code>tx_hash</code> returned by the network after block confirmation.</li>
+              </ul>
+            </div>
+            <div className="p-3 bg-card rounded-lg border border-border text-xs font-mono text-muted-foreground mt-3">
+              Test Hash: 0x928e1921...5a8ca424 (Visual Proof Only)
             </div>
           </div>
         </div>
