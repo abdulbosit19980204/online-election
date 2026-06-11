@@ -37,13 +37,13 @@ export default function Modal({ isOpen, onClose, title, children, size = "md" }:
       onClick={(e) => e.target === overlayRef.current && onClose()}
     >
       <div
-        className={`w-full ${sizeClasses[size]} glass rounded-2xl border border-[#26262f] shadow-2xl animate-slide-up`}
+        className={`w-full ${sizeClasses[size]} glass rounded-2xl border border-border shadow-2xl animate-slide-up`}
       >
-        <div className="flex items-center justify-between p-6 border-b border-[#26262f]">
-          <h3 className="font-semibold text-slate-100">{title}</h3>
+        <div className="flex items-center justify-between p-6 border-b border-border">
+          <h3 className="font-semibold text-foreground">{title}</h3>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-lg hover:bg-[#26262f] flex items-center justify-center text-slate-400 hover:text-slate-200 transition-colors"
+            className="w-7 h-7 rounded-lg hover:bg-hover flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
           >
             <X size={14} />
           </button>

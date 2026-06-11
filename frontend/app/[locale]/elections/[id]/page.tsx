@@ -86,13 +86,27 @@ export default function ElectionDetailPage() {
         toast.loading("1/3 Wallet Signature...", { id: "web3-vote" });
         if (typeof window !== "undefined" && (window as any).ethereum) {
           try {
+            // First ensure accounts are authorized/connected
+            const accounts = await (window as any).ethereum.request({
+              method: "eth_requestAccounts",
+            });
+            const activeAddress = accounts[0];
+
+            if (activeAddress && user.wallet_address && activeAddress.toLowerCase() !== user.wallet_address.toLowerCase()) {
+              toast.dismiss("web3-vote");
+              toast.error(`Hamyon manzili mos kelmadi. Kutilmoqda: ${user.wallet_address.slice(0, 6)}...${user.wallet_address.slice(-4)}`);
+              setSubmitting(false);
+              setWeb3Step("idle");
+              return;
+            }
+
             await (window as any).ethereum.request({
               method: "personal_sign",
-              params: [`Cast ballot for candidate ID: ${selectedCandidate} in election: ${id}`, user.wallet_address],
+              params: [`Cast ballot for candidate ID: ${selectedCandidate} in election: ${id}`, activeAddress || user.wallet_address],
             });
-          } catch (e) {
+          } catch (e: any) {
             toast.dismiss("web3-vote");
-            toast.error("Signature rejected");
+            toast.error(e?.message || "Signature rejected");
             setSubmitting(false);
             setWeb3Step("idle");
             return;
@@ -403,10 +417,10 @@ export default function ElectionDetailPage() {
       {/* Confirm modal with better contrast */}
       <Modal isOpen={confirmOpen} onClose={() => setConfirmOpen(false)} title="Ovozni tasdiqlang">
         <div className="space-y-6">
-          <div className="p-6 rounded-2xl bg-white/5 border border-white/5 shadow-inner">
+          <div className="p-6 rounded-2xl bg-slate-500/5 dark:bg-white/5 border border-border shadow-inner">
             <p className="text-[10px] text-muted-foreground mb-1 uppercase font-black tracking-widest">{t("voting_for")}</p>
             <p className="font-black text-primary text-3xl">{selectedName}</p>
-            <div className="h-px w-full bg-white/5 my-3" />
+            <div className="h-px w-full bg-border my-3" />
             <p className="text-[10px] text-muted-foreground uppercase font-bold mb-0.5">{t("in_election")}</p>
             <p className="text-foreground text-sm font-bold">{election?.title}</p>
           </div>
@@ -417,18 +431,18 @@ export default function ElectionDetailPage() {
           </div>
 
           {user?.wallet_address && (
-            <div className="bg-white/5 border border-white/5 rounded-xl p-4 space-y-2.5">
+            <div className="bg-slate-500/5 dark:bg-white/5 border border-border rounded-xl p-4 space-y-2.5">
               <span className="text-[9px] font-black text-primary uppercase tracking-widest block">ZK-SNARK Workflow Status</span>
               <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
-                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "signing" ? "border-primary bg-primary/10 text-primary font-bold animate-pulse" : "border-white/5 text-muted-foreground"}`}>
+                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "signing" ? "border-primary bg-primary/10 text-primary font-bold animate-pulse" : "border-border text-muted-foreground"}`}>
                   <Wallet size={14} />
                   <span>1. Wallet Sign</span>
                 </div>
-                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "proving" ? "border-indigo-400 bg-indigo-500/10 text-indigo-400 font-bold animate-pulse" : "border-white/5 text-muted-foreground"}`}>
+                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "proving" ? "border-indigo-400 bg-indigo-500/10 text-indigo-400 font-bold animate-pulse" : "border-border text-muted-foreground"}`}>
                   <Cpu size={14} />
                   <span>2. ZK Proving</span>
                 </div>
-                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "submitting" ? "border-success bg-success/10 text-success font-bold animate-pulse" : "border-white/5 text-muted-foreground"}`}>
+                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "submitting" ? "border-success bg-success/10 text-success font-bold animate-pulse" : "border-border text-muted-foreground"}`}>
                   <Layers size={14} />
                   <span>3. On-Chain Submit</span>
                 </div>
@@ -439,7 +453,7 @@ export default function ElectionDetailPage() {
           <div className="grid grid-cols-2 gap-4 pt-2">
             <button 
               onClick={() => setConfirmOpen(false)} 
-              className="justify-center py-3.5 rounded-xl text-sm font-bold bg-white/5 hover:bg-white/10 text-foreground border border-white/10 transition-colors duration-200"
+              className="justify-center py-3.5 rounded-xl text-sm font-bold bg-slate-100 hover:bg-slate-200 dark:bg-white/5 dark:hover:bg-white/10 text-foreground border border-border transition-colors duration-200"
             >
               {commonT("cancel")}
             </button>
