@@ -93,6 +93,7 @@ export const voteApi = {
   cast: (election_id: string, candidate_id: string) =>
     api.post(`/votes/${election_id}/`, { election_id, candidate_id }),
   status: (election_id: string) => api.get(`/votes/status/${election_id}/`),
+  verify: (receiptHash: string) => api.get(`/votes/verify/${receiptHash}/`),
 };
 
 // Admin

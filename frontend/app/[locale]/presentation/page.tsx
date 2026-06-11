@@ -298,33 +298,33 @@ export default function PresentationPage() {
     },
     {
       category: "DASTURIY TA'MINOT",
-      title: "2.3 - 2.4 Frontend va Backend Ishlanmasi",
-      subtitle: "Dasturiy kod strukturasi va veb-soketlar integratsiyasi",
+      title: "2.3 - 2.4 Frontend va Backend Ishlanmasi (Web3 integratsiyasi bilan)",
+      subtitle: "Dasturiy kod strukturasi, veb-soketlar va blokcheyn arxitekturasi",
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 text-sm">
           <div className="space-y-4">
             <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-              <h5 className="font-bold text-primary text-base mb-1.5">React & Next.js 16:</h5>
+              <h5 className="font-bold text-primary text-base mb-1.5">React, Next.js & Web3:</h5>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Zustand orqali global state boshqariladi. Axios interceptors yordamida seans muddati tugaganda tokenlar tozalanadi.
+                Zustand va Axios interceptors orqali JWT tokenlar boshqariladi. Web3 qismida MetaMask (`eth_requestAccounts`) va kriptografik shaxsni tasdiqlash uchun `personal_sign` ulandi.
               </p>
             </div>
             <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-              <h5 className="font-bold text-primary text-base mb-1.5">Django REST Framework (DRF):</h5>
+              <h5 className="font-bold text-primary text-base mb-1.5">Django & ECDSA Verification:</h5>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Serializers va ViewSets orqali ma'lumotlar xavfsiz JSON formatida frontendga uzatiladi.
+                DRF API'lari bilan birga backendda hamyon signaturalarini tekshiruvchi asinxron `Web3LoginView` (ECDSA / `eth-account` yordamida) ishlab chiqildi.
               </p>
             </div>
           </div>
           <div className="bg-white/5 p-5 rounded-xl border border-white/5 flex flex-col justify-between">
             <div>
-              <h5 className="font-bold text-foreground text-base mb-2">Django Channels & Redis WebSockets:</h5>
+              <h5 className="font-bold text-foreground text-base mb-2">WebSocket & Solidity Smart Contract:</h5>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Jonli ovozlar kelib tushishi bilan Redis xabarlar brokeri orqali barcha ulangan foydalanuvchilar ekranidagi Recharts diagrammalari soniyalarda yangilanadi (real-time updates).
+                Redis va Channels yordamida real vaqtda natijalar uzatiladi. Ovoz berish qismida Merkle Tree isbotlari bilan yozilgan asinxron Solidity (`VoteSecure.sol`) smart-kontrakti loyihalashtirildi.
               </p>
             </div>
             <div className="p-3 bg-card rounded border border-border text-xs font-mono text-muted-foreground mt-4">
-              ws://localhost:8000/ws/elections/{"{id}"}/
+              Web3: personal_sign(msg) ➔ eth-account.recover_message()
             </div>
           </div>
         </div>
@@ -755,33 +755,33 @@ export default function PresentationPage() {
     },
     {
       category: "SOFTWARE",
-      title: "Project Part: Frontend & Backend Development",
-      subtitle: "Software structure, routing, and APIs",
+      title: "2.3 - 2.4 Frontend & Backend Development (with Web3 Integration)",
+      subtitle: "Software structure, routing, and Web3 blockchain architecture",
       content: (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 text-sm">
           <div className="space-y-4">
             <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-              <h5 className="font-bold text-primary text-base mb-1.5">React & Next.js Client:</h5>
+              <h5 className="font-bold text-primary text-base mb-1.5">React, Next.js & Web3:</h5>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Zustand manages the state. Axios interceptors inject/renew JWT tokens automatically.
+                Zustand and Axios interceptors handle state & JWT tokens. The Web3 client integrates MetaMask (<code>eth_requestAccounts</code>) and cryptographic <code>personal_sign</code> for secure wallet proof.
               </p>
             </div>
             <div className="bg-white/5 p-4 rounded-xl border border-white/5">
-              <h5 className="font-bold text-primary text-base mb-1.5">Django REST Framework (DRF):</h5>
+              <h5 className="font-bold text-primary text-base mb-1.5">Django & ECDSA Verification:</h5>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Provides secure API controllers and models for elections and candidate profiles.
+                DRF APIs run side-by-side with an asynchronous <code>Web3LoginView</code> backend that performs ECDSA signature verification via <code>eth-account</code> package.
               </p>
             </div>
           </div>
           <div className="bg-white/5 p-5 rounded-xl border border-white/5 flex flex-col justify-between">
             <div>
-              <h5 className="font-bold text-foreground text-base mb-2">WebSocket (Channels + Redis):</h5>
+              <h5 className="font-bold text-foreground text-base mb-2">WebSocket & Solidity Smart Contract:</h5>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Powers async broadcasts using Redis pub/sub to synchronize client views immediately as soon as a vote is submitted.
+                Redis and Channels enable real-time result broadcasting. The voting protocol is backed by a custom Solidity smart contract (<code>VoteSecure.sol</code>) implementing Merkle Tree root updates.
               </p>
             </div>
             <div className="p-3 bg-card rounded border border-border text-xs font-mono text-muted-foreground mt-4">
-              ws://localhost:8000/ws/elections/{"{id}"}/
+              Web3: personal_sign(msg) ➔ eth-account.recover_message()
             </div>
           </div>
         </div>

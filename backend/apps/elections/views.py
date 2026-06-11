@@ -31,5 +31,11 @@ class ElectionResultView(generics.RetrieveAPIView):
     def get_object(self):
         obj = super().get_object()
         if not obj.results_public and self.request.user.role != 'admin':
-            raise PermissionDenied("Results are not public yet.")
+            # Allow viewing if the user has already voted in this election
+            from apps.votes.views import generate_voter_hash
+            from apps.votes.models import Vote
+            voter_hash = generate_voter_hash(str(self.request.user.id), str(obj.id))
+            has_voted = Vote.objects.filter(voter_hash=voter_hash, election=obj).exists()
+            if not has_voted:
+                raise PermissionDenied("Results are not public yet and you have not voted.")
         return obj

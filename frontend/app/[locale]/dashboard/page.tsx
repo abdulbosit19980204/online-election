@@ -20,6 +20,9 @@ export default function DashboardPage() {
   const [votedMap, setVotedMap] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
   const [walletLinking, setWalletLinking] = useState(false);
+  const [verifyHash, setVerifyHash] = useState("");
+  const [verifyLoading, setVerifyLoading] = useState(false);
+  const [verifyResult, setVerifyResult] = useState<any>(null);
 
   const [hydrated, setHydrated] = useState(false);
 
@@ -57,6 +60,29 @@ export default function DashboardPage() {
       toast.error(commonT("error"));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleVerifyVote = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!verifyHash.trim()) return;
+    setVerifyLoading(true);
+    setVerifyResult(null);
+    try {
+      const res = await voteApi.verify(verifyHash.trim());
+      setVerifyResult({
+        success: true,
+        data: res.data,
+      });
+      toast.success("Ovoz muvaffaqiyatli tekshirildi!");
+    } catch (err: any) {
+      setVerifyResult({
+        success: false,
+        message: err.response?.data?.detail || "Kiritilgan chek xeshi topilmadi yoki tizimga kiritilmagan.",
+      });
+      toast.error("Ovoz topilmadi.");
+    } finally {
+      setVerifyLoading(false);
     }
   };
 
@@ -168,7 +194,7 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8"
         >
           {[
             { label: t("active_elections"), value: active.length, icon: Vote, color: "text-primary" },
@@ -181,6 +207,75 @@ export default function DashboardPage() {
               <p className="text-xs text-muted-foreground mt-1">{s.label}</p>
             </div>
           ))}
+        </motion.div>
+
+        {/* Interactive Vote Verification Widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="mb-10 p-6 rounded-3xl border border-white/5 bg-white/5 relative overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+          <h3 className="font-bold text-base text-foreground mb-1.5 uppercase tracking-wider flex items-center gap-2">
+            <CheckCircle size={18} className="text-success" />
+            Ovozni Tekshirish va Audit (On-Chain Proof)
+          </h3>
+          <p className="text-xs text-muted-foreground mb-5">
+            Ovoz berganingizdan so'ng sizga taqdim etilgan unikal chek xeshini (receipt hash) kiritib, ovozingiz reestrda muvaffaqiyatli saqlanganligini mustaqil tekshirib oling.
+          </p>
+
+          <form onSubmit={handleVerifyVote} className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="text"
+              placeholder="Chek xeshini kiriting (masalan, e3b0c442...)"
+              value={verifyHash}
+              onChange={(e) => setVerifyHash(e.target.value)}
+              className="input-field flex-grow text-xs font-mono py-3"
+              required
+            />
+            <button
+              type="submit"
+              disabled={verifyLoading}
+              className="btn-primary py-3 px-6 rounded-xl text-xs font-bold whitespace-nowrap justify-center"
+            >
+              {verifyLoading ? <Loader2 size={14} className="animate-spin" /> : "Tekshirish"}
+            </button>
+          </form>
+
+          {verifyResult && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mt-6 p-5 rounded-2xl border ${verifyResult.success ? "bg-success/5 border-success/20 text-success" : "bg-danger/5 border-danger/20 text-danger"} text-xs leading-relaxed`}
+            >
+              {verifyResult.success ? (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 font-bold text-sm text-foreground">
+                    <span className="w-2.5 h-2.5 bg-success rounded-full animate-pulse" />
+                    Ovoz Muvaffaqiyatli Tasdiqlandi
+                  </div>
+                  <p className="text-muted-foreground">
+                    Ushbu shifrlangan ovoz <strong>{verifyResult.data.election_title}</strong> saylovi bo'yicha tizimga xavfsiz qabul qilingan va blokcheyn reestriga o'zgartirib bo'lmas tarzda muhrlangan.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4 pt-2 font-mono text-[10px] text-muted-foreground border-t border-white/5 mt-3">
+                    <div>
+                      <span className="block text-[8px] uppercase tracking-wider">Kiritilgan vaqt:</span>
+                      <span className="font-bold text-foreground">{new Date(verifyResult.data.cast_at).toLocaleString()}</span>
+                    </div>
+                    <div>
+                      <span className="block text-[8px] uppercase tracking-wider">Holati:</span>
+                      <span className="font-bold text-success">{verifyResult.data.status}</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="font-semibold text-danger">
+                  {verifyResult.message}
+                </div>
+              )}
+            </motion.div>
+          )}
         </motion.div>
 
         {loading ? (

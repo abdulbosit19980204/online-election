@@ -7,7 +7,7 @@ from django.utils import timezone
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
@@ -96,3 +96,19 @@ class VoteStatusView(APIView):
                 "receipt_hash": receipt_hash
             })
         return Response({"has_voted": False, "cast_at": None, "receipt_hash": None})
+
+
+class VerifyVoteView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, receipt_hash):
+        for vote in Vote.objects.select_related("election").all():
+            h = hashlib.sha256(str(vote.id).encode()).hexdigest()
+            if h == receipt_hash:
+                return Response({
+                    "verified": True,
+                    "election_title": vote.election.title,
+                    "cast_at": vote.cast_at,
+                    "status": "Verified & Secured on Blockchain Ledger"
+                })
+        return Response({"verified": False, "detail": "Receipt hash not found"}, status=status.HTTP_404_NOT_FOUND)

@@ -45,6 +45,7 @@
     --background: #f8fafc; /* slate-50 */
     --foreground: #0f172a; /* slate-900 */
     --card: #ffffff;
+    --card-rgb: 255, 255, 255;
     --card-foreground: #0f172a;
     --border: #e2e8f0; /* slate-200 */
     --border-active: #4f46e5;
@@ -77,6 +78,7 @@
     --background: #0f0f13;
     --foreground: #f8fafc; /* slate-50 */
     --card: #16161d;
+    --card-rgb: 22, 22, 29;
     --card-foreground: #f8fafc;
     --border: #26262f;
     --border-active: #6366f1;
@@ -147,14 +149,14 @@
 /* ─── Glass Cards ────────────────────────────────────────── */
 @layer components {
   .glass {
-    background: rgba(var(--card), 0.8);
+    background: rgba(var(--card-rgb), 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border);
   }
 
   .glass-light {
-    background: rgba(var(--card), 0.5);
+    background: rgba(var(--card-rgb), 0.55);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
   }

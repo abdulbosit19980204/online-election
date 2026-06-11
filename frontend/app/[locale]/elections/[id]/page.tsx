@@ -44,6 +44,7 @@ export default function ElectionDetailPage() {
   const [submitting, setSubmitting] = useState(false);
   const [receipt, setReceipt] = useState<string | null>(null);
   const [web3Step, setWeb3Step] = useState<"idle" | "signing" | "proving" | "submitting">("idle");
+  const [results, setResults] = useState<any>(null);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -58,6 +59,15 @@ export default function ElectionDetailPage() {
       ]);
       setElection(elRes.data);
       setVoteStatus(vsRes.data);
+
+      if (vsRes.data.has_voted || elRes.data.results_public) {
+        try {
+          const resRes = await electionApi.results(id);
+          setResults(resRes.data);
+        } catch (e) {
+          console.error("Results not public yet or error", e);
+        }
+      }
     } catch {
       toast.error(commonT("error"));
     } finally {
@@ -107,6 +117,14 @@ export default function ElectionDetailPage() {
       setVoteStatus({ has_voted: true, cast_at: res.data.cast_at, receipt_hash: res.data.receipt_hash });
       setConfirmOpen(false);
       toast.success(t("vote_success"));
+
+      // Fetch results right after successful voting
+      try {
+        const resRes = await electionApi.results(id);
+        setResults(resRes.data);
+      } catch (e) {
+        console.error("Results not public yet or error", e);
+      }
     } catch (err: any) {
       toast.dismiss("web3-vote");
       toast.error(err?.response?.data?.detail || commonT("error"));
@@ -233,7 +251,7 @@ export default function ElectionDetailPage() {
             </p>
             
             {activeReceipt && (
-              <div className="bg-secondary rounded-2xl p-5 text-left mt-8 mb-8 border border-white/5 relative overflow-hidden">
+              <div className="bg-secondary rounded-2xl p-5 text-left mt-8 mb-6 border border-white/5 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-xl pointer-events-none" />
                 <div className="flex justify-between items-center mb-3">
                   <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{t("receipt")}</p>
@@ -246,6 +264,38 @@ export default function ElectionDetailPage() {
                   </button>
                 </div>
                 <p className="font-mono text-xs text-primary break-all font-bold pr-4 bg-black/20 p-3 rounded-lg border border-white/5">{activeReceipt}</p>
+              </div>
+            )}
+
+            {results && (
+              <div className="mt-2 mb-8 p-6 bg-white/5 rounded-2xl border border-white/5 space-y-4 text-left relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-success/5 rounded-full blur-2xl pointer-events-none" />
+                <h3 className="font-bold text-sm text-foreground flex items-center gap-2 uppercase tracking-wider">
+                  <span className="w-2 h-2 rounded-full bg-success animate-ping" />
+                  Saylov Natijalari (Jonli)
+                </h3>
+                <div className="space-y-4 pt-1">
+                  {results.candidates.map((cand: any) => {
+                    const pct = cand.percentage || 0;
+                    return (
+                      <div key={cand.id} className="space-y-1.5">
+                        <div className="flex justify-between text-xs font-semibold">
+                          <span className="text-foreground">{cand.name} <span className="text-muted-foreground font-normal">({cand.party})</span></span>
+                          <span className="text-primary font-bold">{cand.vote_count} ovoz ({pct}%)</span>
+                        </div>
+                        <div className="w-full bg-white/10 h-2.5 rounded-full overflow-hidden">
+                          <div 
+                            className="bg-gradient-to-r from-primary to-indigo-400 h-full rounded-full transition-all duration-1000"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="text-[9px] text-muted-foreground text-center pt-2 font-mono uppercase tracking-widest border-t border-white/5 mt-4">
+                  Jami Hisoblangan Ovozlar: {results.total_votes}
+                </div>
               </div>
             )}
 

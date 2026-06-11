@@ -212,7 +212,7 @@ if not DEBUG:
 
 # ─── Custom settings ───────────────────────────────────────
 VOTE_SALT = config("VOTE_SALT", default="dev-vote-salt-change-in-production")
-FERNET_KEY = config("FERNET_KEY", default="")
+FERNET_KEY = config("FERNET_KEY", default="EJWP2cEuAocpJbWfge55QT51ECLWs1emykfZUpPaZ4Y=")
 FIRST_ADMIN_EMAIL = config("FIRST_ADMIN_EMAIL", default="admin@election.local")
 FIRST_ADMIN_PASSWORD = config("FIRST_ADMIN_PASSWORD", default="Admin@123456")
 
