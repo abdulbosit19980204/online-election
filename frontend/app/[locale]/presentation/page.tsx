@@ -174,41 +174,111 @@ export default function PresentationPage() {
       title: "Veb-Texnologiyalar va UX/UI Dizayn Tamoyillari",
       subtitle: "Foydalanuvchi tajribasini optimallashtirish qoidalari",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
+          {/* Left: Design principles descriptions */}
+          <div className="lg:col-span-6 space-y-5">
             <div className="flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 shrink-0 border border-blue-500/20">
                 <Monitor size={20} />
               </div>
-              <div className="text-sm">
+              <div className="text-xs md:text-sm">
                 <strong className="text-foreground block text-base mb-1">Mobile-First va Responsiveness:</strong>
-                Foydalanuvchilarning 50% dan ortig'i mobil qurilmalardan kiradi. Interfeys dastlab mobil uchun, keyin desktop uchun optimallashdi.
+                <p className="text-muted-foreground leading-relaxed">
+                  Foydalanuvchilarning 50% dan ortig'i mobil qurilmalardan kiradi. Interfeys dastlab mobil uchun, keyin desktop uchun optimallashdi.
+                </p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 shrink-0 border border-indigo-500/20">
                 <ListFilter size={20} />
               </div>
-              <div className="text-sm">
+              <div className="text-xs md:text-sm">
                 <strong className="text-foreground block text-base mb-1">Vizual Ierarxiya va White Space:</strong>
-                CTA tugmalari kontrastli ranglarda ajratilgan. Ortiqcha ma'lumotlar kognitiv yuklamani (cognitive load) kamaytirish uchun olib tashlandi.
+                <p className="text-muted-foreground leading-relaxed">
+                  CTA tugmalari kontrastli ranglarda ajratilgan. Ortiqcha ma'lumotlar kognitiv yuklamani (cognitive load) kamaytirish uchun olib tashlandi.
+                </p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 shrink-0 border border-purple-500/20">
                 <Activity size={20} />
               </div>
-              <div className="text-sm">
+              <div className="text-xs md:text-sm">
                 <strong className="text-foreground block text-base mb-1">Tipografika va Ranglar:</strong>
-                Sans-Serif inter oilasi shrifti o'qish tezligini oshiradi. Ko'k (ishonch) va yashil (tasdiq) ranglardan o'rinli foydalanildi.
+                <p className="text-muted-foreground leading-relaxed">
+                  Sans-Serif Inter oilasi shrifti o'qish tezligini oshiradi. Ko'k (ishonch) va yashil (tasdiq) ranglardan o'rinli foydalanildi.
+                </p>
               </div>
             </div>
+            <div className="p-4 bg-white/5 rounded-2xl border border-white/5 text-xs text-muted-foreground leading-relaxed">
+              <span className="font-bold text-foreground block mb-1">Framer Motion mikro-animatsiyalari:</span>
+              Tizimdagi silliq animatsiyalar saylovchiga har bir harakatini (tugmani bosish, sahifaning yuklanishi, kvitansiya generatsiyasi) vizual tasdiqlab beradi.
+            </div>
           </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 flex flex-col justify-center space-y-4 text-sm">
-            <h4 className="font-bold text-foreground text-base">Framer Motion mikro-animatsiyalari:</h4>
-            <p className="text-muted-foreground leading-relaxed text-sm">
-              Tizimdagi silliq animatsiyalar saylovchiga har bir harakatini (tugmani bosish, sahifaning yuklanishi, kvitansiya generatsiyasi) vizual tasdiqlab beradi. Bu esa o'z navbatida onlayn tizimlarga bo'lgan ishonchni oshirishga xizmat qiladi.
-            </p>
+
+          {/* Right: Visual design elements and tech stack */}
+          <div className="lg:col-span-6 space-y-6">
+            {/* Visual Color Palette Card */}
+            <div className="bg-white/5 p-5 rounded-2xl border border-white/5 space-y-3.5">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-primary">UX/UI Ranglar Palitrasi (Visual Palette)</h4>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-indigo-600 mb-2 shadow-lg shadow-indigo-600/30" />
+                  <span className="text-[10px] font-bold text-foreground">Indigo Blue</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#4F46E5</span>
+                  <span className="text-[8px] text-primary uppercase font-bold mt-1">Trust (Ishonch)</span>
+                </div>
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500 mb-2 shadow-lg shadow-emerald-500/30" />
+                  <span className="text-[10px] font-bold text-foreground">Emerald Green</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#10B981</span>
+                  <span className="text-[8px] text-success uppercase font-bold mt-1">Verified (Tasdiq)</span>
+                </div>
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-rose-500 mb-2 shadow-lg shadow-rose-500/30" />
+                  <span className="text-[10px] font-bold text-foreground">Rose Red</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#EF4444</span>
+                  <span className="text-[8px] text-danger uppercase font-bold mt-1">Alert (Taqiq)</span>
+                </div>
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-zinc-950 mb-2 border border-white/10" />
+                  <span className="text-[10px] font-bold text-foreground">Zinc Dark</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#09090B</span>
+                  <span className="text-[8px] text-muted-foreground uppercase font-bold mt-1">Contrast (Fon)</span>
+                </div>
+              </div>
+              {/* 60-30-10 Rule visualization */}
+              <div className="space-y-1.5 pt-2">
+                <div className="flex justify-between text-[9px] text-muted-foreground font-mono uppercase tracking-wider">
+                  <span>60% Fon (Dark Zinc)</span>
+                  <span>30% Tarkib (Glass/Card)</span>
+                  <span>10% Aktsent (Indigo/Emerald)</span>
+                </div>
+                <div className="h-3 w-full rounded-full overflow-hidden flex bg-white/5">
+                  <div className="h-full bg-zinc-950 border-r border-white/10" style={{ width: "60%" }} />
+                  <div className="h-full bg-white/10 border-r border-white/10" style={{ width: "30%" }} />
+                  <div className="h-full bg-indigo-600" style={{ width: "10%" }} />
+                </div>
+              </div>
+            </div>
+
+            {/* Tech Stack badges */}
+            <div className="bg-white/5 p-5 rounded-2xl border border-white/5 space-y-3">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-primary flex items-center gap-1.5">
+                <Cpu size={14} /> Web-Texnologiyalar Arxitekturasi
+              </h4>
+              <div className="flex flex-wrap gap-2 pt-1">
+                <span className="bg-blue-500/10 text-blue-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-blue-500/20">Next.js 16 (App Router)</span>
+                <span className="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-indigo-500/20">React 19 & Zustand</span>
+                <span className="bg-purple-500/10 text-purple-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-purple-500/20">Tailwind CSS (Vanilla Custom CSS)</span>
+                <span className="bg-pink-500/10 text-pink-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-pink-500/20">Framer Motion (Micro-animations)</span>
+                <span className="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-emerald-500/20">Solidity Smart Contracts</span>
+                <span className="bg-yellow-500/10 text-yellow-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-yellow-500/20">Web3 / MetaMask Integration</span>
+                <span className="bg-green-500/10 text-green-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-green-500/20">Django REST Framework (Python)</span>
+                <span className="bg-teal-500/10 text-teal-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-teal-500/20">Daphne, Channels & Redis (WebSockets)</span>
+                <span className="bg-cyan-500/10 text-cyan-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-cyan-500/20">PostgreSQL Database</span>
+              </div>
+            </div>
           </div>
         </div>
       ),
@@ -652,41 +722,111 @@ export default function PresentationPage() {
       title: "Theoretical Part: Web Technologies and UX/UI Design Principles",
       subtitle: "Modern interface design and usability standards",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
-          <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
+          {/* Left: Design principles descriptions */}
+          <div className="lg:col-span-6 space-y-5">
             <div className="flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400 shrink-0 border border-blue-500/20">
                 <Monitor size={20} />
               </div>
-              <div className="text-sm">
+              <div className="text-xs md:text-sm">
                 <strong className="text-foreground block text-base mb-1">Mobile-First Approach:</strong>
-                More than 50% of traffic comes from mobile phones. Interfaces are optimized for small touch screens, then responsive to desktop.
+                <p className="text-muted-foreground leading-relaxed">
+                  More than 50% of traffic comes from mobile phones. Interfaces are optimized for small touch screens, then responsive to desktop.
+                </p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 shrink-0 border border-indigo-500/20">
                 <ListFilter size={20} />
               </div>
-              <div className="text-sm">
+              <div className="text-xs md:text-sm">
                 <strong className="text-foreground block text-base mb-1">Visual Hierarchy and White Space:</strong>
-                User eyes read following an F-shaped path. Important CTAs are isolated. Clean layout without distracting components.
+                <p className="text-muted-foreground leading-relaxed">
+                  User eyes read following an F-shaped path. Important CTAs are isolated. Clean layout without distracting components.
+                </p>
               </div>
             </div>
             <div className="flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400 shrink-0 border border-purple-500/20">
                 <Activity size={20} />
               </div>
-              <div className="text-sm">
+              <div className="text-xs md:text-sm">
                 <strong className="text-foreground block text-base mb-1">Color Psychology & Typography:</strong>
-                Blue (trust) and green (success) applied using the 60-30-10 palette rules. Clear, readable Sans-Serif font hierarchy.
+                <p className="text-muted-foreground leading-relaxed">
+                  Blue (trust) and green (success) applied using the 60-30-10 palette rules. Clear, readable Sans-Serif font hierarchy.
+                </p>
               </div>
             </div>
+            <div className="p-4 bg-white/5 rounded-2xl border border-white/5 text-xs text-muted-foreground leading-relaxed">
+              <span className="font-bold text-foreground block mb-1">Framer Motion & Micro-interactions:</span>
+              Smooth visual animations provide immediate feedback for actions (button clicks, progress updates, receipt generation) to improve system trust.
+            </div>
           </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 flex flex-col justify-center space-y-4 text-sm">
-            <h4 className="font-bold text-foreground text-base">Framer Motion & Micro-interactions:</h4>
-            <p className="text-muted-foreground leading-relaxed text-sm">
-              Hover states, progress animations, and page-to-page visual flows reduce cognitive loads and make interactions predictable.
-            </p>
+
+          {/* Right: Visual design elements and tech stack */}
+          <div className="lg:col-span-6 space-y-6">
+            {/* Visual Color Palette Card */}
+            <div className="bg-white/5 p-5 rounded-2xl border border-white/5 space-y-3.5">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-primary">UX/UI Color Swatches (Visual Palette)</h4>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-indigo-600 mb-2 shadow-lg shadow-indigo-600/30" />
+                  <span className="text-[10px] font-bold text-foreground">Indigo Blue</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#4F46E5</span>
+                  <span className="text-[8px] text-primary uppercase font-bold mt-1">Trust</span>
+                </div>
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-emerald-500 mb-2 shadow-lg shadow-emerald-500/30" />
+                  <span className="text-[10px] font-bold text-foreground">Emerald Green</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#10B981</span>
+                  <span className="text-[8px] text-success uppercase font-bold mt-1">Verified</span>
+                </div>
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-rose-500 mb-2 shadow-lg shadow-rose-500/30" />
+                  <span className="text-[10px] font-bold text-foreground">Rose Red</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#EF4444</span>
+                  <span className="text-[8px] text-danger uppercase font-bold mt-1">Alert</span>
+                </div>
+                <div className="flex flex-col items-center p-2.5 bg-black/45 rounded-xl border border-white/5 text-center">
+                  <div className="w-10 h-10 rounded-full bg-zinc-950 mb-2 border border-white/10" />
+                  <span className="text-[10px] font-bold text-foreground">Zinc Dark</span>
+                  <span className="text-[9px] text-muted-foreground font-mono">#09090B</span>
+                  <span className="text-[8px] text-muted-foreground uppercase font-bold mt-1">Contrast</span>
+                </div>
+              </div>
+              {/* 60-30-10 Rule visualization */}
+              <div className="space-y-1.5 pt-2">
+                <div className="flex justify-between text-[9px] text-muted-foreground font-mono uppercase tracking-wider">
+                  <span>60% Canvas (Dark Zinc)</span>
+                  <span>30% Layout (Glass/Card)</span>
+                  <span>10% Accent (Indigo/Emerald)</span>
+                </div>
+                <div className="h-3 w-full rounded-full overflow-hidden flex bg-white/5">
+                  <div className="h-full bg-zinc-950 border-r border-white/10" style={{ width: "60%" }} />
+                  <div className="h-full bg-white/10 border-r border-white/10" style={{ width: "30%" }} />
+                  <div className="h-full bg-indigo-600" style={{ width: "10%" }} />
+                </div>
+              </div>
+            </div>
+
+            {/* Tech Stack badges */}
+            <div className="bg-white/5 p-5 rounded-2xl border border-white/5 space-y-3">
+              <h4 className="font-bold text-xs uppercase tracking-widest text-primary flex items-center gap-1.5">
+                <Cpu size={14} /> Web Technologies Architecture
+              </h4>
+              <div className="flex flex-wrap gap-2 pt-1">
+                <span className="bg-blue-500/10 text-blue-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-blue-500/20">Next.js 16 (App Router)</span>
+                <span className="bg-indigo-500/10 text-indigo-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-indigo-500/20">React 19 & Zustand</span>
+                <span className="bg-purple-500/10 text-purple-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-purple-500/20">Tailwind CSS (Vanilla Custom CSS)</span>
+                <span className="bg-pink-500/10 text-pink-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-pink-500/20">Framer Motion (Micro-animations)</span>
+                <span className="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-emerald-500/20">Solidity Smart Contracts</span>
+                <span className="bg-yellow-500/10 text-yellow-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-yellow-500/20">Web3 / MetaMask Integration</span>
+                <span className="bg-green-500/10 text-green-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-green-500/20">Django REST Framework (Python)</span>
+                <span className="bg-teal-500/10 text-teal-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-teal-500/20">Daphne, Channels & Redis (WebSockets)</span>
+                <span className="bg-cyan-500/10 text-cyan-400 text-[10px] font-bold py-1 px-2.5 rounded-lg border border-cyan-500/20">PostgreSQL Database</span>
+              </div>
+            </div>
           </div>
         </div>
       ),

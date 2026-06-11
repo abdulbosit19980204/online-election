@@ -93,9 +93,10 @@ class Web3LoginView(generics.GenericAPIView):
             if User.objects.filter(email=email).exists():
                 email = f"{wallet_address.lower()}_{User.objects.count()}@wallet.eth"
 
+            import secrets
             user = User.objects.create_user(
                 email=email,
-                password=User.objects.make_random_password(),
+                password=secrets.token_hex(16),
                 full_name=full_name,
                 role='voter',
                 wallet_address=wallet_address,
