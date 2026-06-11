@@ -90,8 +90,8 @@ export const electionApi = {
 
 // Votes
 export const voteApi = {
-  cast: (election_id: string, candidate_id: string) =>
-    api.post(`/votes/${election_id}/`, { election_id, candidate_id }),
+  cast: (election_id: string, candidate_id: string, tx_hash?: string) =>
+    api.post(`/votes/${election_id}/`, { election_id, candidate_id, tx_hash }),
   status: (election_id: string) => api.get(`/votes/status/${election_id}/`),
   verify: (receiptHash: string) => api.get(`/votes/verify/${receiptHash}/`),
 };

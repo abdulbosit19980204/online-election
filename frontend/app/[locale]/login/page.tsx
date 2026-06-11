@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "@/navigation";
 import { Link } from "@/navigation";
 import toast from "react-hot-toast";
-import { ShieldCheck, Eye, EyeOff, ArrowRight, Mail, Lock, Wallet } from "lucide-react";
+import { ShieldCheck, Eye, EyeOff, ArrowRight, Mail, Lock, Wallet, X, CheckCircle2, Loader2 } from "lucide-react";
 import { authApi } from "@/lib/api";
 import { useAuthStore } from "@/store/authStore";
 import { useTranslations } from "next-intl";
@@ -13,7 +13,11 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [demoWallet, setDemoWallet] = useState("0x71C7656EC7ab88b098defB751B7401B5f6d8976F");
+  const [walletModalOpen, setWalletModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState<"choose" | "connect" | "signing" | "success">("choose");
+  const [demoAddress, setDemoAddress] = useState("0x71C7656EC7ab88b098defB751B7401B5f6d8976F");
+  const [simLoading, setSimLoading] = useState(false);
+  const [simStepText, setSimStepText] = useState("");
   const router = useRouter();
   const { setAuth, isAuthenticated } = useAuthStore();
   const [hydrated, setHydrated] = useState(false);
@@ -48,7 +52,7 @@ export default function LoginPage() {
     }
   };
 
-  const handleWeb3Login = async () => {
+  const handleRealWeb3Login = async () => {
     if (typeof window !== "undefined" && (window as any).ethereum) {
       setLoading(true);
       try {
@@ -72,6 +76,7 @@ export default function LoginPage() {
         
         toast.dismiss("web3-loading");
         toast.success(`Web3 wallet verified successfully!`);
+        setWalletModalOpen(false);
         router.push("/dashboard");
       } catch (err: any) {
         toast.dismiss("web3-loading");
@@ -80,39 +85,49 @@ export default function LoginPage() {
         setLoading(false);
       }
     } else {
-      setLoading(true);
-      const toastId = toast.loading("Simulating Web3 Wallet Verification (Demo Mode)...");
-      setTimeout(async () => {
-        try {
-          let mockAddress = demoWallet;
-          if (demoWallet === "random") {
-            const randHex = Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
-            mockAddress = `0x${randHex}`;
-          }
+      toast.error("MetaMask browser extension not detected.");
+    }
+  };
 
-          const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${mockAddress}`;
-          const mockSignature = "0x82a613589bdf3d68bcf8df611f7c6e611f67f654b9f291e0a811c750e82f5b5f25a3a7892b15e478be32717904031d6837882b5f7e7f6e6f666f7f6f6f6f6f6f1c";
-          
-          // Call the backend to register/login the mock address securely
-          const res = await authApi.web3Login({
-            wallet_address: mockAddress,
-            signature: mockSignature,
-            message: message
-          });
-          
-          const { user, access_token, refresh_token } = res.data;
-          setAuth(user, access_token, refresh_token);
-          
-          toast.dismiss(toastId);
-          toast.success(`Simulated Web3 Wallet verified!`);
-          router.push("/dashboard");
-        } catch {
-          toast.dismiss(toastId);
-          toast.error("Failed to authenticate Web3 wallet.");
-        } finally {
-          setLoading(false);
-        }
-      }, 1500);
+  const handleSimulatedConnect = async () => {
+    setSimLoading(true);
+    setSimStepText("Connecting to Simulated MetaMask...");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setSimLoading(false);
+    setModalStep("signing");
+  };
+
+  const handleSimulatedSign = async () => {
+    setSimLoading(true);
+    setSimStepText("Signing message using simulated ECDSA key...");
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    try {
+      let mockAddress = demoAddress;
+      if (demoAddress === "random") {
+        const randHex = Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+        mockAddress = `0x${randHex}`;
+      }
+
+      const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${mockAddress}`;
+      const mockSignature = "0x82a613589bdf3d68bcf8df611f7c6e611f67f654b9f291e0a811c750e82f5b5f25a3a7892b15e478be32717904031d6837882b5f7e7f6e6f666f7f6f6f6f6f6f1c";
+
+      const res = await authApi.web3Login({
+        wallet_address: mockAddress,
+        signature: mockSignature,
+        message: message,
+      });
+
+      const { user, access_token, refresh_token } = res.data;
+      setAuth(user, access_token, refresh_token);
+      setModalStep("success");
+      toast.success("Simulated Web3 Wallet signed & verified!");
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      setWalletModalOpen(false);
+      router.push("/dashboard");
+    } catch {
+      toast.error("Failed to verify simulated signature.");
+    } finally {
+      setSimLoading(false);
     }
   };
 
@@ -203,24 +218,11 @@ export default function LoginPage() {
               <div className="h-px bg-border flex-grow" />
             </div>
 
-            {hydrated && typeof window !== "undefined" && !(window as any).ethereum && (
-              <div className="mb-4 text-left">
-                <label className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-wider">Demo Hamyonni Tanlang:</label>
-                <select
-                  value={demoWallet}
-                  onChange={(e) => setDemoWallet(e.target.value)}
-                  className="input-field py-2.5 text-xs font-mono bg-card"
-                >
-                  <option value="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">Voter Account 1 (0x71C76...)</option>
-                  <option value="0x2B5AD5c27D26444dE967D9C6400f91c9535d97EF">Voter Account 2 (0x2B5AD...)</option>
-                  <option value="0x9c6E601Bf65427d11019052b61D99fD8EADaE125">Voter Account 3 (0x9c6E6...)</option>
-                  <option value="random">Yangi tasodifiy hamyon yaratish (Random)</option>
-                </select>
-              </div>
-            )}
-
             <button
-              onClick={handleWeb3Login}
+              onClick={() => {
+                setWalletModalOpen(true);
+                setModalStep("choose");
+              }}
               type="button"
               disabled={loading}
               className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-primary/20 hover:border-primary/50 bg-primary/5 hover:bg-primary/10 text-foreground transition-all duration-300 font-bold text-xs"
@@ -228,6 +230,134 @@ export default function LoginPage() {
               <Wallet size={16} className="text-primary" />
               Web3 Hamyon orqali kirish (MetaMask / TON)
             </button>
+
+            {walletModalOpen && (
+              <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                <div className="bg-card border border-border rounded-3xl p-6 w-full max-w-sm relative z-50 overflow-hidden shadow-2xl animate-fade-in">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+                  
+                  {/* Header */}
+                  <div className="flex justify-between items-center mb-5 border-b border-border pb-3">
+                    <h3 className="font-bold text-sm text-foreground flex items-center gap-2">
+                      <Wallet size={16} className="text-primary" />
+                      Web3 Hamyon Ulash
+                    </h3>
+                    <button 
+                      onClick={() => setWalletModalOpen(false)}
+                      className="text-muted-foreground hover:text-foreground transition-colors p-1 cursor-pointer"
+                    >
+                      <X size={16} />
+                    </button>
+                  </div>
+
+                  {/* Step 1: Choose real vs simulated */}
+                  {modalStep === "choose" && (
+                    <div className="space-y-4">
+                      <p className="text-[11px] text-muted-foreground leading-relaxed">
+                        Tizimga kirish uchun Web3 hamyoningizni ulang. Sinov rejimida bo'lsangiz, MetaMask simulyatorini tanlashingiz mumkin.
+                      </p>
+                      
+                      <button
+                        onClick={handleRealWeb3Login}
+                        className="w-full p-4 bg-secondary/40 border border-border hover:bg-secondary/70 hover:border-primary/30 rounded-2xl flex items-center gap-3 text-left transition-all cursor-pointer"
+                      >
+                        <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-500 border border-orange-500/20 shrink-0">
+                          <Wallet size={20} />
+                        </div>
+                        <div className="min-w-0">
+                          <strong className="block text-xs text-foreground">MetaMask (Real Rejim)</strong>
+                          <span className="block text-[10px] text-muted-foreground truncate">Brauzerdagi real hamyon orqali kirish</span>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => setModalStep("connect")}
+                        className="w-full p-4 bg-secondary/40 border border-border hover:bg-secondary/70 hover:border-primary/30 rounded-2xl flex items-center gap-3 text-left transition-all cursor-pointer"
+                      >
+                        <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary border border-primary/20 shrink-0">
+                          <ShieldCheck size={20} />
+                        </div>
+                        <div className="min-w-0">
+                          <strong className="block text-xs text-foreground">MetaMask Simulator (Demo)</strong>
+                          <span className="block text-[10px] text-muted-foreground truncate">Imzolash jarayonini sinab ko'rish</span>
+                        </div>
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Step 2: Simulated Connect */}
+                  {modalStep === "connect" && (
+                    <div className="space-y-4">
+                      <label className="block text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Demo Hamyon Manzilini Tanlang:</label>
+                      <select
+                        value={demoAddress}
+                        onChange={(e) => setDemoAddress(e.target.value)}
+                        className="input-field py-2.5 text-xs font-mono bg-card"
+                        disabled={simLoading}
+                      >
+                        <option value="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">Voter Account 1 (0x71C76...)</option>
+                        <option value="0x2B5AD5c27D26444dE967D9C6400f91c9535d97EF">Voter Account 2 (0x2B5AD...)</option>
+                        <option value="0x9c6E601Bf65427d11019052b61D99fD8EADaE125">Voter Account 3 (0x9c6E6...)</option>
+                        <option value="random">Yangi tasodifiy hamyon yaratish (Random)</option>
+                      </select>
+
+                      <button
+                        onClick={handleSimulatedConnect}
+                        disabled={simLoading}
+                        className="btn-primary w-full justify-center py-3 text-xs cursor-pointer"
+                      >
+                        {simLoading ? (
+                          <span className="flex items-center gap-2">
+                            <Loader2 size={14} className="animate-spin" />
+                            {simStepText}
+                          </span>
+                        ) : (
+                          "Hamyonni Ulash (Connect)"
+                        )}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Step 3: Simulated Sign */}
+                  {modalStep === "signing" && (
+                    <div className="space-y-4">
+                      <div className="p-3 bg-secondary/40 rounded-xl border border-border text-[10px] font-mono leading-relaxed text-muted-foreground text-left">
+                        <span className="text-primary font-bold block mb-1">Signature Request (MetaMask Sim)</span>
+                        Message: Welcome to VoteSecure!<br/>
+                        Sign this message to prove ownership.<br/>
+                        Address: <span className="text-foreground break-all">{demoAddress}</span>
+                      </div>
+
+                      <button
+                        onClick={handleSimulatedSign}
+                        disabled={simLoading}
+                        className="btn-primary w-full justify-center py-3 text-xs cursor-pointer"
+                      >
+                        {simLoading ? (
+                          <span className="flex items-center gap-2">
+                            <Loader2 size={14} className="animate-spin" />
+                            {simStepText}
+                          </span>
+                        ) : (
+                          "Xabarni Imzolash (Sign Message)"
+                        )}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Step 4: Success */}
+                  {modalStep === "success" && (
+                    <div className="py-6 flex flex-col items-center justify-center text-center space-y-3">
+                      <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center text-success border border-success/20 animate-bounce">
+                        <CheckCircle2 size={24} />
+                      </div>
+                      <h4 className="font-bold text-sm text-foreground">Imzo Tasdiqlandi</h4>
+                      <p className="text-xs text-muted-foreground">JWT seans tokenlari muvaffaqiyatli saqlandi.</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             <p className="text-center text-sm text-muted-foreground mt-6">
               {t("no_account")}{" "}

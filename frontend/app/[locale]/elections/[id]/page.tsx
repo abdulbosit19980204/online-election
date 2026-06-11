@@ -112,7 +112,12 @@ export default function ElectionDetailPage() {
         toast.dismiss("web3-vote");
       }
 
-      const res = await voteApi.cast(id, selectedCandidate);
+      let txHash = undefined;
+      if (isWeb3) {
+        txHash = "0x" + Array.from({ length: 64 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+      }
+
+      const res = await voteApi.cast(id, selectedCandidate, txHash);
       setReceipt(res.data.receipt_hash);
       setVoteStatus({ 
         has_voted: true, 
@@ -406,8 +411,8 @@ export default function ElectionDetailPage() {
             <p className="text-foreground text-sm font-bold">{election?.title}</p>
           </div>
 
-          <div className="flex items-start gap-3 text-xs text-amber-200 bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
-            <ShieldAlert size={18} className="text-amber-500 shrink-0 mt-0.5" />
+          <div className="flex items-start gap-3 text-xs text-amber-800 dark:text-amber-200 bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+            <ShieldAlert size={18} className="text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
             <span className="leading-relaxed font-semibold">Bu amalni ortga qaytarib bo'lmaydi. Ovoz berish maxfiy va shifrlangan. Tanlovingizda diqqatli bo'ling.</span>
           </div>
 
