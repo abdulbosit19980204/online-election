@@ -47,26 +47,31 @@ export default function ElectionDetailPage() {
   const [results, setResults] = useState<any>(null);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
     fetchElection();
   }, [id, isAuthenticated]);
 
   const fetchElection = async () => {
     try {
-      const [elRes, vsRes] = await Promise.all([
-        electionApi.get(id),
-        voteApi.status(id),
-      ]);
-      setElection(elRes.data);
-      setVoteStatus(vsRes.data);
+      if (isAuthenticated) {
+        const [elRes, vsRes] = await Promise.all([
+          electionApi.get(id),
+          voteApi.status(id),
+        ]);
+        setElection(elRes.data);
+        setVoteStatus(vsRes.data);
 
-      if (vsRes.data.has_voted || elRes.data.results_public) {
-        try {
-          const resRes = await electionApi.results(id);
-          setResults(resRes.data);
-        } catch (e) {
-          console.error("Results not public yet or error", e);
+        if (vsRes.data.has_voted || elRes.data.results_public) {
+          try {
+            const resRes = await electionApi.results(id);
+            setResults(resRes.data);
+          } catch (e) {
+            console.error("Results not public yet or error", e);
+          }
         }
+      } else {
+        const elRes = await electionApi.get(id);
+        setElection(elRes.data);
+        setVoteStatus({ has_voted: false, cast_at: null, receipt_hash: null, tx_hash: null } as any);
       }
     } catch {
       toast.error(commonT("error"));
@@ -108,6 +113,8 @@ export default function ElectionDetailPage() {
             toast.dismiss("web3-vote");
             if (e?.code === -32002) {
               toast.error("MetaMask-da so'rov allaqachon kutmoqda. Iltimos, brauzeringizning o'ng yuqori qismidan MetaMask oynasini ochib, so'rovni tasdiqlang.", { duration: 6000 });
+            } else if (e?.code === 4100 || e?.message?.toLowerCase().includes("authorized")) {
+              toast.error("Ushbu hamyon hisobi tasdiqlanmagan. Iltimos, MetaMask-ni ochib, sayt uchun hisobingizga ruxsat bering.", { duration: 6000 });
             } else {
               toast.error(e?.message || "Signature rejected");
             }
@@ -399,15 +406,25 @@ export default function ElectionDetailPage() {
 
             {isActive && (
               <div className="space-y-4">
-                <button
-                  id="vote-submit-btn"
-                  onClick={() => setConfirmOpen(true)}
-                  disabled={!selectedCandidate}
-                  className="btn-primary w-full justify-center py-4 rounded-2xl text-base font-black shadow-primary/20 shadow-xl disabled:opacity-30 disabled:scale-100 transition-transform active:scale-95 flex items-center gap-2"
-                >
-                  <CheckCircle2 size={18} />
-                  {t("cast_vote")}
-                </button>
+                {isAuthenticated ? (
+                  <button
+                    id="vote-submit-btn"
+                    onClick={() => setConfirmOpen(true)}
+                    disabled={!selectedCandidate}
+                    className="btn-primary w-full justify-center py-4 rounded-2xl text-base font-black shadow-primary/20 shadow-xl disabled:opacity-30 disabled:scale-100 transition-transform active:scale-95 flex items-center gap-2"
+                  >
+                    <CheckCircle2 size={18} />
+                    {t("cast_vote")}
+                  </button>
+                ) : (
+                  <Link
+                    href={`/login?redirect=/elections/${id}`}
+                    className="btn-primary w-full justify-center py-4 rounded-2xl text-base font-black text-center flex items-center justify-center gap-2 shadow-primary/25 shadow-xl transition-transform active:scale-95"
+                  >
+                    <CheckCircle2 size={18} />
+                    Ovoz berish uchun tizimga kiring
+                  </Link>
+                )}
                 <div className="flex justify-center items-center gap-1.5 text-[10px] text-muted-foreground uppercase tracking-widest">
                   <Lock size={12} className="text-success" />
                   <span>One-time lockout rules apply</span>

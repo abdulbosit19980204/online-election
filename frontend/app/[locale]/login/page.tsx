@@ -4,6 +4,7 @@ import { useRouter } from "@/navigation";
 import { Link } from "@/navigation";
 import toast from "react-hot-toast";
 import { ShieldCheck, Eye, EyeOff, ArrowRight, Mail, Lock, Wallet, X, CheckCircle2, Loader2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { authApi } from "@/lib/api";
 import { useAuthStore } from "@/store/authStore";
 import { useTranslations } from "next-intl";
@@ -19,6 +20,8 @@ export default function LoginPage() {
   const [simLoading, setSimLoading] = useState(false);
   const [simStepText, setSimStepText] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams ? (searchParams.get("redirect") || "/dashboard") : "/dashboard";
   const { setAuth, isAuthenticated } = useAuthStore();
   const [hydrated, setHydrated] = useState(false);
 
@@ -28,9 +31,9 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (hydrated && isAuthenticated) {
-      router.push("/dashboard");
+      router.push(redirectPath);
     }
-  }, [hydrated, isAuthenticated, router]);
+  }, [hydrated, isAuthenticated, router, redirectPath]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +46,7 @@ export default function LoginPage() {
       if (user.role === "admin") {
         router.push("/admin");
       } else {
-        router.push("/dashboard");
+        router.push(redirectPath);
       }
     } catch {
       toast.error("Invalid credentials.");
@@ -77,7 +80,7 @@ export default function LoginPage() {
         toast.dismiss("web3-loading");
         toast.success(`Web3 wallet verified successfully!`);
         setWalletModalOpen(false);
-        router.push("/dashboard");
+        router.push(redirectPath);
       } catch (err: any) {
         toast.dismiss("web3-loading");
         if (err?.code === -32002) {
@@ -127,7 +130,7 @@ export default function LoginPage() {
       toast.success("Simulated Web3 Wallet signed & verified!");
       await new Promise((resolve) => setTimeout(resolve, 800));
       setWalletModalOpen(false);
-      router.push("/dashboard");
+      router.push(redirectPath);
     } catch {
       toast.error("Failed to verify simulated signature.");
     } finally {
