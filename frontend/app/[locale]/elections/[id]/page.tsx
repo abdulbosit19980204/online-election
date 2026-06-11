@@ -1,9 +1,24 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Link } from "@/navigation";
 import toast from "react-hot-toast";
-import { ArrowLeft, CheckCircle2, Loader2, ShieldAlert, Info, HelpCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Loader2,
+  ShieldAlert,
+  Info,
+  HelpCircle,
+  Copy,
+  ShieldCheck,
+  Wallet,
+  Activity,
+  Cpu,
+  Lock,
+  Layers
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CandidateCard from "@/components/voting/CandidateCard";
 import ElectionTimer from "@/components/voting/ElectionTimer";
@@ -101,6 +116,11 @@ export default function ElectionDetailPage() {
     }
   };
 
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Receipt copied to clipboard!");
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -120,21 +140,22 @@ export default function ElectionDetailPage() {
   const selectedName = (election.candidates || []).find((c) => c.id === selectedCandidate)?.name;
   const isActive = election.status === "active";
   const hasVoted = voteStatus?.has_voted || !!receipt;
+  const activeReceipt = receipt || voteStatus?.receipt_hash;
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 overflow-x-hidden">
       <Navbar />
 
-      <main className="max-w-4xl mx-auto px-6 pt-32 pb-16">
-        <Link href="/dashboard" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-10 transition-colors">
+      <main className="max-w-5xl mx-auto px-6 pt-32 pb-16">
+        <Link href="/dashboard" className="inline-flex items-center gap-2 text-xs font-bold text-muted-foreground hover:text-primary mb-10 transition-colors">
           <ArrowLeft size={14} />
           {commonT("back")}
         </Link>
 
         {/* Improved Header & Election Info */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-16">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-2 space-y-6">
-            <div className="flex items-center gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-12">
+          <motion.div initial={{ opacity: 0, x: -15 }} animate={{ opacity: 1, x: 0 }} className="lg:col-span-2 space-y-6">
+            <div className="flex flex-wrap items-center gap-2.5">
               <span className={`badge ${election.status === "active" ? "badge-active" : "badge-ended"} px-4 py-1.5`}>
                 <span className={`w-2 h-2 rounded-full ${election.status === "active" ? "bg-success animate-pulse" : "bg-muted-foreground"}`} />
                 {election.status === "active" ? t("live") : t("ended")}
@@ -142,33 +163,59 @@ export default function ElectionDetailPage() {
               <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest bg-white/5 px-3 py-1.5 rounded-lg border border-white/5">
                 SECURE_VOTING_ENABLED
               </span>
+              {user?.wallet_address && (
+                <span className="text-[10px] font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1.5 rounded-lg border border-primary/20 flex items-center gap-1">
+                  <Wallet size={11} /> Web3 Mode
+                </span>
+              )}
             </div>
             
-            <h1 className="text-5xl font-black text-foreground leading-tight tracking-tighter">{election.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-black text-foreground leading-tight tracking-tighter">{election.title}</h1>
             
-            <div className="p-8 bg-white/5 rounded-3xl border border-white/5 space-y-4">
+            <div className="p-6 md:p-8 bg-white/5 rounded-3xl border border-white/5 space-y-4">
                <div className="flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-xs">
-                  <HelpCircle size={16} /> Saylov haqida ma'lumot
+                  <HelpCircle size={15} /> Saylov haqida ma'lumot
                </div>
                <RichTextRenderer 
                  content={election.description || "Ushbu saylov jarayoni xavfsiz va shaffof tarzda amalga oshirilmoqda."}
-                 className="text-lg"
+                 className="text-sm text-muted-foreground leading-relaxed"
                />
             </div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
+          <motion.div initial={{ opacity: 0, x: 15 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
             {isActive && (
-              <div className="p-8 bg-primary/5 rounded-3xl border border-primary/10">
+              <div className="p-6 bg-primary/5 rounded-3xl border border-primary/10">
                 <span className="text-[10px] font-black text-primary uppercase tracking-widest block mb-4">Qolgan vaqt</span>
                 <ElectionTimer endTime={election.end_time} />
               </div>
             )}
-            <div className="p-8 bg-white/5 rounded-3xl border border-white/5">
-               <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block mb-4">Xavfsizlik darajasi</span>
-               <div className="flex items-center gap-2 text-success font-black">
-                  <ShieldAlert size={18} />
-                  <span>256-bit AES Encryption</span>
+            
+            {/* Interactive Security Transparency Panel */}
+            <div className="p-6 bg-white/5 rounded-3xl border border-white/5 space-y-4">
+               <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest block">Kriptografik Himoya</span>
+               <div className="space-y-3">
+                 <div className="flex items-center gap-2.5 text-xs text-foreground font-semibold">
+                    <ShieldCheck size={16} className="text-success" />
+                    <span>Fernet AES-128 Ballot Encryption</span>
+                 </div>
+                 <div className="flex items-center gap-2.5 text-xs text-foreground font-semibold">
+                    <Cpu size={16} className="text-indigo-400" />
+                    <span>SHA-256 Voter ID Anonymizer</span>
+                 </div>
+                 {user?.wallet_address ? (
+                   <div className="flex items-center gap-2.5 text-xs text-foreground font-semibold bg-primary/5 border border-primary/10 p-2.5 rounded-xl">
+                      <Wallet size={16} className="text-primary" />
+                      <div className="truncate">
+                        <span className="block text-[9px] text-muted-foreground uppercase tracking-widest">Active Wallet</span>
+                        <span className="font-mono text-[10px]">{user.wallet_address}</span>
+                      </div>
+                   </div>
+                 ) : (
+                   <div className="p-3 bg-white/5 rounded-xl text-[10px] leading-relaxed text-muted-foreground border border-white/5">
+                     Web3 verifikatsiyasi yoqilmagan. MetaMask bog'lash orqali unikal on-chain isbotlarga ega bo'lishingiz mumkin.
+                   </div>
+                 )}
                </div>
             </div>
           </motion.div>
@@ -176,39 +223,58 @@ export default function ElectionDetailPage() {
 
         {/* Voting Interface */}
         {hasVoted ? (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="glass-premium p-12 text-center rounded-[40px]">
-            <div className="w-20 h-20 bg-success/10 border border-success/20 rounded-[28px] flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 size={40} className="text-success" />
+          <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="glass-premium p-8 md:p-12 text-center rounded-[36px] max-w-2xl mx-auto border-white/10">
+            <div className="w-16 h-16 bg-success/10 border border-success/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 size={32} className="text-success" />
             </div>
-            <h2 className="text-3xl font-black text-foreground mb-4">{t("vote_success")}</h2>
+            <h2 className="text-2xl font-black text-foreground mb-2">{t("vote_success")}</h2>
+            <p className="text-xs text-muted-foreground max-w-md mx-auto">
+              Sizning tanlovingiz kriptografik kalitlar bilan shifrlanib, saylov komissiyasiga uzatildi. Ovoz berish huquqingiz unikal tarzda yopildi.
+            </p>
             
-            {(receipt || voteStatus?.receipt_hash) && (
-              <div className="bg-secondary rounded-2xl p-6 text-left mt-8 mb-8 border border-white/5">
-                <p className="text-xs text-muted-foreground mb-2 uppercase font-black tracking-widest">{t("receipt")}</p>
-                <p className="font-mono text-sm text-primary break-all font-bold">{receipt || voteStatus?.receipt_hash}</p>
+            {activeReceipt && (
+              <div className="bg-secondary rounded-2xl p-5 text-left mt-8 mb-8 border border-white/5 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-xl pointer-events-none" />
+                <div className="flex justify-between items-center mb-3">
+                  <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{t("receipt")}</p>
+                  <button 
+                    onClick={() => copyToClipboard(activeReceipt)}
+                    className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1 text-[10px] font-bold"
+                  >
+                    <Copy size={12} />
+                    Nusxa olish
+                  </button>
+                </div>
+                <p className="font-mono text-xs text-primary break-all font-bold pr-4 bg-black/20 p-3 rounded-lg border border-white/5">{activeReceipt}</p>
               </div>
             )}
 
-            {election.results_public && (
-              <Link href={`/elections/${id}/results`} className="btn-primary justify-center px-10 py-4 text-lg">
-                {t("view_results")}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+              <Link href="/dashboard" className="btn-secondary py-3 px-6 rounded-xl text-xs font-bold w-full sm:w-auto justify-center">
+                Dashboardga qaytish
               </Link>
-            )}
+              {election.results_public && (
+                <Link href={`/elections/${id}/results`} className="btn-primary py-3 px-8 rounded-xl text-xs font-black w-full sm:w-auto justify-center">
+                  {t("view_results")}
+                </Link>
+              )}
+            </div>
           </motion.div>
         ) : (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+          <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="space-y-6">
             {!isActive && (
-              <div className="flex items-center gap-4 p-6 rounded-3xl bg-warning/10 border border-warning/20 mb-8">
-                <ShieldAlert size={24} className="text-warning shrink-0" />
-                <p className="text-warning-foreground font-medium">{t("not_accepting")}</p>
+              <div className="flex items-center gap-4 p-5 rounded-2xl bg-warning/10 border border-warning/20 mb-6">
+                <ShieldAlert size={20} className="text-warning shrink-0" />
+                <p className="text-xs text-warning-foreground font-semibold">{t("not_accepting")}</p>
               </div>
             )}
 
-            <div className="mb-8">
-              <h2 className="text-2xl font-black text-foreground tracking-tight">{t("select_candidate")}</h2>
+            <div>
+              <h2 className="text-xl font-extrabold text-foreground tracking-tight">{t("select_candidate")}</h2>
+              <p className="text-xs text-muted-foreground mt-1">O'zingiz ma'qul ko'rgan nomzod ustiga bosing va pastdagi "Ovoz berish" tugmasini bosing.</p>
             </div>
 
-            <div className="space-y-4 mb-10">
+            <div className="space-y-3 mb-8">
               {Array.isArray(election.candidates) && election.candidates.map((c) => (
                 <CandidateCard
                   key={c.id}
@@ -221,15 +287,21 @@ export default function ElectionDetailPage() {
             </div>
 
             {isActive && (
-              <button
-                id="vote-submit-btn"
-                onClick={() => setConfirmOpen(true)}
-                disabled={!selectedCandidate}
-                className="btn-primary w-full justify-center py-5 rounded-[24px] text-xl font-black shadow-primary/20 shadow-2xl disabled:opacity-30 disabled:scale-100 transition-transform active:scale-95"
-              >
-                <CheckCircle2 size={22} />
-                {t("cast_vote")}
-              </button>
+              <div className="space-y-4">
+                <button
+                  id="vote-submit-btn"
+                  onClick={() => setConfirmOpen(true)}
+                  disabled={!selectedCandidate}
+                  className="btn-primary w-full justify-center py-4 rounded-2xl text-base font-black shadow-primary/20 shadow-xl disabled:opacity-30 disabled:scale-100 transition-transform active:scale-95 flex items-center gap-2"
+                >
+                  <CheckCircle2 size={18} />
+                  {t("cast_vote")}
+                </button>
+                <div className="flex justify-center items-center gap-1.5 text-[10px] text-muted-foreground uppercase tracking-widest">
+                  <Lock size={12} className="text-success" />
+                  <span>One-time lockout rules apply</span>
+                </div>
+              </div>
             )}
           </motion.div>
         )}
@@ -238,32 +310,55 @@ export default function ElectionDetailPage() {
       {/* Confirm modal with better contrast */}
       <Modal isOpen={confirmOpen} onClose={() => setConfirmOpen(false)} title="Ovozni tasdiqlang">
         <div className="space-y-6">
-          <div className="p-8 rounded-3xl bg-primary/5 border border-primary/10">
-            <p className="text-xs text-muted-foreground mb-2 uppercase font-black tracking-widest">{t("voting_for")}</p>
-            <p className="font-black text-foreground text-3xl">{selectedName}</p>
-            <div className="h-px w-full bg-white/5 my-4" />
-            <p className="text-xs text-muted-foreground uppercase font-bold">{t("in_election")}</p>
-            <p className="text-foreground font-bold">{election?.title}</p>
+          <div className="p-6 rounded-2xl bg-white/5 border border-white/5 shadow-inner">
+            <p className="text-[10px] text-muted-foreground mb-1 uppercase font-black tracking-widest">{t("voting_for")}</p>
+            <p className="font-black text-primary text-3xl">{selectedName}</p>
+            <div className="h-px w-full bg-white/5 my-3" />
+            <p className="text-[10px] text-muted-foreground uppercase font-bold mb-0.5">{t("in_election")}</p>
+            <p className="text-foreground text-sm font-bold">{election?.title}</p>
           </div>
 
-          <div className="flex items-start gap-4 text-[14px] text-amber-200 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6">
-            <ShieldAlert size={20} className="text-amber-500 shrink-0" />
-            <span className="leading-relaxed font-medium">Bu amalni ortga qaytarib bo'lmaydi. Ovoz berish maxfiy va shifrlangan. Tanlovingizda diqqatli bo'ling.</span>
+          <div className="flex items-start gap-3 text-xs text-amber-200 bg-amber-500/10 border border-amber-500/20 rounded-xl p-4">
+            <ShieldAlert size={18} className="text-amber-500 shrink-0 mt-0.5" />
+            <span className="leading-relaxed font-semibold">Bu amalni ortga qaytarib bo'lmaydi. Ovoz berish maxfiy va shifrlangan. Tanlovingizda diqqatli bo'ling.</span>
           </div>
+
+          {user?.wallet_address && (
+            <div className="bg-white/5 border border-white/5 rounded-xl p-4 space-y-2.5">
+              <span className="text-[9px] font-black text-primary uppercase tracking-widest block">ZK-SNARK Workflow Status</span>
+              <div className="grid grid-cols-3 gap-2 text-center text-[10px]">
+                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "signing" ? "border-primary bg-primary/10 text-primary font-bold animate-pulse" : "border-white/5 text-muted-foreground"}`}>
+                  <Wallet size={14} />
+                  <span>1. Wallet Sign</span>
+                </div>
+                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "proving" ? "border-indigo-400 bg-indigo-500/10 text-indigo-400 font-bold animate-pulse" : "border-white/5 text-muted-foreground"}`}>
+                  <Cpu size={14} />
+                  <span>2. ZK Proving</span>
+                </div>
+                <div className={`p-2.5 rounded-lg border flex flex-col items-center justify-center gap-1.5 transition-all ${web3Step === "submitting" ? "border-success bg-success/10 text-success font-bold animate-pulse" : "border-white/5 text-muted-foreground"}`}>
+                  <Layers size={14} />
+                  <span>3. On-Chain Submit</span>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-4 pt-2">
-            <button onClick={() => setConfirmOpen(false)} className="btn-secondary justify-center py-4 rounded-xl text-lg font-bold">
+            <button 
+              onClick={() => setConfirmOpen(false)} 
+              className="justify-center py-3.5 rounded-xl text-sm font-bold bg-white/5 hover:bg-white/10 text-foreground border border-white/10 transition-colors duration-200"
+            >
               {commonT("cancel")}
             </button>
             <button
               id="confirm-vote-btn"
               onClick={handleVote}
               disabled={submitting}
-              className="btn-primary justify-center py-4 rounded-xl text-lg font-black"
+              className="btn-primary justify-center py-3.5 rounded-xl text-sm font-black"
             >
               {submitting ? (
                 <div className="flex items-center gap-2">
-                  <Loader2 size={18} className="animate-spin" />
+                  <Loader2 size={16} className="animate-spin" />
                   <span>
                     {web3Step === "signing" && "Imzolanmoqda..."}
                     {web3Step === "proving" && "ZK Proof..."}

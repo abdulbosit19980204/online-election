@@ -55,47 +55,60 @@ export default function LoginPage() {
         const accounts = await (window as any).ethereum.request({ method: "eth_requestAccounts" });
         const address = accounts[0];
         
-        const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${address}\nTimestamp: ${Date.now()}`;
-        await (window as any).ethereum.request({
+        const timestamp = Date.now();
+        const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${address}\nTimestamp: ${timestamp}`;
+        const signature = await (window as any).ethereum.request({
           method: "personal_sign",
           params: [message, address],
         });
 
-        const web3User = {
-          id: "web3-" + address,
-          full_name: `Web3 Voter (${address.substring(0, 6)}...${address.substring(address.length - 4)})`,
-          email: `${address.toLowerCase()}@wallet.eth`,
-          role: "voter",
-          wallet_address: address
-        };
+        // Call the backend to verify the signature cryptographically
+        const res = await authApi.web3Login({
+          wallet_address: address,
+          signature: signature,
+          message: message
+        });
+
+        const { user, access_token, refresh_token } = res.data;
+        setAuth(user, access_token, refresh_token);
         
-        setAuth(web3User as any, "web3-access-token", "web3-refresh-token");
         toast.dismiss("web3-loading");
-        toast.success(`Web3 wallet connected successfully!`);
+        toast.success(`Web3 wallet verified successfully!`);
         router.push("/dashboard");
       } catch (err: any) {
         toast.dismiss("web3-loading");
-        toast.error(err?.message || "MetaMask connection failed");
+        toast.error(err?.response?.data?.detail || err?.message || "MetaMask verification failed");
       } finally {
         setLoading(false);
       }
     } else {
       setLoading(true);
-      const toastId = toast.loading("Simulating Web3 Wallet Connection (Demo Mode)...");
-      setTimeout(() => {
-        const mockAddress = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
-        const web3User = {
-          id: "web3-" + mockAddress,
-          full_name: `Web3 Voter (0x71C7...976F)`,
-          email: `voter@wallet.eth`,
-          role: "voter",
-          wallet_address: mockAddress
-        };
-        setAuth(web3User as any, "web3-access-token", "web3-refresh-token");
-        toast.dismiss(toastId);
-        toast.success(`Simulated Web3 Wallet connected!`);
-        router.push("/dashboard");
-        setLoading(false);
+      const toastId = toast.loading("Simulating Web3 Wallet Verification (Demo Mode)...");
+      setTimeout(async () => {
+        try {
+          const mockAddress = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
+          const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${mockAddress}`;
+          const mockSignature = "0x82a613589bdf3d68bcf8df611f7c6e611f67f654b9f291e0a811c750e82f5b5f25a3a7892b15e478be32717904031d6837882b5f7e7f6e6f666f7f6f6f6f6f6f1c";
+          
+          // Call the backend to register/login the mock address securely
+          const res = await authApi.web3Login({
+            wallet_address: mockAddress,
+            signature: mockSignature,
+            message: message
+          });
+          
+          const { user, access_token, refresh_token } = res.data;
+          setAuth(user, access_token, refresh_token);
+          
+          toast.dismiss(toastId);
+          toast.success(`Simulated Web3 Wallet verified!`);
+          router.push("/dashboard");
+        } catch {
+          toast.dismiss(toastId);
+          toast.error("Failed to authenticate Web3 wallet.");
+        } finally {
+          setLoading(false);
+        }
       }, 1500);
     }
   };
