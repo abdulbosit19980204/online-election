@@ -1285,20 +1285,39 @@ export default function PresentationPage() {
                 <span>{locale === "uz" ? "MUNDARIJA" : "TABLE OF CONTENTS"}</span>
               </div>
               <nav className="flex flex-col gap-1.5 pt-2">
-                {slides.map((slide, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-full text-left py-2 px-3 rounded-xl text-xs transition-all flex items-center justify-between border ${
-                      currentSlide === index
-                        ? "bg-primary/10 border-primary/20 text-primary font-bold shadow-sm"
-                        : "border-transparent text-muted-foreground hover:bg-white/5 hover:text-foreground"
-                    }`}
-                  >
-                    <span className="truncate max-w-[180px]">{slide.title}</span>
-                    <span className="text-[9px] font-mono opacity-60 uppercase">{slide.category}</span>
-                  </button>
-                ))}
+                {slides.map((slide, index) => {
+                  const isActive = currentSlide === index;
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentSlide(index)}
+                      className={`w-full text-left p-2 rounded-xl transition-all border flex gap-3 items-center relative ${
+                        isActive
+                          ? "bg-white/10 border-white/10 shadow-lg shadow-black/40 ring-1 ring-primary/30"
+                          : "border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/10 opacity-75 hover:opacity-100"
+                      }`}
+                    >
+                      {/* PowerPoint Miniature Thumbnail Box */}
+                      <div
+                        className={`w-12 h-8 rounded-md shrink-0 border flex items-center justify-center font-mono font-black text-xs transition-all duration-300 ${
+                          isActive
+                            ? "bg-primary border-primary text-white shadow-sm shadow-primary/25"
+                            : "bg-black/30 border-white/5 text-muted-foreground"
+                        }`}
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className={`text-[8px] font-black uppercase tracking-widest ${isActive ? "text-primary" : "text-muted-foreground"}`}>
+                          {slide.category}
+                        </span>
+                        <span className="text-[10px] font-extrabold text-foreground truncate max-w-[150px] mt-0.5">
+                          {slide.title}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
               </nav>
             </div>
             <div className="border-t border-white/5 pt-4 text-[10px] text-muted-foreground font-mono text-center">
