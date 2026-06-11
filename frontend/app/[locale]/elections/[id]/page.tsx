@@ -106,7 +106,11 @@ export default function ElectionDetailPage() {
             });
           } catch (e: any) {
             toast.dismiss("web3-vote");
-            toast.error(e?.message || "Signature rejected");
+            if (e?.code === -32002) {
+              toast.error("MetaMask-da so'rov allaqachon kutmoqda. Iltimos, brauzeringizning o'ng yuqori qismidan MetaMask oynasini ochib, so'rovni tasdiqlang.", { duration: 6000 });
+            } else {
+              toast.error(e?.message || "Signature rejected");
+            }
             setSubmitting(false);
             setWeb3Step("idle");
             return;

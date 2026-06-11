@@ -80,7 +80,11 @@ export default function LoginPage() {
         router.push("/dashboard");
       } catch (err: any) {
         toast.dismiss("web3-loading");
-        toast.error(err?.response?.data?.detail || err?.message || "MetaMask verification failed");
+        if (err?.code === -32002) {
+          toast.error("MetaMask-da so'rov allaqachon kutmoqda. Iltimos, brauzeringizning o'ng yuqori qismidan MetaMask oynasini ochib, so'rovni tasdiqlang.", { duration: 6000 });
+        } else {
+          toast.error(err?.response?.data?.detail || err?.message || "MetaMask verification failed");
+        }
       } finally {
         setLoading(false);
       }

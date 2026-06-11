@@ -106,7 +106,11 @@ export default function DashboardPage() {
         toast.success("Web3 wallet linked successfully!");
       } catch (err: any) {
         toast.dismiss("web3-link-loading");
-        toast.error(err?.message || "MetaMask connection failed");
+        if (err?.code === -32002) {
+          toast.error("MetaMask-da so'rov allaqachon kutmoqda. Iltimos, brauzeringizning o'ng yuqori qismidan MetaMask oynasini ochib, so'rovni tasdiqlang.", { duration: 6000 });
+        } else {
+          toast.error(err?.message || "MetaMask connection failed");
+        }
       } finally {
         setWalletLinking(false);
       }

@@ -40,11 +40,12 @@ api.interceptors.response.use(
       if (refreshToken) {
         try {
           const res = await axios.post(`${API_URL}/auth/refresh/`, {
-            refresh_token: refreshToken,
+            refresh: refreshToken,
           });
-          const { access_token, refresh_token } = res.data;
+          const access_token = res.data.access_token || res.data.access;
+          const new_refresh_token = res.data.refresh_token || res.data.refresh || refreshToken;
           localStorage.setItem("access_token", access_token);
-          localStorage.setItem("refresh_token", refresh_token);
+          localStorage.setItem("refresh_token", new_refresh_token);
           original.headers.Authorization = `Bearer ${access_token}`;
           return api(original);
         } catch {
@@ -78,7 +79,7 @@ export const authApi = {
   me: () => api.get("/auth/me/"),
   updateProfile: (data: { wallet_address?: string; full_name?: string }) =>
     api.patch("/auth/me/", data),
-  refresh: (refresh_token: string) => api.post("/auth/refresh/", { refresh_token }),
+  refresh: (refresh_token: string) => api.post("/auth/refresh/", { refresh: refresh_token }),
 };
 
 // Elections
