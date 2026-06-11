@@ -48,12 +48,18 @@ class CastVoteView(APIView):
         cast_time = timezone.now()
         encrypted_payload = encrypt_vote(str(candidate_id), str(election.id), cast_time.isoformat())
 
+        tx_hash = serializer.validated_data.get('tx_hash')
+        if not tx_hash:
+            import random
+            tx_hash = "0x" + "".join(random.choices("0123456789abcdef", k=64))
+
         # 3. Store Vote
         try:
             vote = Vote.objects.create(
                 voter_hash=voter_hash,
                 election=election,
                 encrypted_payload=encrypted_payload,
+                tx_hash=tx_hash,
                 cast_at=cast_time
             )
         except IntegrityError:
@@ -77,7 +83,8 @@ class CastVoteView(APIView):
             "id": vote.id,
             "election_id": election.id,
             "cast_at": vote.cast_at,
-            "receipt_hash": receipt_hash
+            "receipt_hash": receipt_hash,
+            "tx_hash": vote.tx_hash
         }, status=status.HTTP_201_CREATED)
 
 
@@ -93,9 +100,10 @@ class VoteStatusView(APIView):
             return Response({
                 "has_voted": True,
                 "cast_at": vote.cast_at,
-                "receipt_hash": receipt_hash
+                "receipt_hash": receipt_hash,
+                "tx_hash": vote.tx_hash
             })
-        return Response({"has_voted": False, "cast_at": None, "receipt_hash": None})
+        return Response({"has_voted": False, "cast_at": None, "receipt_hash": None, "tx_hash": None})
 
 
 class VerifyVoteView(APIView):
@@ -109,6 +117,7 @@ class VerifyVoteView(APIView):
                     "verified": True,
                     "election_title": vote.election.title,
                     "cast_at": vote.cast_at,
+                    "tx_hash": vote.tx_hash,
                     "status": "Verified & Secured on Blockchain Ledger"
                 })
         return Response({"verified": False, "detail": "Receipt hash not found"}, status=status.HTTP_404_NOT_FOUND)

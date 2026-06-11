@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [demoWallet, setDemoWallet] = useState("0x71C7656EC7ab88b098defB751B7401B5f6d8976F");
   const router = useRouter();
   const { setAuth, isAuthenticated } = useAuthStore();
   const [hydrated, setHydrated] = useState(false);
@@ -40,8 +41,8 @@ export default function LoginPage() {
       } else {
         router.push("/dashboard");
       }
-    } catch (err: any) {
-      toast.error(err?.response?.data?.detail || "Invalid email or password");
+    } catch {
+      toast.error("Invalid credentials.");
     } finally {
       setLoading(false);
     }
@@ -49,24 +50,21 @@ export default function LoginPage() {
 
   const handleWeb3Login = async () => {
     if (typeof window !== "undefined" && (window as any).ethereum) {
+      setLoading(true);
       try {
-        setLoading(true);
         toast.loading("Connecting Web3 Wallet...", { id: "web3-loading" });
         const accounts = await (window as any).ethereum.request({ method: "eth_requestAccounts" });
         const address = accounts[0];
-        
-        const timestamp = Date.now();
-        const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${address}\nTimestamp: ${timestamp}`;
+        const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${address}`;
         const signature = await (window as any).ethereum.request({
           method: "personal_sign",
           params: [message, address],
         });
 
-        // Call the backend to verify the signature cryptographically
         const res = await authApi.web3Login({
           wallet_address: address,
           signature: signature,
-          message: message
+          message: message,
         });
 
         const { user, access_token, refresh_token } = res.data;
@@ -86,7 +84,12 @@ export default function LoginPage() {
       const toastId = toast.loading("Simulating Web3 Wallet Verification (Demo Mode)...");
       setTimeout(async () => {
         try {
-          const mockAddress = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
+          let mockAddress = demoWallet;
+          if (demoWallet === "random") {
+            const randHex = Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join("");
+            mockAddress = `0x${randHex}`;
+          }
+
           const message = `Welcome to VoteSecure!\n\nSign this message to prove ownership of your wallet.\n\nAddress: ${mockAddress}`;
           const mockSignature = "0x82a613589bdf3d68bcf8df611f7c6e611f67f654b9f291e0a811c750e82f5b5f25a3a7892b15e478be32717904031d6837882b5f7e7f6e6f666f7f6f6f6f6f6f1c";
           
@@ -199,6 +202,22 @@ export default function LoginPage() {
               <span className="text-[10px] text-muted-foreground px-3 font-semibold uppercase tracking-wider">yoki</span>
               <div className="h-px bg-border flex-grow" />
             </div>
+
+            {hydrated && typeof window !== "undefined" && !(window as any).ethereum && (
+              <div className="mb-4 text-left">
+                <label className="block text-[10px] font-bold text-muted-foreground mb-1.5 uppercase tracking-wider">Demo Hamyonni Tanlang:</label>
+                <select
+                  value={demoWallet}
+                  onChange={(e) => setDemoWallet(e.target.value)}
+                  className="input-field py-2.5 text-xs font-mono bg-card"
+                >
+                  <option value="0x71C7656EC7ab88b098defB751B7401B5f6d8976F">Voter Account 1 (0x71C76...)</option>
+                  <option value="0x2B5AD5c27D26444dE967D9C6400f91c9535d97EF">Voter Account 2 (0x2B5AD...)</option>
+                  <option value="0x9c6E601Bf65427d11019052b61D99fD8EADaE125">Voter Account 3 (0x9c6E6...)</option>
+                  <option value="random">Yangi tasodifiy hamyon yaratish (Random)</option>
+                </select>
+              </div>
+            )}
 
             <button
               onClick={handleWeb3Login}

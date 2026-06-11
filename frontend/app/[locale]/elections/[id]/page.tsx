@@ -114,7 +114,12 @@ export default function ElectionDetailPage() {
 
       const res = await voteApi.cast(id, selectedCandidate);
       setReceipt(res.data.receipt_hash);
-      setVoteStatus({ has_voted: true, cast_at: res.data.cast_at, receipt_hash: res.data.receipt_hash });
+      setVoteStatus({ 
+        has_voted: true, 
+        cast_at: res.data.cast_at, 
+        receipt_hash: res.data.receipt_hash,
+        tx_hash: res.data.tx_hash 
+      } as any);
       setConfirmOpen(false);
       toast.success(t("vote_success"));
 
@@ -221,6 +226,19 @@ export default function ElectionDetailPage() {
                     <Cpu size={16} className="text-indigo-400" />
                     <span>SHA-256 Voter ID Anonymizer</span>
                  </div>
+                 {(election as any).contract_address && (
+                    <div className="flex flex-col gap-1 p-2.5 bg-primary/5 border border-primary/10 rounded-xl">
+                       <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-black">Sepolia Smart Contract</span>
+                       <a 
+                         href={`https://sepolia.etherscan.io/address/${(election as any).contract_address}`}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         className="font-mono text-[10px] text-primary hover:underline truncate block"
+                       >
+                         {(election as any).contract_address} ↗
+                       </a>
+                    </div>
+                  )}
                  {user?.wallet_address ? (
                    <div className="flex items-center gap-2.5 text-xs text-foreground font-semibold bg-primary/5 border border-primary/10 p-2.5 rounded-xl">
                       <Wallet size={16} className="text-primary" />
@@ -251,7 +269,7 @@ export default function ElectionDetailPage() {
             </p>
             
             {activeReceipt && (
-              <div className="bg-secondary rounded-2xl p-5 text-left mt-8 mb-6 border border-white/5 relative overflow-hidden">
+              <div className="bg-secondary rounded-2xl p-5 text-left mt-8 mb-4 border border-white/5 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full blur-xl pointer-events-none" />
                 <div className="flex justify-between items-center mb-3">
                   <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{t("receipt")}</p>
@@ -264,6 +282,26 @@ export default function ElectionDetailPage() {
                   </button>
                 </div>
                 <p className="font-mono text-xs text-primary break-all font-bold pr-4 bg-black/20 p-3 rounded-lg border border-white/5">{activeReceipt}</p>
+              </div>
+            )}
+
+            {(voteStatus as any)?.tx_hash && (
+              <div className="bg-success/5 border border-success/20 rounded-2xl p-5 text-left mb-6 relative overflow-hidden">
+                <div className="flex justify-between items-center mb-3">
+                  <p className="text-[10px] text-success uppercase font-black tracking-widest flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-success animate-ping" />
+                    Blockchain Transaction Proof
+                  </p>
+                  <a 
+                    href={`https://sepolia.etherscan.io/tx/${(voteStatus as any).tx_hash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline flex items-center gap-1 text-[10px] font-bold"
+                  >
+                    Sepolia Etherscan ↗
+                  </a>
+                </div>
+                <p className="font-mono text-xs text-foreground break-all bg-black/25 p-3 rounded-lg border border-white/5">{(voteStatus as any).tx_hash}</p>
               </div>
             )}
 

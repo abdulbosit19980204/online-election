@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 class VoteCastSerializer(serializers.Serializer):
     candidate_id = serializers.UUIDField()
+    tx_hash = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 class VoteStatusSerializer(serializers.Serializer):
     has_voted = serializers.BooleanField()

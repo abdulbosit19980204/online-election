@@ -115,7 +115,9 @@ export default function DashboardPage() {
       const toastId = toast.loading("Simulating Web3 Wallet Linking (Demo Mode)...");
       setTimeout(async () => {
         try {
-          const mockAddress = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
+          // Generate unique deterministic mock wallet address based on user's email
+          const emailHash = Array.from(user?.email || "user").reduce((acc, char) => (acc * 31 + char.charCodeAt(0)) % 1000000000, 0).toString(16).padEnd(40, "f");
+          const mockAddress = `0x${emailHash.substring(0, 40)}`;
           const res = await authApi.updateProfile({ wallet_address: mockAddress });
           setUser(res.data.user || res.data);
           toast.dismiss(toastId);
@@ -268,6 +270,19 @@ export default function DashboardPage() {
                       <span className="font-bold text-success">{verifyResult.data.status}</span>
                     </div>
                   </div>
+                  {verifyResult.data.tx_hash && (
+                    <div className="bg-black/25 p-4 rounded-xl border border-white/5 mt-4 font-mono">
+                      <span className="block text-[8px] text-muted-foreground uppercase tracking-widest font-black mb-1">Sepolia Transaction Hash</span>
+                      <a 
+                        href={`https://sepolia.etherscan.io/tx/${verifyResult.data.tx_hash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline font-bold break-all block text-[11px]"
+                      >
+                        {verifyResult.data.tx_hash} ↗
+                      </a>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="font-semibold text-danger">

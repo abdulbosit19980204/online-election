@@ -8,6 +8,7 @@ class Vote(models.Model):
     voter_hash = models.CharField(max_length=64)  # SHA-256 hash of user_id + election_id
     election = models.ForeignKey(Election, on_delete=models.CASCADE, related_name="votes")
     encrypted_payload = models.TextField()  # Fernet encrypted candidate_id
+    tx_hash = models.CharField(max_length=66, null=True, blank=True, help_text="Ballot Submission Transaction Hash on Blockchain")
     cast_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

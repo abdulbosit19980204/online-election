@@ -17,6 +17,8 @@ class Election(models.Model):
     end_time = models.DateTimeField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
     results_public = models.BooleanField(default=False)
+    contract_address = models.CharField(max_length=42, null=True, blank=True, help_text="Deployed Smart Contract Address on Ethereum Sepolia")
+    tx_hash = models.CharField(max_length=66, null=True, blank=True, help_text="Contract Deployment Transaction Hash")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

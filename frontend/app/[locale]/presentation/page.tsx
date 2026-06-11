@@ -100,29 +100,41 @@ export default function PresentationPage() {
       title: "Mavzu: Onlayn ovoz berish tizimlari uchun zamonaviy veb-interfeyslarni ishlab chiqish va UX optimallashtirish",
       subtitle: "Loyiha maqsadi va dolzarbligi tahlili",
       content: (
-        <div className="flex flex-col items-center justify-center text-center space-y-6 max-w-4xl mx-auto pt-6">
-          <div className="w-20 h-20 bg-gradient-to-tr from-primary to-violet-500 rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20 animate-pulse">
-            <ShieldCheck size={44} className="text-white" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center pt-2">
+          <div className="md:col-span-2 text-left space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-tr from-primary to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                <ShieldCheck size={26} className="text-white" />
+              </div>
+              <span className="text-xs font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-md border border-primary/20">Loyiha Maqsadi</span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight leading-tight text-foreground">
+              Onlayn Ovoz Berishda <span className="text-primary">UX/UI</span> va Kriptografik Xavfsizlik
+            </h1>
+            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+              PF-6079 "Raqamli O'zbekiston - 2030" va PF-158 strategiyalari doirasida Toshkent shahrida 2024-yilda o'tkazilgan elektron saylov tajribasiga asoslangan innovatsion elektron platforma.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-white/5">
+              <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider block mb-0.5">Maqsad</span>
+                <span className="font-bold text-foreground text-xs block leading-snug">Jarayonni soddalashtirish va UX optimallashtirish</span>
+              </div>
+              <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider block mb-0.5">Vazifalar</span>
+                <span className="font-bold text-foreground text-xs block leading-snug">WCAG AA mosligi, xavfsizlik va real vaqtda natijalar</span>
+              </div>
+              <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider block mb-0.5">Yangilik</span>
+                <span className="font-bold text-foreground text-xs block leading-snug">O'zbekistonliklar mental modeli asosida interfeys qurish</span>
+              </div>
+            </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-tight text-foreground">
-            Onlayn Ovoz Berishda <span className="text-primary">UX/UI</span> va Kriptografik Xavfsizlik
-          </h1>
-          <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
-            PF-6079 \"Raqamli O'zbekiston - 2030\" va PF-158 strategiyalari doirasida Toshkent shahrida 2024-yilda o'tkazilgan elektron saylov tajribasiga asoslangan innovatsion elektron platforma.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full pt-6 border-t border-white/5">
-            <div className="bg-white/5 p-5 rounded-2xl border border-white/5">
-              <span className="text-xs text-primary uppercase font-bold tracking-wider block mb-1">Maqsad</span>
-              <span className="font-bold text-foreground text-sm block">Ovoz berish jarayonini soddalashtirish va UX optimallashtirish</span>
-            </div>
-            <div className="bg-white/5 p-5 rounded-2xl border border-white/5">
-              <span className="text-xs text-primary uppercase font-bold tracking-wider block mb-1">Vazifalar</span>
-              <span className="font-bold text-foreground text-sm block">Accessibility (WCAG AA), xavfsizlik va real vaqtda natijalar</span>
-            </div>
-            <div className="bg-white/5 p-5 rounded-2xl border border-white/5">
-              <span className="text-xs text-primary uppercase font-bold tracking-wider block mb-1">Ilmiy yangilik</span>
-              <span className="font-bold text-foreground text-sm block">O'zbekiston saylovchilarining mental modeli asosida interfeys qurish</span>
-            </div>
+          <div className="flex justify-center items-center">
+            <img 
+              src="/voting_hologram_3d_1777582708776.png" 
+              alt="Voting Hologram" 
+              className="w-48 h-48 md:w-60 md:h-60 object-contain rounded-3xl drop-shadow-[0_20px_50px_rgba(99,102,241,0.2)] animate-float" 
+            />
           </div>
         </div>
       ),
@@ -206,33 +218,42 @@ export default function PresentationPage() {
       title: "Kriptografik Xavfsizlik va Vizual Ishonch Elementlari",
       subtitle: "Saylovchini tizim shaffofligiga ishontirish",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-              <Eye size={24} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center pt-2">
+          <div className="md:col-span-2 space-y-4 text-left">
+            <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+                <Eye size={20} />
+              </div>
+              <div className="text-sm">
+                <strong className="text-foreground block text-base mb-0.5">Security Transparency:</strong>
+                <p className="text-muted-foreground">Ovoz qanday shifrlanishi (Fernet AES-128) va shaxs qanday anonim qolishi (SHA-256) interfeysda animatsiyalar orqali vizual tushuntirilari.</p>
+              </div>
             </div>
-            <h4 className="font-bold text-base text-foreground">Security Transparency</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Ovoz qanday shifrlanishi (Fernet AES-128) va shaxs qanday anonim qolishi (SHA-256) interfeysda animatsiyalar orqali vizual tushuntiriladi.
-            </p>
+            <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <Zap size={20} />
+              </div>
+              <div className="text-sm">
+                <strong className="text-foreground block text-base mb-0.5">Instant Feedback:</strong>
+                <p className="text-muted-foreground">Ovoz berilgandan so'ng kvitansiya (receipt hash) darhol ko'rsatiladi va toast bildirishnomalari tezkor qayta aloqa (feedback loop) yaratadi.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
+              <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
+                <Lock size={20} />
+              </div>
+              <div className="text-sm">
+                <strong className="text-foreground block text-base mb-0.5">One-time Lockouts:</strong>
+                <p className="text-muted-foreground">Foydalanuvchi ovoz berib bo'lgach, tizim uning takroriy ovoz berish imkoniyatini darhol interfeys darajasida yopadi va tugmalarni nofaollashtiradi.</p>
+              </div>
+            </div>
           </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <Zap size={24} />
-            </div>
-            <h4 className="font-bold text-base text-foreground">Instant Feedback</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Ovoz berilgandan so'ng kvitansiya (receipt hash) darhol ko'rsatiladi va toast bildirishnomalari tezkor qayta aloqa (feedback loop) yaratadi.
-            </p>
-          </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-              <Lock size={24} />
-            </div>
-            <h4 className="font-bold text-base text-foreground">One-time Lockouts</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Foydalanuvchi ovoz berib bo'lgach, tizim uning takroriy ovoz berish imkoniyatini darhol interfeys darajasida yopadi va tugmalarni nofaollashtiradi.
-            </p>
+          <div className="flex justify-center items-center">
+            <img 
+              src="/security_shield_3d_1777582729225.png" 
+              alt="Security Shield" 
+              className="w-48 h-48 md:w-60 md:h-60 object-contain rounded-3xl drop-shadow-[0_20px_50px_rgba(16,185,129,0.15)] animate-float" 
+            />
           </div>
         </div>
       ),
@@ -557,29 +578,41 @@ export default function PresentationPage() {
       title: "Thesis: Development of Modern Web Interfaces for Online Voting Systems and UX Optimization",
       subtitle: "Introduction: Project Objective & Relevance",
       content: (
-        <div className="flex flex-col items-center justify-center text-center space-y-6 max-w-4xl mx-auto pt-6">
-          <div className="w-20 h-20 bg-gradient-to-tr from-primary to-violet-500 rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20 animate-pulse">
-            <ShieldCheck size={44} className="text-white" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center pt-2">
+          <div className="md:col-span-2 text-left space-y-5">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-tr from-primary to-violet-500 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+                <ShieldCheck size={26} className="text-white" />
+              </div>
+              <span className="text-xs font-black text-primary uppercase tracking-widest bg-primary/10 px-3 py-1 rounded-md border border-primary/20">Project Objective</span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight leading-tight text-foreground">
+              UX/UI and Cryptographic Security in E-Voting
+            </h1>
+            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">
+              An innovative election platform aligned with PF-6079 "Digital Uzbekistan - 2030" and the first electronic voting pilots in Tashkent in 2024.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-white/5">
+              <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider block mb-0.5">Objective</span>
+                <span className="font-bold text-foreground text-xs block leading-snug">Simplify voting process and optimize usability</span>
+              </div>
+              <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider block mb-0.5">Goals</span>
+                <span className="font-bold text-foreground text-xs block leading-snug">Accessibility (WCAG AA), security, and real-time tabulation</span>
+              </div>
+              <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                <span className="text-[10px] text-primary uppercase font-bold tracking-wider block mb-0.5">Innovation</span>
+                <span className="font-bold text-foreground text-xs block leading-snug">Tailored UX model designed for local voters</span>
+              </div>
+            </div>
           </div>
-          <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-tight text-foreground">
-            UX/UI and Cryptographic Security in E-Voting
-          </h1>
-          <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
-            An innovative election platform aligned with PF-6079 \"Digital Uzbekistan - 2030\" and the first electronic voting pilots in Tashkent in 2024.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full pt-6 border-t border-white/5">
-            <div className="bg-white/5 p-5 rounded-2xl border border-white/5">
-              <span className="text-xs text-primary uppercase font-bold tracking-wider block mb-1">Objective</span>
-              <span className="font-bold text-foreground text-sm block">Simplify voting process and optimize usability</span>
-            </div>
-            <div className="bg-white/5 p-5 rounded-2xl border border-white/5">
-              <span className="text-xs text-primary uppercase font-bold tracking-wider block mb-1">Goals</span>
-              <span className="font-bold text-foreground text-sm block">Accessibility (WCAG AA), security, and real-time tabulation</span>
-            </div>
-            <div className="bg-white/5 p-5 rounded-2xl border border-white/5">
-              <span className="text-xs text-primary uppercase font-bold tracking-wider block mb-1">Innovation</span>
-              <span className="font-bold text-foreground text-sm block">Tailored UX model for local voters</span>
-            </div>
+          <div className="flex justify-center items-center">
+            <img 
+              src="/voting_hologram_3d_1777582708776.png" 
+              alt="Voting Hologram" 
+              className="w-48 h-48 md:w-60 md:h-60 object-contain rounded-3xl drop-shadow-[0_20px_50px_rgba(99,102,241,0.2)] animate-float" 
+            />
           </div>
         </div>
       ),
@@ -663,33 +696,42 @@ export default function PresentationPage() {
       title: "Theoretical Part: Security & Visual Trust Signals",
       subtitle: "Interpreting cryptography and security to the user",
       content: (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-400">
-              <Eye size={24} />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center pt-2">
+          <div className="md:col-span-2 space-y-4 text-left">
+            <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
+              <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+                <Eye size={20} />
+              </div>
+              <div className="text-sm">
+                <strong className="text-foreground block text-base mb-0.5">Security Transparency:</strong>
+                <p className="text-muted-foreground">Visualizes how votes are encrypted and voter identities remain hidden in real time, increasing user confidence.</p>
+              </div>
             </div>
-            <h4 className="font-bold text-base text-foreground">Security Transparency</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Visualizes how votes are encrypted and voter identities remain hidden in real time, increasing user confidence.
-            </p>
+            <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+                <Zap size={20} />
+              </div>
+              <div className="text-sm">
+                <strong className="text-foreground block text-base mb-0.5">Instant Feedback:</strong>
+                <p className="text-muted-foreground">Saves a receipt hash immediately upon ballot casting and fires toast notifications to provide quick interaction confirmation.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
+              <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
+                <Lock size={20} />
+              </div>
+              <div className="text-sm">
+                <strong className="text-foreground block text-base mb-0.5">One-time Lockouts:</strong>
+                <p className="text-muted-foreground">Once a vote is cast, the interface locks the voting privileges automatically, closing duplicate entry points.</p>
+              </div>
+            </div>
           </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-              <Zap size={24} />
-            </div>
-            <h4 className="font-bold text-base text-foreground">Instant Feedback</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Saves a receipt hash immediately upon ballot casting and fires toast notifications to provide quick interaction confirmation.
-            </p>
-          </div>
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/5 space-y-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-              <Lock size={24} />
-            </div>
-            <h4 className="font-bold text-base text-foreground">One-time Lockouts</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Once a vote is cast, the interface locks the voting privileges automatically, closing duplicate entry points.
-            </p>
+          <div className="flex justify-center items-center">
+            <img 
+              src="/security_shield_3d_1777582729225.png" 
+              alt="Security Shield" 
+              className="w-48 h-48 md:w-60 md:h-60 object-contain rounded-3xl drop-shadow-[0_20px_50px_rgba(16,185,129,0.15)] animate-float" 
+            />
           </div>
         </div>
       ),
